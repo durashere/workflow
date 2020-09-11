@@ -1,0 +1,8 @@
+post http://localhost:3001/api/toners
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjVmMjQwMzJlY2ZmMGRlMzYyNGQ0ZWVmNCIsImlhdCI6MTU5NjIwMjY1NX0.T6zze0XCBaUZic08jsPWuIo3oWrsE8KvOJiiSc_8Dys
+
+{
+    "model": "TESTXEROX",
+    "amount": 0
+}

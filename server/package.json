@@ -1,0 +1,46 @@
+{
+  "name": "tonerinv",
+  "version": "1.0.0",
+  "description": "App for toners inventory management",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/durashere/tonerinv.git"
+  },
+  "author": "Duras",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/durashere/tonerinv/issues"
+  },
+  "homepage": "https://github.com/durashere/tonerinv#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.26",
+    "mongoose-unique-validator": "^2.0.3",
+    "production": "0.0.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.5",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5"
+  }
+}
