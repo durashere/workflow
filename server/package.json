@@ -1,5 +1,5 @@
 {
-  "name": "tonerinv",
+  "name": "workflow",
   "version": "1.0.0",
   "description": "App for toners inventory management",
   "main": "index.js",
@@ -10,16 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/durashere/tonerinv.git"
+    "url": "git+https://github.com/durashere/workflow.git"
   },
   "author": "Duras",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/durashere/tonerinv/issues"
+    "url": "https://github.com/durashere/workflow/issues"
   },
-  "homepage": "https://github.com/durashere/tonerinv#readme",
+  "homepage": "https://github.com/durashere/workflow#readme",
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

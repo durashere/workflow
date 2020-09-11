@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const loginRouter = require("express").Router();
 const User = require("../models/userModel");
 
