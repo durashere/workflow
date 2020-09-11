@@ -3,6 +3,6 @@ Content-Type: application/json
 
 {
     "usergroup": "admnin",
-    "username": "root2",
-    "password": "maokai"
+    "username": "kdurek",
+    "password": "komikers1"
 }
