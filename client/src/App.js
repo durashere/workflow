@@ -6,8 +6,6 @@ import tonerService from "./services/tonerService";
 import SignIn from "./components/SignIn";
 import Main from "./components/Main";
 
-import { initToners } from "./reducers/tonerReducer";
-import { initUsers } from "./reducers/userReducer";
 import { getUser } from "./reducers/currentUserReducer";
 
 function App() {
@@ -15,13 +13,11 @@ function App() {
   const currentUser = useSelector((state) => state.currentUser);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedAppUser");
+    const loggedUserJSON = window.localStorage.getItem("user");
     if (loggedUserJSON) {
       const signInUser = JSON.parse(loggedUserJSON);
       dispatch(getUser(signInUser));
       tonerService.setToken(signInUser.token);
-      dispatch(initToners());
-      dispatch(initUsers());
     }
   }, [dispatch]);
 

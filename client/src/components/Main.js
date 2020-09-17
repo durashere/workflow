@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   HashRouter,
@@ -34,7 +34,10 @@ import TonerForm from "./TonerForm";
 import Copyright from "./Copyright";
 
 import tonerService from "../services/tonerService";
+
 import { logoutUser } from "../reducers/currentUserReducer";
+import { initToners } from "../reducers/tonerReducer";
+import { initUsers } from "../reducers/userReducer";
 
 const drawerWidth = 200;
 
@@ -124,9 +127,14 @@ export default function Main() {
   const [open, setOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+  useEffect(() => {
+    dispatch(initToners());
+    dispatch(initUsers());
+  }, [dispatch]);
+
   const handleLogout = async (event) => {
     event.preventDefault();
-    window.localStorage.removeItem("loggedAppUser");
+    window.localStorage.removeItem("user");
     tonerService.setToken(null);
 
     dispatch(logoutUser());

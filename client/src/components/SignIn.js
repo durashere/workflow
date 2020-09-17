@@ -48,7 +48,7 @@ export default function SignIn() {
   const handleLogin = async (credential) => {
     const signInUser = await loginService.login(credential);
 
-    window.localStorage.setItem("loggedAppUser", JSON.stringify(signInUser));
+    window.localStorage.setItem("user", JSON.stringify(signInUser));
     tonerService.setToken(signInUser.token);
 
     dispatch(loginUser(signInUser));
