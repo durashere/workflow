@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   HashRouter,
-  BrowserRouter as Router,
+  // BrowserRouter,
   Switch,
   Route,
   Redirect,
@@ -31,6 +31,7 @@ import UserList from "./user/UserList";
 import UserForm from "./user/UserForm";
 import TonerList from "./toner/TonerList";
 import TonerForm from "./toner/TonerForm";
+import Generator from "./tool/Generator";
 import Copyright from "./Copyright";
 
 import tonerService from "../services/tonerService";
@@ -221,6 +222,11 @@ export default function Main() {
               <Route path="/toners/list">
                 <Paper>
                   <TonerList />
+                </Paper>
+              </Route>
+              <Route path="/tools/generator">
+                <Paper>
+                  <Generator />
                 </Paper>
               </Route>
               {currentUser.usergroup === "admin" ? (

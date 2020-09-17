@@ -62,6 +62,16 @@ const MainDrawer = () => {
           <ListItemText primary="Toners" />
         </ListItemLink>
       </div>
+      <Divider />
+      <div>
+        <ListSubheader>Tools</ListSubheader>
+        <ListItemLink to="/tools/generator">
+          <ListItemIcon>
+            <AssignmentIcon />
+          </ListItemIcon>
+          <ListItemText primary="Generator" />
+        </ListItemLink>
+      </div>
       {currentUser.usergroup === "admin" ? (
         <div>
           <ListSubheader>Admin</ListSubheader>
