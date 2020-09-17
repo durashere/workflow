@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, TextField, MenuItem } from "@material-ui/core";
 
-import { createUser } from "../reducers/userReducer";
+import { createUser } from "../../reducers/userReducer";
 
 const UserForm = () => {
   const dispatch = useDispatch();

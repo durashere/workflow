@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, TextField } from "@material-ui/core";
 
-import { createToner } from "../reducers/tonerReducer";
+import { createToner } from "../../reducers/tonerReducer";
 
 const TonerForm = () => {
   const dispatch = useDispatch();

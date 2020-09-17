@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { TableRow, TableCell, Button } from "@material-ui/core";
 
-import { removeUser } from "../reducers/userReducer";
+import { removeUser } from "../../reducers/userReducer";
 
 const Toner = ({ user }) => {
   const dispatch = useDispatch();

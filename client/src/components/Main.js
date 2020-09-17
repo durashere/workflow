@@ -27,10 +27,10 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
 import MainDrawer from "./MainDrawer";
 import Dashboard from "./Dashboard";
-import UserList from "./UserList";
-import UserForm from "./UserForm";
-import TonerList from "./TonerList";
-import TonerForm from "./TonerForm";
+import UserList from "./user/UserList";
+import UserForm from "./user/UserForm";
+import TonerList from "./toner/TonerList";
+import TonerForm from "./toner/TonerForm";
 import Copyright from "./Copyright";
 
 import tonerService from "../services/tonerService";
