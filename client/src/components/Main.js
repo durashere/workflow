@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  HashRouter,
-  // BrowserRouter,
+  // HashRouter,
+  BrowserRouter,
   Switch,
   Route,
   Redirect,
@@ -145,7 +145,7 @@ export default function Main() {
   //   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <div className={classes.root}>
         <CssBaseline />
         <AppBar
@@ -273,6 +273,6 @@ export default function Main() {
           </Container>
         </main>
       </div>
-    </HashRouter>
+    </BrowserRouter>
   );
 }

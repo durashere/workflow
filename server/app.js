@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const config = require("./utils/config");
@@ -26,7 +27,7 @@ mongoose
     logger.error("error connection to MongoDB:", error.message);
   });
 
-app.use(express.static("build"));
+app.use(express.static(path.join(__dirname, "build")));
 app.use(express.json());
 app.use(cors());
 
@@ -35,6 +36,10 @@ app.use(middleware.tokenExtractor);
 app.use("/api/toners", tonersRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
+
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 app.use(middleware.requestLogger);
 app.use(middleware.unknownEndpoint);
