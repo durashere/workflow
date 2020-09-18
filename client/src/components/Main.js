@@ -1,12 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  // HashRouter,
-  BrowserRouter,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles, Typography, CssBaseline } from "@material-ui/core";
 import { Box, Container, Grid, Paper } from "@material-ui/core";
