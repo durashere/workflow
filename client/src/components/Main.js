@@ -8,22 +8,21 @@ import {
   Redirect,
 } from "react-router-dom";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Drawer from "@material-ui/core/Drawer";
-import Box from "@material-ui/core/Box";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MenuIcon from "@material-ui/icons/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import { makeStyles, Typography, CssBaseline } from "@material-ui/core";
+import { Box, Container, Grid, Paper } from "@material-ui/core";
+import {
+  Drawer,
+  Toolbar,
+  AppBar,
+  MenuItem,
+  Menu,
+  IconButton,
+} from "@material-ui/core";
+import {
+  AccountCircle,
+  Menu as MenuIcon,
+  ChevronLeft as ChevronLeftIcon,
+} from "@material-ui/icons";
 
 import MainDrawer from "./MainDrawer";
 import Dashboard from "./Dashboard";
@@ -31,7 +30,7 @@ import UserList from "./user/UserList";
 import UserForm from "./user/UserForm";
 import TonerList from "./toner/TonerList";
 import TonerForm from "./toner/TonerForm";
-import Generator from "./tool/Generator";
+import CmsHelper from "./tool/cms/CmsHelper";
 import Copyright from "./Copyright";
 
 import tonerService from "../services/tonerService";
@@ -120,6 +119,8 @@ const useStyles = makeStyles((theme) => ({
     height: 240,
   },
 }));
+
+// COMPONENT
 
 export default function Main() {
   const dispatch = useDispatch();
@@ -224,9 +225,9 @@ export default function Main() {
                   <TonerList />
                 </Paper>
               </Route>
-              <Route path="/tools/generator">
+              <Route path="/tools/cmshelper">
                 <Paper>
-                  <Generator />
+                  <CmsHelper />
                 </Paper>
               </Route>
               {currentUser.usergroup === "admin" ? (

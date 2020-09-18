@@ -65,11 +65,11 @@ const MainDrawer = () => {
       <Divider />
       <div>
         <ListSubheader>Tools</ListSubheader>
-        <ListItemLink to="/tools/generator">
+        <ListItemLink to="/tools/cmshelper">
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
-          <ListItemText primary="Generator" />
+          <ListItemText primary="CMS Helper" />
         </ListItemLink>
       </div>
       {currentUser.usergroup === "admin" ? (

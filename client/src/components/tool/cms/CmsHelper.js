@@ -1,13 +1,29 @@
 import React, { useState } from "react";
-import { TextField, TextareaAutosize } from "@material-ui/core";
+import {
+  Select,
+  MenuItem,
+  TextField,
+  TextareaAutosize,
+} from "@material-ui/core";
 
-const Generator = () => {
-  const [cms, setCms] = useState("[Typ CMS]");
+const cmsList = [
+  {
+    name: "GOOGLE",
+    link: "https://www.google.com/",
+  },
+  {
+    name: "FACEBOOK",
+    link: "https://www.facebook.com/",
+  },
+];
+
+export default function CmsHelper() {
+  const [cmsName, setCmsName] = useState("[CMS]");
   const [cmsLogin, setCmsLogin] = useState("[Login]");
   const [cmsPassword, setCmsPassword] = useState("[Password]");
   const [cmsLink, setCmsLink] = useState("[Link]");
 
-  const result = `(Dostęp do ${cms})
+  const result = `(Dostęp do ${cmsName})
 Login: ${cmsLogin}
 Password: ${cmsPassword}
 Link: ${cmsLink}
@@ -16,14 +32,19 @@ Pozdrawiam / Best regards
 Krzysztof Durek
   `;
 
+  const handleCmsChange = (event) => {
+    setCmsName(event.target.value.name);
+    setCmsLink(event.target.value.link);
+  };
+
   return (
     <div>
       <div>
-        <TextField
-          label="Typ CMS"
-          variant="outlined"
-          onChange={({ target }) => setCms(target.value)}
-        />
+        <Select value={cmsName} onChange={handleCmsChange}>
+          {cmsList.map((cms) => (
+            <MenuItem value={cms}>{cms.name}</MenuItem>
+          ))}
+        </Select>
         <br />
         <TextField
           label="Login"
@@ -42,6 +63,4 @@ Krzysztof Durek
       </div>
     </div>
   );
-};
-
-export default Generator;
+}
