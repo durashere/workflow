@@ -18,14 +18,10 @@ import {
   ChevronLeft as ChevronLeftIcon,
 } from "@material-ui/icons";
 
-import MainDrawer from "./MainDrawer";
-import Dashboard from "./Dashboard";
-import UserList from "./user/UserList";
-import UserForm from "./user/UserForm";
-import TonerList from "./toner/TonerList";
-import TonerForm from "./toner/TonerForm";
-import CmsHelper from "./tool/cms/CmsHelper";
-import Copyright from "./Copyright";
+import { MainDrawer, Dashboard, Copyright } from "./Exporter";
+import { UserList, UserForm } from "./Exporter";
+import { TonerList, TonerForm } from "./Exporter";
+import { CmsHelperForm } from "./Exporter";
 
 import tonerService from "../services/tonerService";
 
@@ -220,9 +216,13 @@ export default function Main() {
                 </Paper>
               </Route>
               <Route path="/tools/cmshelper">
-                <Paper>
-                  <CmsHelper />
-                </Paper>
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                      <CmsHelperForm />
+                    </Paper>
+                  </Grid>
+                </Grid>
               </Route>
               {currentUser.usergroup === "admin" ? (
                 <>
