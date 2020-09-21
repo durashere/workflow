@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles, Grid, Box, TextField } from "@material-ui/core";
+import { makeStyles, Grid, Button, TextField } from "@material-ui/core";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -22,35 +22,52 @@ const useStyles = makeStyles((theme) => ({
   cmsField: {
     width: "100%",
   },
-  cmsView: {
+  cmsMail: {
     width: "100%",
   },
 }));
 
 export default function CmsHelperForm() {
   const classes = useStyles();
-  const [cmsName, setCmsName] = useState("[CMS]");
-  const [cmsLogin, setCmsLogin] = useState("[Login]");
-  const [cmsPassword, setCmsPassword] = useState("[Password]");
-  const [cmsLink, setCmsLink] = useState("[Link]");
+  const [cmsName, setCmsName] = useState("");
+  const [cmsLogin, setCmsLogin] = useState("");
+  const [cmsLink, setCmsLink] = useState("");
+  const [cmsPhone, setCmsPhone] = useState("");
+  const [cmsPassword] = useState(Math.random().toString(20).substr(2, 12));
 
-  const result = `(Dostęp do ${cmsName})
+  const cmsMail = `(Dostęp do ${cmsName})
 Login: ${cmsLogin}
 Password: ${cmsPassword}
 Link: ${cmsLink}
-
+${cmsPhone}
 Pozdrawiam / Best regards
 Krzysztof Durek
-  `;
+`;
 
   const handleCmsChange = (event, value) => {
     if (value !== null) {
       setCmsName(value.name);
       setCmsLink(value.link);
     } else {
-      setCmsName("[CMS]");
-      setCmsLink("[Link]");
+      setCmsName("");
+      setCmsLink("");
     }
+  };
+
+  const copyToClipboard = (str) => {
+    const el = document.createElement("textarea");
+    el.value = str;
+    el.setAttribute("readonly", "");
+    el.style.position = "absolute";
+    el.style.left = "-9999px";
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+  };
+
+  const normalizePhone = (value) => {
+    return value.replace(/[^\d]/g, "");
   };
 
   return (
@@ -80,23 +97,66 @@ Krzysztof Durek
             <Grid item xs>
               <TextField
                 className={classes.cmsField}
+                InputProps={{
+                  readOnly: true,
+                }}
                 label="Password"
                 variant="outlined"
-                onChange={({ target }) => setCmsPassword(target.value)}
+                value={cmsPassword}
+                onFocus={(event) => {
+                  event.target.select();
+                }}
+              />
+            </Grid>
+            <Grid item xs>
+              <Button
+                className={classes.cmsField}
+                variant="outlined"
+                color="primary"
+                onClick={() => copyToClipboard(cmsPassword)}
+              >
+                copy to clipboard
+              </Button>
+            </Grid>
+            <Grid item xs>
+              <TextField
+                className={classes.cmsField}
+                label="Phone"
+                variant="outlined"
+                onChange={({ target }) =>
+                  setCmsPhone(normalizePhone(target.value))
+                }
               />
             </Grid>
           </Grid>
         </Grid>
-
         <Grid item xs>
-          <TextField
-            className={classes.cmsView}
-            label="View"
-            multiline
-            rows={10}
-            value={result}
-            variant="outlined"
-          />
+          <Grid container direction={"column"} spacing={1}>
+            <Grid item xs>
+              <TextField
+                className={classes.cmsMail}
+                label="Preview"
+                multiline
+                rows={10}
+                value={cmsMail}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs>
+              <Button
+                className={classes.cmsField}
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                  (window.location.href = `mailto:${`${cmsPhone}@sms.tvn.pl`}?body=${
+                    encodeURIComponent(cmsMail) || ""
+                  }`)
+                }
+              >
+                send email
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </div>
