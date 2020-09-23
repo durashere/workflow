@@ -74,9 +74,8 @@ const MainDrawer = () => {
       </div>
       {currentUser.usergroup === "admin" ? (
         <div>
-          <ListSubheader>Admin</ListSubheader>
-
           <Divider />
+          <ListSubheader>Admin</ListSubheader>
 
           <ListItem
             button
