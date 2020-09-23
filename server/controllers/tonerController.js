@@ -4,11 +4,19 @@ const Toner = require("../models/tonerModel");
 const User = require("../models/userModel");
 
 tonersRouter.get("/", async (request, response) => {
-  const toners = await Toner.find({}).populate("user", {
-    username: 1,
-    name: 1,
-  });
-  response.json(toners.map((toner) => toner.toJSON()));
+  try {
+    if (!request.token || !request.token.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+
+    const toners = await Toner.find({}).populate("user", {
+      username: 1,
+      name: 1,
+    });
+    response.json(toners.map((toner) => toner.toJSON()));
+  } catch (exception) {
+    next(exception);
+  }
 });
 
 tonersRouter.post("/", async (request, response, next) => {
