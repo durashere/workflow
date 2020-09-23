@@ -1,7 +1,4 @@
 const currentUserReducer = (state = null, action) => {
-  console.log("currentUserReducer state now: ", state);
-  console.log("currentUserReducer action", action);
-
   switch (action.type) {
     case "GET_USER":
       return action.data;
