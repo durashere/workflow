@@ -49,7 +49,7 @@ export default function SignIn() {
 
     window.localStorage.setItem("user", JSON.stringify(signInUser));
 
-    dispatch(loginUser(signInUser));
+    dispatch(loginUser(signInUser.userInfo));
   };
 
   const createLogin = (event) => {

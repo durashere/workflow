@@ -26,7 +26,7 @@ function App() {
       dispatch(initToners());
       dispatch(initUsers());
 
-      dispatch(loginUser(signInUser));
+      dispatch(loginUser(signInUser.userInfo));
     }
   }, [dispatch]);
 
