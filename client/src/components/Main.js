@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles, Typography, CssBaseline } from "@material-ui/core";
 import { Box, Container, Grid, Paper } from "@material-ui/core";
@@ -23,11 +23,9 @@ import { UserList, UserForm } from "./componentExporter";
 import { TonerList, TonerForm } from "./componentExporter";
 import { CmsHelperForm } from "./componentExporter";
 
-import { tonerService } from "../services/serviceExporter";
+import { userService, tonerService } from "../services/serviceExporter";
 
 import { logoutUser } from "../reducers/currentUserReducer";
-import { initToners } from "../reducers/tonerReducer";
-import { initUsers } from "../reducers/userReducer";
 
 const drawerWidth = 200;
 
@@ -119,154 +117,151 @@ export default function Main() {
   const [open, setOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  useEffect(() => {
-    dispatch(initToners());
-    dispatch(initUsers());
-  }, [dispatch]);
+  // const users = useSelector((state) => state.users);
+  // console.log(users.find((user) => user.username === currentUser.username));
+  // console.log(currentUser);
 
   const handleLogout = async (event) => {
     event.preventDefault();
     window.localStorage.removeItem("user");
+    userService.setToken(null);
     tonerService.setToken(null);
-
     dispatch(logoutUser());
   };
 
   //   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
-    <BrowserRouter>
-      <div className={classes.root}>
-        <CssBaseline />
-        <AppBar
-          position="absolute"
-          className={clsx(classes.appBar, open && classes.appBarShift)}
-        >
-          <Toolbar className={classes.toolbar}>
+    <div className={classes.root}>
+      <CssBaseline />
+      <AppBar
+        position="absolute"
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={() => setOpen(true)}
+            className={clsx(
+              classes.menuButton,
+              open && classes.menuButtonHidden,
+            )}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          />
+          <div>
             <IconButton
-              edge="start"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={(e) => setAnchorEl(e.currentTarget)}
               color="inherit"
-              aria-label="open drawer"
-              onClick={() => setOpen(true)}
-              className={clsx(
-                classes.menuButton,
-                open && classes.menuButtonHidden,
-              )}
             >
-              <MenuIcon />
+              <AccountCircle />
             </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            />
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={(e) => setAnchorEl(e.currentTarget)}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={() => setAnchorEl(null)}
-              >
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
-            </div>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          variant="permanent"
-          classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-          }}
-          open={open}
-        >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={() => setOpen(false)}>
-              <ChevronLeftIcon />
-            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorEl)}
+              onClose={() => setAnchorEl(null)}
+            >
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
           </div>
-          <MainDrawer />
-        </Drawer>
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg" className={classes.container}>
-            <Switch>
-              <Route path="/toners/list">
-                <Paper>
-                  <TonerList />
-                </Paper>
-              </Route>
-              <Route path="/tools/cmshelper">
-                <Grid container spacing={3}>
-                  <Grid item xs={12}>
-                    <Paper className={classes.paper}>
-                      <CmsHelperForm />
-                    </Paper>
-                  </Grid>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        variant="permanent"
+        classes={{
+          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+        }}
+        open={open}
+      >
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={() => setOpen(false)}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <MainDrawer />
+      </Drawer>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+          <Switch>
+            <Route path="/toners/list">
+              <Paper>
+                <TonerList />
+              </Paper>
+            </Route>
+            <Route path="/tools/cmshelper">
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <Paper className={classes.paper}>
+                    <CmsHelperForm />
+                  </Paper>
                 </Grid>
-              </Route>
-              {currentUser.role === "admin" ? (
-                <>
-                  <Route path="/admin/users/list">
-                    <Paper>
-                      <UserList />
-                    </Paper>
-                  </Route>
+              </Grid>
+            </Route>
+            {currentUser.role === "admin" ? (
+              <>
+                <Route path="/admin/users/list">
+                  <Paper>
+                    <UserList />
+                  </Paper>
+                </Route>
 
-                  <Route path="/admin/toners/create">
-                    <Grid container spacing={3}>
-                      <Grid item xs={12}>
-                        <Paper className={classes.paper}>
-                          <TonerForm />
-                        </Paper>
-                      </Grid>
+                <Route path="/admin/toners/create">
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                      <Paper className={classes.paper}>
+                        <TonerForm />
+                      </Paper>
                     </Grid>
-                  </Route>
+                  </Grid>
+                </Route>
 
-                  <Route path="/admin/users/create">
-                    <Grid container spacing={3}>
-                      <Grid item xs={3}>
-                        <Paper className={classes.paper}>
-                          <UserForm />
-                        </Paper>
-                      </Grid>
+                <Route path="/admin/users/create">
+                  <Grid container spacing={3}>
+                    <Grid item xs={3}>
+                      <Paper className={classes.paper}>
+                        <UserForm />
+                      </Paper>
                     </Grid>
-                  </Route>
-                </>
-              ) : (
-                <Redirect to="/" />
-              )}
+                  </Grid>
+                </Route>
+              </>
+            ) : (
+              <Redirect to="/" />
+            )}
 
-              <Route path="/">
-                <Dashboard />
-              </Route>
-            </Switch>
+            <Route path="/">
+              <Dashboard />
+            </Route>
+          </Switch>
 
-            <Box pt={4}>
-              <Copyright />
-            </Box>
-          </Container>
-        </main>
-      </div>
-    </BrowserRouter>
+          <Box pt={4}>
+            <Copyright />
+          </Box>
+        </Container>
+      </main>
+    </div>
   );
 }

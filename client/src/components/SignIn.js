@@ -16,7 +16,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Copyright from "./Copyright";
 
-import { loginService, tonerService } from "../services/serviceExporter";
+import { loginService } from "../services/serviceExporter";
 
 import { loginUser } from "../reducers/currentUserReducer";
 
@@ -48,7 +48,6 @@ export default function SignIn() {
     const signInUser = await loginService.login(credential);
 
     window.localStorage.setItem("user", JSON.stringify(signInUser));
-    tonerService.setToken(signInUser.token);
 
     dispatch(loginUser(signInUser));
   };

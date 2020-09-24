@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { userService, tonerService } from "./services/serviceExporter";
-
-import SignIn from "./components/SignIn";
 import Main from "./components/Main";
+import SignIn from "./components/SignIn";
 
-import { getUser } from "./reducers/currentUserReducer";
+import userService from "./services/userService";
+import tonerService from "./services/tonerService";
+
+import { loginUser } from "./reducers/currentUserReducer";
+import { initToners } from "./reducers/tonerReducer";
+import { initUsers } from "./reducers/userReducer";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,13 +19,18 @@ function App() {
     const loggedUserJSON = window.localStorage.getItem("user");
     if (loggedUserJSON) {
       const signInUser = JSON.parse(loggedUserJSON);
-      dispatch(getUser(signInUser));
+
       userService.setToken(signInUser.token);
       tonerService.setToken(signInUser.token);
+
+      dispatch(initToners());
+      dispatch(initUsers());
+
+      dispatch(loginUser(signInUser));
     }
   }, [dispatch]);
 
-  return <div>{currentUser === null ? <SignIn /> : <Main />}</div>;
+  return <div>{currentUser ? <Main /> : <SignIn />}</div>;
 }
 
 export default App;

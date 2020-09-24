@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+
 import { Provider } from "react-redux";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { orange, deepOrange } from "@material-ui/core/colors";
@@ -19,10 +21,12 @@ const darkTheme = createMuiTheme({
 });
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ThemeProvider theme={darkTheme}>
-      <App />
-    </ThemeProvider>
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <ThemeProvider theme={darkTheme}>
+        <App />
+      </ThemeProvider>
+    </Provider>
+  </BrowserRouter>,
   document.getElementById("root"),
 );

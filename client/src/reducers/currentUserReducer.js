@@ -1,7 +1,9 @@
+import { userService } from "../services/serviceExporter";
+
 const currentUserReducer = (state = null, action) => {
   switch (action.type) {
     case "GET_USER":
-      return action.data;
+      return state;
 
     case "LOGIN_USER":
       return action.data;
@@ -23,11 +25,16 @@ export const getUser = (user) => {
   };
 };
 
-export const loginUser = (user) => {
+export const loginUser = (passedUser) => {
   return async (dispatch) => {
+    const users = await userService.getAll();
+    console.log("users", users);
+    const currentUser = users.find(
+      (user) => user.username === passedUser.username,
+    );
     dispatch({
       type: "LOGIN_USER",
-      data: user,
+      data: currentUser,
     });
   };
 };
