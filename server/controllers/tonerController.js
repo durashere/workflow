@@ -9,10 +9,11 @@ tonersRouter.get("/", async (request, response) => {
   }
 
   try {
-    const toners = await Toner.find({}).populate("user", {
-      username: 1,
-      name: 1,
-    });
+    const toners = await Toner.find({});
+    // .populate("user", {
+    //   username: 1,
+    //   name: 1,
+    // });
     response.json(toners.map((toner) => toner.toJSON()));
   } catch (exception) {
     next(exception);
@@ -41,9 +42,9 @@ tonersRouter.post("/", async (request, response, next) => {
     const savedToner = await tonerObject.save();
     user.toners = user.toners.concat(savedToner._id);
     await user.save();
-    await savedToner
-      .populate({ path: "user", select: ["name", "username"] })
-      .execPopulate();
+    // await savedToner
+    //   .populate({ path: "user", select: ["name", "username"] })
+    //   .execPopulate();
     response.status(201).json(savedToner.toJSON());
   } catch (exception) {
     next(exception);
@@ -69,9 +70,9 @@ tonersRouter.put("/:id", async (request, response, next) => {
         new: true,
       },
     );
-    await updatedToner
-      .populate({ path: "user", select: ["name", "username"] })
-      .execPopulate();
+    // await updatedToner
+    //   .populate({ path: "user", select: ["name", "username"] })
+    //   .execPopulate();
     response.status(201).json(updatedToner.toJSON());
   } catch (exception) {
     next(exception);

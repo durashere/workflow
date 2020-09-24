@@ -72,7 +72,7 @@ const MainDrawer = () => {
           <ListItemText primary="CMS Helper" />
         </ListItemLink>
       </div>
-      {currentUser.usergroup === "admin" ? (
+      {currentUser.role === "admin" ? (
         <div>
           <Divider />
           <ListSubheader>Admin</ListSubheader>

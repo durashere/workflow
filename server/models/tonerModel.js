@@ -5,10 +5,10 @@ const mongoose = require("mongoose");
 const tonerSchema = mongoose.Schema({
   model: { type: String },
   amount: { type: Number, default: 0 },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
+  // user: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "User",
+  // },
 });
 
 tonerSchema.set("toJSON", {

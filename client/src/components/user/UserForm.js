@@ -6,8 +6,10 @@ import { createUser } from "../../reducers/userReducer";
 
 const UserForm = () => {
   const dispatch = useDispatch();
-  const [usergroup, setUsergroup] = useState("");
+  const [role, setRole] = useState("");
   const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
 
   const groups = [
@@ -25,14 +27,18 @@ const UserForm = () => {
     event.preventDefault();
 
     const userObject = {
-      usergroup,
+      role,
       username,
+      firstName,
+      lastName,
       password,
     };
 
     dispatch(createUser(userObject));
 
     setUsername("");
+    setFirstName("");
+    setLastName("");
     setPassword("");
   };
 
@@ -45,11 +51,11 @@ const UserForm = () => {
             margin="normal"
             required
             fullWidth
-            id="usergroup"
-            label="Usergroup"
-            name="usergroup"
-            value={usergroup}
-            onChange={(e) => setUsergroup(e.target.value)}
+            id="role"
+            label="Role"
+            name="role"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
             select
           >
             {groups.map((option) => (
@@ -69,6 +75,33 @@ const UserForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             autoComplete="username"
+            autoFocus
+          />
+
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="firstName"
+            label="First Name"
+            name="firstName"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            autoComplete="given-name"
+            autoFocus
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="lastName"
+            label="Last Name"
+            name="lastName"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            autoComplete="family-name"
             autoFocus
           />
 

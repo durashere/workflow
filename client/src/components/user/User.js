@@ -13,8 +13,9 @@ const Toner = ({ user }) => {
 
   return (
     <TableRow>
+      <TableCell>{user.firstName + " " + user.lastName}</TableCell>
       <TableCell>{user.username}</TableCell>
-      <TableCell>{user.usergroup}</TableCell>
+      <TableCell>{user.role}</TableCell>
       <TableCell align="right">
         <Button variant="contained" type="button" onClick={handleRemoveUser}>
           Remove

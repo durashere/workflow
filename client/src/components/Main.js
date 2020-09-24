@@ -224,7 +224,7 @@ export default function Main() {
                   </Grid>
                 </Grid>
               </Route>
-              {currentUser.usergroup === "admin" ? (
+              {currentUser.role === "admin" ? (
                 <>
                   <Route path="/admin/users/list">
                     <Paper>

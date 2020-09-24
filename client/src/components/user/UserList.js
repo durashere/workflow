@@ -17,8 +17,9 @@ const UserList = () => {
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>Full Name</TableCell>
             <TableCell>Username</TableCell>
-            <TableCell>Usergroup</TableCell>
+            <TableCell>Role</TableCell>
             <TableCell align="right">Options</TableCell>
           </TableRow>
         </TableHead>

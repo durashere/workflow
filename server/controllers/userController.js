@@ -8,9 +8,10 @@ usersRouter.get("/", async (request, response) => {
   }
 
   try {
-    const users = await User.find({}).populate("toners", {
-      model: 1,
-    });
+    const users = await User.find({});
+    // .populate("toners", {
+    //   model: 1,
+    // });
     response.json(users);
   } catch (exception) {
     next(exception);
@@ -29,8 +30,10 @@ usersRouter.post("/", async (request, response, next) => {
     const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
     const user = new User({
-      usergroup: body.usergroup,
+      role: body.role,
       username: body.username,
+      firstName: body.firstName,
+      lastName: body.lastName,
       passwordHash,
     });
 
