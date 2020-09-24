@@ -15,7 +15,11 @@ const setToken = (newToken) => {
 };
 
 const getAll = async () => {
-  const response = await axios.get(baseUrl);
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  const response = await axios.get(baseUrl, config);
   return response.data;
 };
 
@@ -29,7 +33,11 @@ const create = async (newObject) => {
 };
 
 const update = async (id, updatedObject) => {
-  const response = await axios.put(`${baseUrl}/${id}`, updatedObject);
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  const response = await axios.put(`${baseUrl}/${id}`, updatedObject, config);
   return response.data;
 };
 

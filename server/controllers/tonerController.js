@@ -4,11 +4,11 @@ const Toner = require("../models/tonerModel");
 const User = require("../models/userModel");
 
 tonersRouter.get("/", async (request, response) => {
-  try {
-    if (!request.token || !request.token.id) {
-      return response.status(401).json({ error: "token missing or invalid" });
-    }
+  if (!request.token || !request.token.id) {
+    return response.status(401).json({ error: "token missing or invalid" });
+  }
 
+  try {
     const toners = await Toner.find({}).populate("user", {
       username: 1,
       name: 1,
@@ -22,13 +22,15 @@ tonersRouter.get("/", async (request, response) => {
 tonersRouter.post("/", async (request, response, next) => {
   const { body } = request;
 
+  if (request.body.model === undefined) {
+    response.status(400).end();
+  }
+
+  if (!request.token || !request.token.id) {
+    return response.status(401).json({ error: "token missing or invalid" });
+  }
+
   try {
-    if (request.body.model === undefined) {
-      response.status(400).end();
-    }
-    if (!request.token || !request.token.id) {
-      return response.status(401).json({ error: "token missing or invalid" });
-    }
     const user = await User.findById(request.token.id);
 
     const tonerObject = new Toner({
@@ -50,6 +52,10 @@ tonersRouter.post("/", async (request, response, next) => {
 
 tonersRouter.put("/:id", async (request, response, next) => {
   const { body } = request;
+
+  if (!request.token || !request.token.id) {
+    return response.status(401).json({ error: "token missing or invalid" });
+  }
 
   try {
     const tonerObject = {
@@ -73,10 +79,11 @@ tonersRouter.put("/:id", async (request, response, next) => {
 });
 
 tonersRouter.delete("/:id", async (request, response, next) => {
+  if (!request.token || !request.token.id) {
+    return response.status(401).json({ error: "token missing or invalid" });
+  }
+
   try {
-    if (!request.token || !request.token.id) {
-      return response.status(401).json({ error: "token missing or invalid" });
-    }
     const toner = await Toner.findById(request.params.id);
     const user = await User.findOne({ username: request.token.username });
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import tonerService from "./services/tonerService";
+import { userService, tonerService } from "./services/serviceExporter";
 
 import SignIn from "./components/SignIn";
 import Main from "./components/Main";
@@ -17,6 +17,7 @@ function App() {
     if (loggedUserJSON) {
       const signInUser = JSON.parse(loggedUserJSON);
       dispatch(getUser(signInUser));
+      userService.setToken(signInUser.token);
       tonerService.setToken(signInUser.token);
     }
   }, [dispatch]);

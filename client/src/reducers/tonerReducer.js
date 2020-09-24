@@ -1,4 +1,4 @@
-import tonerService from "../services/tonerService";
+import { tonerService } from "../services/serviceExporter";
 
 const tonerReducer = (state = [], action) => {
   switch (action.type) {

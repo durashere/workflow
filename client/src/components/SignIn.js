@@ -16,8 +16,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Copyright from "./Copyright";
 
-import tonerService from "../services/tonerService";
-import loginService from "../services/loginService";
+import { loginService, tonerService } from "../services/serviceExporter";
 
 import { loginUser } from "../reducers/currentUserReducer";
 

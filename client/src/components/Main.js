@@ -18,12 +18,12 @@ import {
   ChevronLeft as ChevronLeftIcon,
 } from "@material-ui/icons";
 
-import { MainDrawer, Dashboard, Copyright } from "./Exporter";
-import { UserList, UserForm } from "./Exporter";
-import { TonerList, TonerForm } from "./Exporter";
-import { CmsHelperForm } from "./Exporter";
+import { MainDrawer, Dashboard, Copyright } from "./componentExporter";
+import { UserList, UserForm } from "./componentExporter";
+import { TonerList, TonerForm } from "./componentExporter";
+import { CmsHelperForm } from "./componentExporter";
 
-import tonerService from "../services/tonerService";
+import { tonerService } from "../services/serviceExporter";
 
 import { logoutUser } from "../reducers/currentUserReducer";
 import { initToners } from "../reducers/tonerReducer";
