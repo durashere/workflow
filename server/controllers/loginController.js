@@ -5,17 +5,16 @@ const User = require("../models/userModel");
 
 const { createToken, verifyPassword } = require("../util");
 
-loginRouter.post("/", async (request, response) => {
+loginRouter.post("/", async (req, res) => {
   try {
-    const { username, password } = request.body;
-
-    console.log(password);
+    const { username, password } = req.body;
+    console.log(username, password);
 
     const user = await User.findOne({ username }).lean();
     console.log(user);
 
     if (!user) {
-      return response.status(403).json({
+      return res.status(403).json({
         message: "Wrong username or password.",
       });
     }
@@ -36,23 +35,24 @@ loginRouter.post("/", async (request, response) => {
 
       const token = createToken(userInfo);
 
+      console.log(token);
       const decodedToken = jwtDecode(token);
       const expiresAt = decodedToken.exp;
 
-      response.json({
+      res.json({
         message: "Authentication successful!",
         token,
         userInfo,
         expiresAt,
       });
     } else {
-      response.status(403).json({
+      res.status(403).json({
         message: "Wrong username or password.",
       });
     }
-  } catch (error) {
-    console.log(error);
-    return response.status(400).json({ message: "Something went wrong." });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: "Something went wrong." });
   }
   // const userForToken = {
   //   username: user.username,

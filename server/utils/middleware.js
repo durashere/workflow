@@ -9,14 +9,14 @@ const requestLogger = (request, response, next) => {
   next();
 };
 
-const tokenExtractor = (request, response, next) => {
-  const authorization = request.get("authorization");
-  request.token = null;
-  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
-    request.token = jwt.verify(authorization.substring(7), process.env.SECRET);
-  }
-  next();
-};
+// const tokenExtractor = (request, response, next) => {
+//   const authorization = request.get("authorization");
+//   request.token = null;
+//   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+//     request.token = jwt.verify(authorization.substring(7), process.env.SECRET);
+//   }
+//   next();
+// };
 
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: "unknown endpoint" });
@@ -43,5 +43,5 @@ module.exports = {
   requestLogger,
   unknownEndpoint,
   errorHandler,
-  tokenExtractor,
+  // tokenExtractor,
 };

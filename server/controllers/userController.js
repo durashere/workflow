@@ -3,10 +3,6 @@ const usersRouter = require("express").Router();
 const User = require("../models/userModel");
 
 usersRouter.get("/", async (request, response) => {
-  if (!request.token || !request.token.id) {
-    return response.status(401).json({ error: "token missing or invalid" });
-  }
-
   try {
     const users = await User.find({});
     // .populate("toners", {
@@ -69,10 +65,6 @@ usersRouter.post("/", async (request, response, next) => {
 // });
 
 usersRouter.delete("/:id", async (request, response, next) => {
-  if (!request.token || !request.token.id) {
-    return response.status(401).json({ error: "token missing or invalid" });
-  }
-
   try {
     await User.findByIdAndRemove(request.params.id);
     response.status(204).end();

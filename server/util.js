@@ -8,13 +8,13 @@ const createToken = (user) => {
   }
   return jwt.sign(
     {
-      id: user._id,
+      sub: user._id,
       username: user.username,
       role: user.role,
     },
     process.env.SECRET,
     {
-      // algorithm: "HS256",
+      algorithm: "HS256",
       expiresIn: "12h",
     },
   );
