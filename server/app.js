@@ -36,7 +36,6 @@ app.use(express.static(path.join(__dirname, "build")));
 app.use(express.json());
 app.use(cors());
 
-// app.use(middleware.tokenExtractor);
 
 const attachUser = (req, res, next) => {
   const token = req.headers.authorization;

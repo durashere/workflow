@@ -8,17 +8,17 @@ const { createToken, verifyPassword } = require("../util");
 loginRouter.post("/", async (req, res) => {
   try {
     const { username, password } = req.body;
-    console.log(username, password);
+    console.log("username", username, "password", password);
 
     const user = await User.findOne({ username }).lean();
-    console.log(user);
+    console.log("user", user);
 
     if (!user) {
       return res.status(403).json({
         message: "Wrong username or password.",
       });
     }
-    const passwordValid = await verifyPassword(password, user.passwordHash);
+    const passwordValid = await verifyPassword(password, user.password);
 
     // const passwordCorrect =
     //   user === null ? false : await bcrypt.compare(password, user.passwordHash);
@@ -30,15 +30,15 @@ loginRouter.post("/", async (req, res) => {
     // }
 
     if (passwordValid) {
-      const { passwordHash, ...rest } = user;
+      const { password, ...rest } = user;
       const userInfo = Object.assign({}, { ...rest });
 
       const token = createToken(userInfo);
 
-      console.log(token);
+      console.log("token", token);
       const decodedToken = jwtDecode(token);
       const expiresAt = decodedToken.exp;
-
+      console.log("decodedToken", decodedToken);
       res.json({
         message: "Authentication successful!",
         token,

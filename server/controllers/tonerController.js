@@ -2,7 +2,6 @@
 const tonersRouter = require("express").Router();
 const jwt = require("express-jwt");
 const Toner = require("../models/tonerModel");
-const User = require("../models/userModel");
 
 const requireAuth = jwt({
   secret: process.env.SECRET,
@@ -12,7 +11,6 @@ const requireAuth = jwt({
 const requireAdmin = (req, res, next) => {
   const { role } = req.user;
   if (role !== "admin") {
-    console.log("test");
     return res.status(401).json({ message: "Insufficient role" });
   }
   next();
@@ -58,8 +56,6 @@ tonersRouter.put("/:id", requireAuth, requireAdmin, async (req, res) => {
       new: true,
     });
 
-    console.log("updatedToner", updatedToner);
-
     res.json({ message: "Toner updated!", toner: updatedToner });
   } catch (err) {
     return res.status(400).json({
@@ -84,25 +80,5 @@ tonersRouter.delete("/:id", requireAuth, requireAdmin, async (req, res) => {
     });
   }
 });
-
-// tonersRouter.delete("/:id", async (request, response, next) => {
-//   if (!request.token || !request.token.id) {
-//     return response.status(401).json({ error: "token missing or invalid" });
-//   }
-
-//   try {
-//     const toner = await Toner.findById(request.params.id);
-//     const user = await User.findOne({ username: request.token.username });
-
-//     if (toner.user.toString() === user.id.toString()) {
-//       await Toner.findByIdAndRemove(request.params.id);
-//       response.status(204).end();
-//     } else {
-//       response.status(401).end();
-//     }
-//   } catch (exception) {
-//     next(exception);
-//   }
-// });
 
 module.exports = tonersRouter;

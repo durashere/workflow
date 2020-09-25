@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   username: { type: String, unique: true, required: true, minlength: 3 },
   role: { type: String, required: true, default: "user" },
-  passwordHash: { type: String, required: true },
+  password: { type: String, required: true },
   // toners: [{ type: mongoose.Schema.Types.ObjectId, ref: "Toner" }],
 });
 
@@ -17,7 +17,7 @@ userSchema.set("toJSON", {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
-    delete returnedObject.passwordHash;
+    delete returnedObject.password;
   },
 });
 
