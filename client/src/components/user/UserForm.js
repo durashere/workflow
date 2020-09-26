@@ -4,9 +4,16 @@ import { Button, TextField, MenuItem } from "@material-ui/core";
 
 import { createUser } from "../../reducers/userReducer";
 
+import { publicFetch } from "../../util/fetch";
+
 const UserForm = () => {
   const dispatch = useDispatch();
   const [role, setRole] = useState("");
+
+  const [signupSuccess, setSignupSuccess] = useState();
+  const [signupError, setSignupError] = useState();
+  const [loginLoading, setLoginLoading] = useState(false);
+
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -22,6 +29,19 @@ const UserForm = () => {
       label: "User",
     },
   ];
+
+  // submitCredentials = async (credentials) => {
+  //   try {
+  //     setLoginLoading(true);
+  //     const { data } = await publicFetch.post("signup", credentials);
+  //     console.log(data);
+  //   } catch (error) {
+  //     setLoginLoading(false);
+  //     const { data } = error.response;
+  //     setSignupError(data.message);
+  //     setSignupSuccess("");
+  //   }
+  // };
 
   const addUser = async (event) => {
     event.preventDefault();

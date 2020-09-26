@@ -1,6 +1,13 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Switch, Route, Redirect } from "react-router-dom";
+import {
+  useDispatch,
+  //  useSelector
+} from "react-redux";
+import {
+  Switch,
+  Route,
+  // Redirect
+} from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles, Typography, CssBaseline } from "@material-ui/core";
 import { Box, Container, Grid, Paper } from "@material-ui/core";
@@ -112,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Main() {
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.currentUser);
+  // const currentUser = localStorage.getItem("user").userInfo;
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -220,38 +227,37 @@ export default function Main() {
                 </Grid>
               </Grid>
             </Route>
-            {currentUser.role === "admin" ? (
-              <>
-                <Route path="/admin/users/list">
-                  <Paper>
-                    <UserList />
-                  </Paper>
-                </Route>
+            {/* {window.localStorage.getItem("user").userInfo.role === "admin" ? ( */}
+            <>
+              <Route path="/admin/users/list">
+                <Paper>
+                  <UserList />
+                </Paper>
+              </Route>
 
-                <Route path="/admin/toners/create">
-                  <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                      <Paper className={classes.paper}>
-                        <TonerForm />
-                      </Paper>
-                    </Grid>
+              <Route path="/admin/toners/create">
+                <Grid container spacing={3}>
+                  <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                      <TonerForm />
+                    </Paper>
                   </Grid>
-                </Route>
+                </Grid>
+              </Route>
 
-                <Route path="/admin/users/create">
-                  <Grid container spacing={3}>
-                    <Grid item xs={3}>
-                      <Paper className={classes.paper}>
-                        <UserForm />
-                      </Paper>
-                    </Grid>
+              <Route path="/admin/users/create">
+                <Grid container spacing={3}>
+                  <Grid item xs={3}>
+                    <Paper className={classes.paper}>
+                      <UserForm />
+                    </Paper>
                   </Grid>
-                </Route>
-              </>
-            ) : (
+                </Grid>
+              </Route>
+            </>
+            {/* ) : (
               <Redirect to="/" />
-            )}
-
+            )} */}
             <Route path="/">
               <Dashboard />
             </Route>

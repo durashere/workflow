@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { makeStyles, Grid, Button, TextField } from "@material-ui/core";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -30,8 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CmsHelperForm() {
   const classes = useStyles();
-  const currentUser = useSelector((state) => state.currentUser);
-  const users = useSelector((state) => state.users);
+  // const users = useSelector((state) => state.users);
   const [cmsName, setCmsName] = useState("");
   const [cmsLogin, setCmsLogin] = useState("");
   const [cmsLink, setCmsLink] = useState("");
@@ -46,7 +45,7 @@ Password: ${cmsPassword}
 Link: ${cmsLink}
 ${cmsPhone}
 Pozdrawiam / Best regards
-${currentUser.firstName + " " + currentUser.lastName}
+Krzysztof
 `;
 
   const handleCmsChange = (event, value) => {

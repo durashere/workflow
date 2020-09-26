@@ -1,5 +1,32 @@
+// import React, { lazy, Suspense, useContext } from "react";
+// import {
+//   BrowserRouter as Router,
+//   Route,
+//   Switch,
+//   Redirect,
+// } from "react-router-dom";
+
+// import { AuthProvider, AuthContext } from "./context/AuthContext";
+// import { FetchProvider } from "./context/FetchContext";
+
+// import AppShell from "./AppShell";
+
+// import Main from "./components/Main";
+// import Login from "./components/SignIn";
+// import Signup from "./pages/Signup";
+// import FourOFour from "./pages/FourOFour";
+
+// const Dashboard = lazy(() => import("./pages/Dashboard"));
+// const Inventory = lazy(() => import("./pages/Inventory"));
+// const Account = lazy(() => import("./pages/Account"));
+// const Settings = lazy(() => import("./pages/Settings"));
+// const Users = lazy(() => import("./pages/Users"));
+
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  useDispatch,
+  // useSelector
+} from "react-redux";
 
 import Main from "./components/Main";
 import SignIn from "./components/SignIn";
@@ -13,7 +40,6 @@ import { initUsers } from "./reducers/userReducer";
 
 function App() {
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.currentUser);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("user");
@@ -30,7 +56,9 @@ function App() {
     }
   }, [dispatch]);
 
-  return <div>{currentUser ? <Main /> : <SignIn />}</div>;
+  return (
+    <div>{window.localStorage.getItem("user") ? <Main /> : <SignIn />}</div>
+  );
 }
 
 export default App;
