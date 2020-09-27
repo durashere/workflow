@@ -28,7 +28,6 @@ export const getUser = (user) => {
 export const loginUser = (passedUser) => {
   return async (dispatch) => {
     const users = await userService.getAll();
-    console.log("users", users);
     const currentUser = users.find(
       (user) => user.username === passedUser.username,
     );

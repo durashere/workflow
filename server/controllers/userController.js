@@ -30,7 +30,8 @@ usersRouter.get("/", requireAuth, async (request, response) => {
 
 usersRouter.post("/", requireAuth, requireAdmin, async (req, res) => {
   try {
-    const { username, firstName, lastName, role } = req.body;
+    console.log(req.body);
+    const { username, firstName, lastName } = req.body;
 
     const hashedPassword = await hashPassword(req.body.password);
 
@@ -39,7 +40,7 @@ usersRouter.post("/", requireAuth, requireAdmin, async (req, res) => {
       firstName,
       lastName,
       password: hashedPassword,
-      role,
+      role: "user",
     };
 
     const existingUsername = await User.findOne({
@@ -51,10 +52,8 @@ usersRouter.post("/", requireAuth, requireAdmin, async (req, res) => {
     }
 
     const newUser = new User(userData);
-    console.log("newUser", newUser);
+
     const savedUser = await newUser.save();
-    console.log("savedUser", savedUser);
-    console.log("kek");
 
     if (savedUser) {
       const token = createToken(savedUser);

@@ -22,11 +22,14 @@
 // const Settings = lazy(() => import("./pages/Settings"));
 // const Users = lazy(() => import("./pages/Users"));
 
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   useDispatch,
   // useSelector
 } from "react-redux";
+
+import { AuthProvider, AuthContext } from "./context/AuthContext";
+import { FetchProvider } from "./context/FetchContext";
 
 import Main from "./components/Main";
 import SignIn from "./components/SignIn";

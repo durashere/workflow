@@ -246,13 +246,9 @@ export default function Main() {
               </Route>
 
               <Route path="/admin/users/create">
-                <Grid container spacing={3}>
-                  <Grid item xs={3}>
-                    <Paper className={classes.paper}>
-                      <UserForm />
-                    </Paper>
-                  </Grid>
-                </Grid>
+                <Paper className={classes.paper}>
+                  <UserForm />
+                </Paper>
               </Route>
             </>
             {/* ) : (

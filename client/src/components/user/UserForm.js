@@ -1,23 +1,19 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Button, TextField, MenuItem } from "@material-ui/core";
+import React, { useState, useContext } from "react";
+import { Form, Formik, Field } from "formik";
+import { Grid, Button, MenuItem } from "@material-ui/core";
+import { TextField } from "formik-material-ui";
 
-import { createUser } from "../../reducers/userReducer";
+import { AuthContext } from "../../context/AuthContext";
+// import { createUser } from "../../reducers/userReducer";
 
 import { publicFetch } from "../../util/fetch";
 
 const UserForm = () => {
-  const dispatch = useDispatch();
-  const [role, setRole] = useState("");
+  const authContext = useContext(AuthContext);
 
   const [signupSuccess, setSignupSuccess] = useState();
   const [signupError, setSignupError] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
-
-  const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
 
   const groups = [
     {
@@ -30,119 +26,98 @@ const UserForm = () => {
     },
   ];
 
-  // submitCredentials = async (credentials) => {
-  //   try {
-  //     setLoginLoading(true);
-  //     const { data } = await publicFetch.post("signup", credentials);
-  //     console.log(data);
-  //   } catch (error) {
-  //     setLoginLoading(false);
-  //     const { data } = error.response;
-  //     setSignupError(data.message);
-  //     setSignupSuccess("");
-  //   }
-  // };
-
-  const addUser = async (event) => {
-    event.preventDefault();
-
-    const userObject = {
-      role,
-      username,
-      firstName,
-      lastName,
-      password,
-    };
-
-    dispatch(createUser(userObject));
-
-    setUsername("");
-    setFirstName("");
-    setLastName("");
-    setPassword("");
+  const submitCredentials = async (credentials) => {
+    try {
+      setLoginLoading(true);
+      const { data } = await publicFetch.post("users", credentials);
+      authContext.setAuthState(data);
+      console.log(data);
+    } catch (error) {
+      setLoginLoading(false);
+      const { data } = error.response;
+      console.log(data.message);
+      setSignupError(data.message);
+      setSignupSuccess("");
+    }
   };
 
   return (
     <div>
-      <form onSubmit={addUser}>
-        <div>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="role"
-            label="Role"
-            name="role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            select
-          >
-            {groups.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            autoComplete="username"
-            autoFocus
-          />
+      <Formik
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          username: "",
+          password: "",
+        }}
+        onSubmit={(values) => submitCredentials(values)}
+        // validationSchema={SignupSchema}
+      >
+        <Form>
+          <Grid container direction={"column"} spacing={1}>
+            <Grid item xs>
+              <Field
+                component={TextField}
+                variant="outlined"
+                required
+                fullWidth
+                label="Username"
+                name="username"
+                autoComplete="username"
+                autoFocus
+              />
+            </Grid>
 
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="firstName"
-            label="First Name"
-            name="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            autoComplete="given-name"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="lastName"
-            label="Last Name"
-            name="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            autoComplete="family-name"
-            autoFocus
-          />
+            <Grid item xs>
+              <Field
+                component={TextField}
+                variant="outlined"
+                required
+                fullWidth
+                label="First Name"
+                name="firstName"
+                autoComplete="given-name"
+              />
+            </Grid>
 
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="password"
-            label="Password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            autoComplete="new-password"
-          />
-          <Button fullWidth type="submit" variant="outlined" color="primary">
-            create
-          </Button>
-        </div>
-      </form>
+            <Grid item xs>
+              <Field
+                component={TextField}
+                variant="outlined"
+                required
+                fullWidth
+                label="Last Name"
+                name="lastName"
+                autoComplete="family-name"
+              />
+            </Grid>
+
+            <Grid item xs>
+              <Field
+                component={TextField}
+                variant="outlined"
+                required
+                fullWidth
+                label="Password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+              />
+            </Grid>
+
+            <Grid item xs>
+              <Button
+                fullWidth
+                type="submit"
+                variant="outlined"
+                color="primary"
+              >
+                create
+              </Button>
+            </Grid>
+          </Grid>
+        </Form>
+      </Formik>
     </div>
   );
 };

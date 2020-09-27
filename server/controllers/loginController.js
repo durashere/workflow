@@ -8,10 +8,8 @@ const { createToken, verifyPassword } = require("../util");
 loginRouter.post("/", async (req, res) => {
   try {
     const { username, password } = req.body;
-    console.log("username", username, "password", password);
 
     const user = await User.findOne({ username }).lean();
-    console.log("user", user);
 
     if (!user) {
       return res.status(403).json({
@@ -35,10 +33,8 @@ loginRouter.post("/", async (req, res) => {
 
       const token = createToken(userInfo);
 
-      console.log("token", token);
       const decodedToken = jwtDecode(token);
       const expiresAt = decodedToken.exp;
-      console.log("decodedToken", decodedToken);
       res.json({
         message: "Authentication successful!",
         token,
