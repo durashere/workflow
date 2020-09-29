@@ -1,66 +1,135 @@
-// import React, { lazy, Suspense, useContext } from "react";
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Switch,
-//   Redirect,
-// } from "react-router-dom";
+import React, { lazy, Suspense, useEffect, useContext } from "react";
 
-// import { AuthProvider, AuthContext } from "./context/AuthContext";
-// import { FetchProvider } from "./context/FetchContext";
-
-// import AppShell from "./AppShell";
-
-// import Main from "./components/Main";
-// import Login from "./components/SignIn";
-// import Signup from "./pages/Signup";
-// import FourOFour from "./pages/FourOFour";
-
-// const Dashboard = lazy(() => import("./pages/Dashboard"));
-// const Inventory = lazy(() => import("./pages/Inventory"));
-// const Account = lazy(() => import("./pages/Account"));
-// const Settings = lazy(() => import("./pages/Settings"));
-// const Users = lazy(() => import("./pages/Users"));
-
-import React, { useEffect, useContext } from "react";
 import {
-  useDispatch,
-  // useSelector
-} from "react-redux";
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { FetchProvider } from "./context/FetchContext";
 
-import Main from "./components/Main";
-import SignIn from "./components/SignIn";
+import AppShell from "./AppShell";
 
-import userService from "./services/userService";
-import tonerService from "./services/tonerService";
+import Login from "./components/Login";
+import FourOFour from "./components/FourOFour";
 
-import { loginUser } from "./reducers/currentUserReducer";
-import { initToners } from "./reducers/tonerReducer";
-import { initUsers } from "./reducers/userReducer";
+const Dashboard = lazy(() => import("./components/Dashboard"));
+const UserList = lazy(() => import("./components/user/UserList"));
+const UserForm = lazy(() => import("./components/user/UserForm"));
+const TonerList = lazy(() => import("./components/toner/TonerList"));
+const TonerForm = lazy(() => import("./components/toner/TonerForm"));
+const CmsHelper = lazy(() => import("./components/tool/cms/CmsHelper"));
 
 function App() {
-  const dispatch = useDispatch();
+  const LoadingFallback = () => (
+    <AppShell>
+      <div>Loading...</div>
+    </AppShell>
+  );
 
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("user");
-    if (loggedUserJSON) {
-      const signInUser = JSON.parse(loggedUserJSON);
+  const UnauthenticatedRoutes = () => (
+    <Switch>
+      <Route path="/login">
+        <Login />
+      </Route>
 
-      userService.setToken(signInUser.token);
-      tonerService.setToken(signInUser.token);
+      <Route path="*">
+        <FourOFour />
+      </Route>
+    </Switch>
+  );
 
-      dispatch(initToners());
-      dispatch(initUsers());
+  const AuthenticatedRoute = ({ children, ...rest }) => {
+    const auth = useContext(AuthContext);
+    return (
+      <Route
+        {...rest}
+        render={() =>
+          auth.isAuthenticated() ? (
+            <AppShell>{children}</AppShell>
+          ) : (
+            <Redirect to="/login" />
+          )
+        }
+      ></Route>
+    );
+  };
 
-      dispatch(loginUser(signInUser.userInfo));
-    }
-  }, [dispatch]);
+  const AdminRoute = ({ children, ...rest }) => {
+    const auth = useContext(AuthContext);
+    return (
+      <Route
+        {...rest}
+        render={() =>
+          auth.isAuthenticated() && auth.isAdmin() ? (
+            <AppShell>{children}</AppShell>
+          ) : (
+            <Redirect to="/login" />
+          )
+        }
+      ></Route>
+    );
+  };
+
+  const AppRoutes = () => {
+    const auth = useContext(AuthContext);
+
+    return (
+      <>
+        <Suspense fallback={<LoadingFallback />}>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() => {
+                return auth.isAuthenticated ? (
+                  <Redirect to="/dashboard" />
+                ) : (
+                  <Redirect to="/login" />
+                );
+              }}
+            ></Route>
+            <AuthenticatedRoute path="/dashboard">
+              <Dashboard />
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path="/toners/list">
+              <TonerList />
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path="/tools/cmshelper">
+              <CmsHelper />
+            </AuthenticatedRoute>
+
+            <AdminRoute path="/admin/users/list">
+              <UserList />
+            </AdminRoute>
+
+            <AdminRoute path="/admin/users/create">
+              <UserForm />
+            </AdminRoute>
+
+            <AdminRoute path="/admin/toners/create">
+              <TonerForm />
+            </AdminRoute>
+
+            <UnauthenticatedRoutes />
+          </Switch>
+        </Suspense>
+      </>
+    );
+  };
 
   return (
-    <div>{window.localStorage.getItem("user") ? <Main /> : <SignIn />}</div>
+    <Router>
+      <AuthProvider>
+        <FetchProvider>
+          <AppRoutes />
+        </FetchProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

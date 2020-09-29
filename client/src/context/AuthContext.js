@@ -16,7 +16,6 @@ const AuthProvider = ({ children }) => {
     expiresAt,
     userInfo: userInfo ? JSON.parse(userInfo) : {},
   });
-
   const setAuthInfo = ({ token, userInfo, expiresAt }) => {
     localStorage.setItem("token", token);
     localStorage.setItem("userInfo", JSON.stringify(userInfo));

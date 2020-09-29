@@ -1,5 +1,4 @@
 import React from "react";
-// import { useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MainDrawer = () => {
+export default function SideBar() {
   const classes = useStyles();
   const [openSettingsToners, setOpenSettingsToners] = React.useState(true);
   const [openSettingsUsers, setOpenSettingsUsers] = React.useState(true);
@@ -44,7 +43,7 @@ const MainDrawer = () => {
   return (
     <div>
       <div>
-        <ListItemLink to="/">
+        <ListItemLink to="/dashboard">
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
@@ -129,6 +128,4 @@ const MainDrawer = () => {
       )} */}
     </div>
   );
-};
-
-export default MainDrawer;
+}

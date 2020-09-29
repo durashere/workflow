@@ -1,41 +1,28 @@
 import React, { useState, useContext } from "react";
 import { Form, Formik, Field } from "formik";
-import { Grid, Button, MenuItem } from "@material-ui/core";
 import { TextField } from "formik-material-ui";
+import { Grid, Button, MenuItem } from "@material-ui/core";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
-import { AuthContext } from "../../context/AuthContext";
-// import { createUser } from "../../reducers/userReducer";
-
-import { publicFetch } from "../../util/fetch";
+import { FetchContext } from "../../context/FetchContext";
 
 const UserForm = () => {
-  const authContext = useContext(AuthContext);
+  const fetchContext = useContext(FetchContext);
 
   const [signupSuccess, setSignupSuccess] = useState();
   const [signupError, setSignupError] = useState();
   const [loginLoading, setLoginLoading] = useState(false);
 
-  const groups = [
-    {
-      value: "admin",
-      label: "Admin",
-    },
-    {
-      value: "user",
-      label: "User",
-    },
-  ];
-
   const submitCredentials = async (credentials) => {
     try {
       setLoginLoading(true);
-      const { data } = await publicFetch.post("users", credentials);
-      authContext.setAuthState(data);
-      console.log(data);
+      const { data } = await fetchContext.authAxios.post("users", credentials);
+      setSignupSuccess(data.message);
+      setSignupError("");
+      setLoginLoading(false);
     } catch (error) {
       setLoginLoading(false);
       const { data } = error.response;
-      console.log(data.message);
       setSignupError(data.message);
       setSignupSuccess("");
     }
@@ -43,6 +30,7 @@ const UserForm = () => {
 
   return (
     <div>
+      {loginLoading && <LinearProgress />}
       <Formik
         initialValues={{
           firstName: "",

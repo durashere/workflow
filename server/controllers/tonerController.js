@@ -16,7 +16,7 @@ const requireAdmin = (req, res, next) => {
   next();
 };
 
-tonersRouter.get("/", requireAuth, async (req, res) => {
+tonersRouter.get("/", async (req, res) => {
   try {
     const toners = await Toner.find({});
     res.json(toners.map((toner) => toner.toJSON()));
@@ -25,10 +25,9 @@ tonersRouter.get("/", requireAuth, async (req, res) => {
   }
 });
 
-tonersRouter.post("/", requireAuth, requireAdmin, async (req, res) => {
+tonersRouter.post("/", async (req, res) => {
   try {
-    const { toner } = req.body;
-
+    const toner = req.body;
     const newToner = new Toner(toner);
     await newToner.save();
     res.status(201).json({
@@ -68,7 +67,6 @@ tonersRouter.delete("/:id", requireAuth, requireAdmin, async (req, res) => {
   try {
     const deletedToner = await Toner.findOneAndDelete({
       _id: req.params.id,
-      user: req.user.sub,
     });
     res.status(201).json({
       message: "Toner deleted!",

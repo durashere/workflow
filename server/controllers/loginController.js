@@ -18,15 +18,6 @@ loginRouter.post("/", async (req, res) => {
     }
     const passwordValid = await verifyPassword(password, user.password);
 
-    // const passwordCorrect =
-    //   user === null ? false : await bcrypt.compare(password, user.passwordHash);
-
-    // if (!(user && passwordCorrect)) {
-    //   return response.status(401).json({
-    //     error: "invalid username or password",
-    //   });
-    // }
-
     if (passwordValid) {
       const { password, ...rest } = user;
       const userInfo = Object.assign({}, { ...rest });
@@ -35,6 +26,7 @@ loginRouter.post("/", async (req, res) => {
 
       const decodedToken = jwtDecode(token);
       const expiresAt = decodedToken.exp;
+
       res.json({
         message: "Authentication successful!",
         token,
@@ -50,18 +42,6 @@ loginRouter.post("/", async (req, res) => {
     console.log(err);
     return res.status(400).json({ message: "Something went wrong." });
   }
-  // const userForToken = {
-  //   username: user.username,
-  //   id: user._id,
-  // };
-
-  // const token = jwt.sign(userForToken, process.env.SECRET);
-
-  // response.status(200).send({
-  //   token,
-  //   role: user.role,
-  //   username: user.username,
-  // });
 });
 
 module.exports = loginRouter;

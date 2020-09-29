@@ -1,4 +1,4 @@
-import MainDrawer from "./MainDrawer";
+import Drawer from "./SideBar";
 import Dashboard from "./Dashboard";
 import Copyright from "./Copyright";
 
@@ -10,7 +10,7 @@ import TonerForm from "./toner/TonerForm";
 
 import CmsHelperForm from "./tool/cms/CmsHelper";
 
-export { MainDrawer, Dashboard, Copyright };
+export { Drawer, Dashboard, Copyright };
 export { UserList, UserForm };
 export { TonerList, TonerForm };
 export { CmsHelperForm };

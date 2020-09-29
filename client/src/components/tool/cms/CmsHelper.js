@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { useSelector } from "react-redux";
 import { makeStyles, Grid, Button, TextField } from "@material-ui/core";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -30,14 +29,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CmsHelperForm() {
   const classes = useStyles();
-  // const users = useSelector((state) => state.users);
   const [cmsName, setCmsName] = useState("");
   const [cmsLogin, setCmsLogin] = useState("");
   const [cmsLink, setCmsLink] = useState("");
   const [cmsPhone, setCmsPhone] = useState("");
   const [cmsPassword] = useState(Math.random().toString(20).substr(2, 12));
-
-  // console.log(users.find((user) => user.username === currentUser.username));
 
   const cmsMail = `(Dostęp do ${cmsName})
 Login: ${cmsLogin}

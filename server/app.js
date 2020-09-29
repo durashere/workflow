@@ -36,10 +36,8 @@ app.use(express.static(path.join(__dirname, "build")));
 app.use(express.json());
 app.use(cors());
 
-
 const attachUser = (req, res, next) => {
   const token = req.headers.authorization;
-
   if (!token) {
     return res.status(401).json({ message: "Authentication invalid" });
   }
@@ -50,18 +48,13 @@ const attachUser = (req, res, next) => {
     });
   } else {
     // should be req.user
-    req.token = decodedToken;
+
+    req.user = decodedToken;
     next();
   }
 };
 
 app.use("/api/login", loginRouter);
-
-app.use(attachUser);
-
-// app.get("/api/dashboard-data", requireAuth, (req, res) =>
-//   res.json(dashboardData),
-// );
 
 // app.patch("/api/user-role", async (req, res) => {
 //   try {
@@ -80,6 +73,8 @@ app.use(attachUser);
 //     return res.status(400).json({ error: err });
 //   }
 // });
+
+app.use(attachUser);
 
 app.use("/api/toners", tonersRouter);
 app.use("/api/users", usersRouter);

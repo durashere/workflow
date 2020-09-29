@@ -1,10 +1,26 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useContext, useEffect, useState } from "react";
+
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
+import { FetchContext } from "../context/FetchContext";
+
 const Dashboard = () => {
-  const toners = useSelector((state) => state.toners);
+  const fetchContext = useContext(FetchContext);
+  const [toners, setToners] = useState([]);
+
+  useEffect(() => {
+    const getToners = async () => {
+      try {
+        const { data } = await fetchContext.authAxios.get("toners");
+        setToners(data);
+      } catch (err) {
+        console.log("the err", err);
+      }
+    };
+
+    getToners();
+  }, [fetchContext]);
 
   return (
     <div>

@@ -30,7 +30,6 @@ usersRouter.get("/", requireAuth, async (request, response) => {
 
 usersRouter.post("/", requireAuth, requireAdmin, async (req, res) => {
   try {
-    console.log(req.body);
     const { username, firstName, lastName } = req.body;
 
     const hashedPassword = await hashPassword(req.body.password);
@@ -87,62 +86,19 @@ usersRouter.post("/", requireAuth, requireAdmin, async (req, res) => {
   }
 });
 
-// usersRouter.post("/", async (request, response, next) => {
-//   const { body } = request;
-
-//   if (body.password.length <= 3) {
-//     return response.status(401).json({ error: "password too short" });
-//   }
-
-//   try {
-//     const saltRounds = 10;
-//     const passwordHash = await bcrypt.hash(body.password, saltRounds);
-
-//     const user = new User({
-//       role: body.role,
-//       username: body.username,
-//       firstName: body.firstName,
-//       lastName: body.lastName,
-//       passwordHash,
-//     });
-
-//     const savedUser = await user.save();
-//     response.json(savedUser);
-//   } catch (exception) {
-//     next(exception);
-//   }
-// });
-
-// tonersRouter.put("/:id", async (request, response, next) => {
-//   const { body } = request;
-
-//   try {
-//     const tonerObject = {
-//       model: body.model,
-//       amount: body.amount,
-//     };
-//     const updatedToner = await Toner.findByIdAndUpdate(
-//       request.params.id,
-//       tonerObject,
-//       {
-//         new: true,
-//       },
-//     );
-//     await updatedToner
-//       .populate({ path: "user", select: ["name", "username"] })
-//       .execPopulate();
-//     response.status(201).json(updatedToner.toJSON());
-//   } catch (exception) {
-//     next(exception);
-//   }
-// });
-
-usersRouter.delete("/:id", async (request, response, next) => {
+usersRouter.delete("/:id", async (req, res) => {
   try {
-    await User.findByIdAndRemove(request.params.id);
-    response.status(204).end();
-  } catch (exception) {
-    next(exception);
+    const deletedUser = await User.findOneAndDelete({
+      _id: req.params.id,
+    });
+    res.status(201).json({
+      message: "User deleted!",
+      deletedUser,
+    });
+  } catch (err) {
+    return res.status(400).json({
+      message: "There was a problem deleting the user.",
+    });
   }
 });
 
