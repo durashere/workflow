@@ -5,25 +5,28 @@ import { Grid, Button, MenuItem } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { FetchContext } from "../../context/FetchContext";
+import { SnackbarContext } from "../../context/SnackbarContext";
 
 const TonerForm = () => {
   const fetchContext = useContext(FetchContext);
-  const [successMessage, setSuccessMessage] = useState();
-  const [errorMessage, setErrorMessage] = useState();
+  const snackbarContext = useContext(SnackbarContext);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const submitNewToner = async (newToner, resetForm) => {
     console.log("newToner", newToner);
     try {
+      setIsLoading(true);
       const { data } = await fetchContext.authAxios.post("toners", newToner);
 
+      snackbarContext.addAlert(data.message);
+
       resetForm();
-      setSuccessMessage(data.message);
-      setErrorMessage(null);
+      setIsLoading(false);
     } catch (err) {
-      const { data } = err.response;
-      setSuccessMessage(null);
-      setErrorMessage(data.message);
+      const { data } = err.res;
+      snackbarContext.addAlert(data.message);
+      setIsLoading(false);
     }
   };
 

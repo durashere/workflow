@@ -9,6 +9,7 @@ import {
 
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { FetchProvider } from "./context/FetchContext";
+import { SnackbarProvider } from "./context/SnackbarContext";
 
 import AppShell from "./AppShell";
 
@@ -124,11 +125,13 @@ function App() {
 
   return (
     <Router>
-      <AuthProvider>
-        <FetchProvider>
-          <AppRoutes />
-        </FetchProvider>
-      </AuthProvider>
+      <SnackbarProvider>
+        <AuthProvider>
+          <FetchProvider>
+            <AppRoutes />
+          </FetchProvider>
+        </AuthProvider>
+      </SnackbarProvider>
     </Router>
   );
 }

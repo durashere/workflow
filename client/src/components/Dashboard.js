@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import TextField from "@material-ui/core/TextField";
+import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { FetchContext } from "../context/FetchContext";

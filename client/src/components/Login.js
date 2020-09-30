@@ -16,8 +16,8 @@ import Copyright from "./Copyright";
 
 import { AuthContext } from "../context/AuthContext";
 import { publicFetch } from "../util/fetch";
+import { SnackbarContext } from "../context/SnackbarContext";
 
-import Notification from "./Notification";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,9 +43,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
   const classes = useStyles();
   const authContext = useContext(AuthContext);
+  const snackbarContext = useContext(SnackbarContext);
 
-  const [loginSuccess, setLoginSuccess] = useState(null);
-  const [loginError, setLoginError] = useState();
   const [redirectOnLogin, setRedirectOnLogin] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
 
@@ -55,8 +54,7 @@ export default function Login() {
       const { data } = await publicFetch.post(`login`, credentials);
 
       authContext.setAuthState(data);
-      setLoginSuccess(data.message);
-      setLoginError(null);
+      snackbarContext.addAlert(data.message);
 
       setTimeout(() => {
         setRedirectOnLogin(true);
@@ -64,20 +62,13 @@ export default function Login() {
     } catch (error) {
       setLoginLoading(false);
       const { data } = error.response;
-      setLoginError(data.message);
-      setLoginSuccess(null);
+      snackbarContext.addAlert(data.message);
     }
   };
 
   return (
     <>
       {redirectOnLogin && <Redirect to="/dashboard" />}
-      <Notification type="error" state={loginError} setState={setLoginError} />
-      <Notification
-        type="success"
-        state={loginSuccess}
-        setState={setLoginSuccess}
-      />
 
       <Formik
         initialValues={{
