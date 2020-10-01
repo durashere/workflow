@@ -17,8 +17,8 @@ import {
   ChevronLeft as ChevronLeftIcon,
 } from "@material-ui/icons";
 
-import SideBar from "./components/SideBar";
-import Footer from "./components/Footer";
+import SideBar from "./SideBar";
+import Footer from "./Footer";
 
 import { AuthContext } from "./context/AuthContext";
 

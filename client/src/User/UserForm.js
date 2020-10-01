@@ -1,36 +1,36 @@
 import React, { useState, useContext } from "react";
 import { Form, Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
-import { Grid, Button, MenuItem } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import { FetchContext } from "../../context/FetchContext";
+import { FetchContext } from "../context/FetchContext";
+import useSnackbars from "../hooks/useSnackbars";
 
 const UserForm = () => {
   const fetchContext = useContext(FetchContext);
+  const { addAlert } = useSnackbars();
 
-  const [signupSuccess, setSignupSuccess] = useState();
-  const [signupError, setSignupError] = useState();
-  const [loginLoading, setLoginLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const submitCredentials = async (credentials) => {
     try {
-      setLoginLoading(true);
+      setIsLoading(true);
       const { data } = await fetchContext.authAxios.post("users", credentials);
-      setSignupSuccess(data.message);
-      setSignupError("");
-      setLoginLoading(false);
+      setIsLoading(false);
+
+      addAlert(data.message, "success");
     } catch (error) {
-      setLoginLoading(false);
+      setIsLoading(false);
       const { data } = error.response;
-      setSignupError(data.message);
-      setSignupSuccess("");
+
+      addAlert(data.message, "success");
     }
   };
 
   return (
     <div>
-      {loginLoading && <LinearProgress />}
+      {isLoading && <LinearProgress />}
       <Formik
         initialValues={{
           firstName: "",

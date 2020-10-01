@@ -5,14 +5,14 @@ const User = require("../models/userModel");
 
 const { createToken, verifyPassword } = require("../util");
 
-loginRouter.post("/", async (req, res) => {
+loginRouter.post("/", async (request, response) => {
   try {
-    const { username, password } = req.body;
+    const { username, password } = request.body;
 
     const user = await User.findOne({ username }).lean();
 
     if (!user) {
-      return res.status(403).json({
+      return response.status(403).json({
         message: "Wrong username or password.",
       });
     }
@@ -27,20 +27,20 @@ loginRouter.post("/", async (req, res) => {
       const decodedToken = jwtDecode(token);
       const expiresAt = decodedToken.exp;
 
-      res.json({
+      response.json({
         message: "Authentication successful!",
         token,
         userInfo,
         expiresAt,
       });
     } else {
-      res.status(403).json({
+      response.status(403).json({
         message: "Wrong username or password.",
       });
     }
-  } catch (err) {
-    console.log(err);
-    return res.status(400).json({ message: "Something went wrong." });
+  } catch (error) {
+    console.log(error);
+    return response.status(400).json({ message: "Something went wrong." });
   }
 });
 

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useContext } from "react";
+import React, { lazy, Suspense, useContext } from "react";
 
 import {
   BrowserRouter as Router,
@@ -13,15 +13,15 @@ import { SnackbarProvider } from "./context/SnackbarContext";
 
 import AppShell from "./AppShell";
 
-import Login from "./components/Login";
-import FourOFour from "./components/FourOFour";
+import Login from "./Login";
+import FourOFour from "./FourOFour";
 
-const Dashboard = lazy(() => import("./components/Dashboard"));
-const UserList = lazy(() => import("./components/user/UserList"));
-const UserForm = lazy(() => import("./components/user/UserForm"));
-const TonerList = lazy(() => import("./components/toner/TonerList"));
-const TonerForm = lazy(() => import("./components/toner/TonerForm"));
-const CmsHelper = lazy(() => import("./components/tool/cms/CmsHelper"));
+const Dashboard = lazy(() => import("./Dashboard"));
+const UserList = lazy(() => import("./User/UserList"));
+const UserForm = lazy(() => import("./User/UserForm"));
+const TonerList = lazy(() => import("./Toner/TonerList"));
+const TonerForm = lazy(() => import("./Toner/TonerForm"));
+const CmsHelper = lazy(() => import("./Cms/CmsHelper"));
 
 function App() {
   const LoadingFallback = () => (

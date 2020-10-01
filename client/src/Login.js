@@ -14,9 +14,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Footer from "./Footer";
 
-import { AuthContext } from "../context/AuthContext";
-import { publicFetch } from "../util/fetch";
-import { SnackbarContext } from "../context/SnackbarContext";
+import { AuthContext } from "./context/AuthContext";
+import { publicFetch } from "./util/fetch";
+import useSnackbars from "./hooks/useSnackbars";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
 
@@ -43,26 +43,28 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const classes = useStyles();
   const authContext = useContext(AuthContext);
-  const snackbarContext = useContext(SnackbarContext);
+  const { addAlert } = useSnackbars();
 
   const [redirectOnLogin, setRedirectOnLogin] = useState(false);
-  const [loginLoading, setLoginLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const submitCredentials = async (credentials) => {
     try {
-      setLoginLoading(true);
+      setIsLoading(true);
       const { data } = await publicFetch.post(`login`, credentials);
-
       authContext.setAuthState(data);
-      snackbarContext.addAlert(data.message);
+      setIsLoading(false);
+
+      addAlert(data.message, "success");
 
       setTimeout(() => {
         setRedirectOnLogin(true);
       }, 700);
     } catch (error) {
-      setLoginLoading(false);
+      setIsLoading(false);
       const { data } = error.response;
-      snackbarContext.addAlert(data.message);
+
+      addAlert(data.message, "error");
     }
   };
 
@@ -122,7 +124,7 @@ const Login = () => {
               >
                 Login
               </Button>
-              {loginLoading && <LinearProgress />}
+              {isLoading && <LinearProgress />}
               {/* <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">

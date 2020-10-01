@@ -10,10 +10,10 @@ const requireAuth = jwt({
   algorithms: ["HS256"],
 });
 
-const requireAdmin = (req, res, next) => {
-  const { role } = req.user;
+const requireAdmin = (request, response, next) => {
+  const { role } = request.user;
   if (role !== "admin") {
-    return res.status(401).json({ message: "Insufficient role" });
+    return response.status(401).json({ message: "Insufficient role" });
   }
   next();
 };
@@ -23,16 +23,18 @@ usersRouter.get("/", requireAuth, async (request, response) => {
     const users = await User.find({});
 
     response.json(users);
-  } catch (exception) {
-    next(exception);
+  } catch (error) {
+    return response.status(400).json({
+      message: "There was a problem fetching users",
+    });
   }
 });
 
-usersRouter.post("/", requireAuth, requireAdmin, async (req, res) => {
+usersRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
   try {
-    const { username, firstName, lastName } = req.body;
+    const { username, firstName, lastName } = request.body;
 
-    const hashedPassword = await hashPassword(req.body.password);
+    const hashedPassword = await hashPassword(request.body.password);
 
     const userData = {
       username: username.toLowerCase(),
@@ -47,7 +49,7 @@ usersRouter.post("/", requireAuth, requireAdmin, async (req, res) => {
     }).lean();
 
     if (existingUsername) {
-      return res.status(400).json({ message: "Username already exists" });
+      return response.status(400).json({ message: "Username already exists" });
     }
 
     const newUser = new User(userData);
@@ -68,38 +70,43 @@ usersRouter.post("/", requireAuth, requireAdmin, async (req, res) => {
         role,
       };
 
-      return res.json({
+      return response.json({
         message: "User created!",
         token,
         userInfo,
         expiresAt,
       });
     } else {
-      return res.status(400).json({
+      return response.status(400).json({
         message: "There was a problem creating your account",
       });
     }
-  } catch (err) {
-    return res.status(400).json({
+  } catch (error) {
+    return response.status(400).json({
       message: "There was a problem creating your account",
     });
   }
 });
 
-usersRouter.delete("/:id", async (req, res) => {
-  try {
-    const deletedUser = await User.findOneAndDelete({
-      _id: req.params.id,
-    });
-    res.status(201).json({
-      message: "User deleted!",
-      deletedUser,
-    });
-  } catch (err) {
-    return res.status(400).json({
-      message: "There was a problem deleting the user.",
-    });
-  }
-});
+usersRouter.delete(
+  "/:id",
+  requireAuth,
+  requireAdmin,
+  async (request, response) => {
+    try {
+      const deletedUser = await User.findOneAndDelete({
+        _id: request.params.id,
+      });
+      response.status(201).json({
+        message: "User deleted!",
+        deletedUser,
+      });
+    } catch (error) {
+      return response.status(400).json({
+        message: "There was a problem deleting the user.",
+      });
+    }
+  },
+);
 
 module.exports = usersRouter;

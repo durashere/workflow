@@ -8,75 +8,87 @@ const requireAuth = jwt({
   algorithms: ["HS256"],
 });
 
-const requireAdmin = (req, res, next) => {
-  const { role } = req.user;
+const requireAdmin = (request, response, next) => {
+  const { role } = request.user;
   if (role !== "admin") {
-    return res.status(401).json({ message: "Insufficient role" });
+    return response.status(401).json({ message: "Insufficient role" });
   }
   next();
 };
 
-tonersRouter.get("/", async (req, res) => {
+tonersRouter.get("/", requireAuth, async (request, response) => {
   try {
     const toners = await Toner.find({});
-    res.json(toners.map((toner) => toner.toJSON()));
-  } catch (err) {
-    return res.status(400).json({ error: err });
+    response.json(toners.map((toner) => toner.toJSON()));
+  } catch (error) {
+    return response.status(400).json({
+      message: "There was a problem fetching toners",
+    });
   }
 });
 
-tonersRouter.post("/", async (req, res) => {
+tonersRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
   try {
-    const toner = req.body;
+    const toner = request.body;
     const newToner = new Toner(toner);
     await newToner.save();
-    res.status(201).json({
+    response.status(201).json({
       message: "Toner created!",
       toner,
     });
-  } catch (err) {
-    return res.status(400).json({
+  } catch (error) {
+    return response.status(400).json({
       message: "There was a problem creating the toner",
     });
   }
 });
 
-tonersRouter.put("/:id", requireAuth, requireAdmin, async (req, res) => {
-  try {
-    const tonerID = req.body.id;
-    const toner = req.body;
+tonersRouter.put(
+  "/:id",
+  requireAuth,
+  requireAdmin,
+  async (request, response) => {
+    try {
+      const tonerID = request.body.id;
+      const toner = request.body;
 
-    const tonerObject = {
-      model: toner.model,
-      amount: toner.amount,
-    };
+      const tonerObject = {
+        model: toner.model,
+        amount: toner.amount,
+      };
 
-    const updatedToner = await Toner.findByIdAndUpdate(tonerID, tonerObject, {
-      new: true,
-    });
+      const updatedToner = await Toner.findByIdAndUpdate(tonerID, tonerObject, {
+        new: true,
+      });
 
-    res.json({ message: "Toner updated!", toner: updatedToner });
-  } catch (err) {
-    return res.status(400).json({
-      message: "There was a problem updating toner",
-    });
-  }
-});
+      response.json({ message: "Toner updated!", toner: updatedToner });
+    } catch (error) {
+      return response.status(400).json({
+        message: "There was a problem updating toner",
+      });
+    }
+  },
+);
 
-tonersRouter.delete("/:id", requireAuth, requireAdmin, async (req, res) => {
-  try {
-    const deletedToner = await Toner.findOneAndDelete({
-      _id: req.params.id,
-    });
-    res.status(201).json({
-      message: "Toner deleted!",
-      deletedToner,
-    });
-  } catch (err) {
-    return res.status(400).json({
-      message: "There was a problem deleting the toner.",
-    });
-  }
-});
+tonersRouter.delete(
+  "/:id",
+  requireAuth,
+  requireAdmin,
+  async (request, response) => {
+    try {
+      const deletedToner = await Toner.findOneAndDelete({
+        _id: request.params.id,
+      });
+      response.status(201).json({
+        message: `${deletedToner.model} deleted!`,
+        deletedToner,
+      });
+    } catch (error) {
+      return response.status(400).json({
+        message: "There was a problem deleting the toner.",
+      });
+    }
+  },
+);
 
 module.exports = tonersRouter;

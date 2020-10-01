@@ -7,11 +7,16 @@ import {
   TableCell,
   TableBody,
 } from "@material-ui/core";
-import { FetchContext } from "../../context/FetchContext";
+
+import { FetchContext } from "../context/FetchContext";
+import useSnackbars from "../hooks/useSnackbars";
+
 import Toner from "./Toner";
 
 const TonerList = () => {
   const fetchContext = useContext(FetchContext);
+  const { addAlert } = useSnackbars();
+
   const [toners, setToners] = useState([]);
   const [isLoading, setIsLoading] = useState();
 
@@ -22,9 +27,9 @@ const TonerList = () => {
         const { data } = await fetchContext.authAxios.get("toners");
         setToners(data);
         setIsLoading(false);
-      } catch (err) {
+      } catch (error) {
         setIsLoading(false);
-        console.log("the err", err);
+        console.log("the error", error);
       }
     };
 
@@ -38,9 +43,12 @@ const TonerList = () => {
         toner,
       );
       setToners(toners.filter((toner) => toner.id !== data.deletedToner.id));
-      
-    } catch (err) {
-      const { data } = err.response;
+
+      addAlert(data.message, "success");
+    } catch (error) {
+      const { data } = error.response;
+
+      addAlert(data.message, "error");
     }
   };
 
@@ -54,13 +62,18 @@ const TonerList = () => {
         `toners/${toner.id}`,
         addedToner,
       );
+
       setToners(
         toners.map((toner) =>
           toner.id === addedToner.id ? addedToner : toner,
         ),
       );
-    } catch (err) {
-      // const { data } = err.response;
+
+      addAlert(data.message, "success");
+    } catch (error) {
+      const { data } = error.response;
+
+      addAlert(data.message, "error");
     }
   };
 
@@ -79,8 +92,12 @@ const TonerList = () => {
           toner.id === addedToner.id ? addedToner : toner,
         ),
       );
-    } catch (err) {
-      const { data } = err.response;
+
+      addAlert(data.message, "success");
+    } catch (error) {
+      const { data } = error.response;
+
+      addAlert(data.message, "error");
     }
   };
 

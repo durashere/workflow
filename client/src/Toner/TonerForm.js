@@ -1,32 +1,29 @@
 import React, { useState, useContext } from "react";
 import { Form, Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
-import { Grid, Button, MenuItem } from "@material-ui/core";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import { Grid, Button, LinearProgress } from "@material-ui/core";
 
-import { FetchContext } from "../../context/FetchContext";
-import { SnackbarContext } from "../../context/SnackbarContext";
+import { FetchContext } from "../context/FetchContext";
+import useSnackbars from "../hooks/useSnackbars";
 
 const TonerForm = () => {
   const fetchContext = useContext(FetchContext);
-  const snackbarContext = useContext(SnackbarContext);
+  const { addAlert } = useSnackbars();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const submitNewToner = async (newToner, resetForm) => {
-    console.log("newToner", newToner);
+  const submitNewToner = async (newToner) => {
     try {
       setIsLoading(true);
       const { data } = await fetchContext.authAxios.post("toners", newToner);
-
-      snackbarContext.addAlert(data.message);
-
-      resetForm();
       setIsLoading(false);
-    } catch (err) {
-      const { data } = err.res;
-      snackbarContext.addAlert(data.message);
+
+      addAlert(data.message, "success");
+    } catch (error) {
       setIsLoading(false);
+      const { data } = error.response;
+
+      addAlert(data.message, "error");
     }
   };
 

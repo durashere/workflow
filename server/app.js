@@ -25,8 +25,8 @@ async function connect() {
       useFindAndModify: false,
     });
     logger.info("Connected to MongoDB");
-  } catch (err) {
-    logger.info("Mongoose error", err);
+  } catch (error) {
+    logger.info("Mongoose error", error);
   }
 }
 
@@ -36,41 +36,41 @@ app.use(express.static(path.join(__dirname, "build")));
 app.use(express.json());
 app.use(cors());
 
-const attachUser = (req, res, next) => {
-  const token = req.headers.authorization;
+const attachUser = (request, response, next) => {
+  const token = request.headers.authorization;
   if (!token) {
-    return res.status(401).json({ message: "Authentication invalid" });
+    return response.status(401).json({ message: "Authentication invalid" });
   }
   const decodedToken = jwtDecode(token.slice(7));
   if (!decodedToken) {
-    return res.status(401).json({
+    return response.status(401).json({
       message: "There was a problem authorizing the request",
     });
   } else {
-    // should be req.user
+    // should be request.user
 
-    req.user = decodedToken;
+    request.user = decodedToken;
     next();
   }
 };
 
 app.use("/api/login", loginRouter);
 
-// app.patch("/api/user-role", async (req, res) => {
+// app.patch("/api/user-role", async (request, response) => {
 //   try {
-//     const { role } = req.body;
+//     const { role } = request.body;
 //     const allowedRoles = ["user", "admin"];
 
 //     if (!allowedRoles.includes(role)) {
-//       return res.status(400).json({ message: "Role not allowed" });
+//       return response.status(400).json({ message: "Role not allowed" });
 //     }
-//     await User.findOneAndUpdate({ _id: req.user.sub }, { role });
-//     res.json({
+//     await User.findOneAndUpdate({ _id: request.user.sub }, { role });
+//     response.json({
 //       message:
 //         "User role updated. You must log in again for the changes to take effect.",
 //     });
-//   } catch (err) {
-//     return res.status(400).json({ error: err });
+//   } catch (error) {
+//     return response.status(400).json({ error });
 //   }
 // });
 
@@ -79,8 +79,8 @@ app.use(attachUser);
 app.use("/api/toners", tonersRouter);
 app.use("/api/users", usersRouter);
 
-app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+app.get("/*", function (request, response) {
+  response.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.use(middleware.requestLogger);

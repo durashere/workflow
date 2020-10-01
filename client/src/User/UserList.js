@@ -7,11 +7,16 @@ import {
   TableCell,
   TableBody,
 } from "@material-ui/core";
-import { FetchContext } from "../../context/FetchContext";
+
+import { FetchContext } from "../context/FetchContext";
+import useSnackbars from "../hooks/useSnackbars";
+
 import User from "./User";
 
 const UserList = () => {
   const fetchContext = useContext(FetchContext);
+  const { addAlert } = useSnackbars();
+
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState();
 
@@ -22,9 +27,10 @@ const UserList = () => {
         const { data } = await fetchContext.authAxios.get("users");
         setUsers(data);
         setIsLoading(false);
-      } catch (err) {
+      } catch (error) {
         setIsLoading(false);
-        console.log(err);
+        const { data } = error.response;
+        console.log(data.message);
       }
     };
     getUsers();
@@ -37,8 +43,12 @@ const UserList = () => {
         user,
       );
       setUsers(users.filter((user) => user.id !== data.deletedUser.id));
-    } catch (err) {
-      const { data } = err.response;
+
+      addAlert(data.message, "success");
+    } catch (error) {
+      const { data } = error.response;
+
+      addAlert(data.message, "error");
     }
   };
 
