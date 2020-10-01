@@ -54,6 +54,7 @@ tonersRouter.put(
 
       const tonerObject = {
         model: toner.model,
+        color: toner.color,
         amount: toner.amount,
       };
 

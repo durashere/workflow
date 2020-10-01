@@ -19,8 +19,8 @@ import FourOFour from "./FourOFour";
 const Dashboard = lazy(() => import("./Dashboard"));
 const UserList = lazy(() => import("./User/UserList"));
 const UserForm = lazy(() => import("./User/UserForm"));
-const TonerList = lazy(() => import("./Toner/TonerList"));
-const TonerForm = lazy(() => import("./Toner/TonerForm"));
+const TonerListAdmin = lazy(() => import("./Toner/TonerListAdmin"));
+// const TonerForm = lazy(() => import("./Toner/TonerForm"));
 const CmsHelper = lazy(() => import("./Cms/CmsHelper"));
 
 function App() {
@@ -96,9 +96,9 @@ function App() {
               <Dashboard />
             </AuthenticatedRoute>
 
-            <AuthenticatedRoute path="/toners/list">
+            {/* <AuthenticatedRoute path="/toners/list">
               <TonerList />
-            </AuthenticatedRoute>
+            </AuthenticatedRoute> */}
 
             <AuthenticatedRoute path="/tools/cmshelper">
               <CmsHelper />
@@ -112,8 +112,8 @@ function App() {
               <UserForm />
             </AdminRoute>
 
-            <AdminRoute path="/admin/toners/create">
-              <TonerForm />
+            <AdminRoute path="/admin/toners">
+              <TonerListAdmin />
             </AdminRoute>
 
             <UnauthenticatedRoutes />

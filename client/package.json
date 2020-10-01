@@ -13,6 +13,7 @@
     "clsx": "^1.1.1",
     "formik": "^2.1.5",
     "formik-material-ui": "^3.0.0",
+    "material-table": "^1.69.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

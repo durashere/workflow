@@ -77,26 +77,12 @@ const SideBar = () => {
         <Divider />
         <ListSubheader>Admin</ListSubheader>
 
-        <ListItem
-          button
-          onClick={() => setOpenSettingsToners(!openSettingsToners)}
-        >
+        <ListItemLink to="/admin/toners">
           <ListItemIcon>
-            <SettingsIcon />
+            <CreateIcon />
           </ListItemIcon>
           <ListItemText primary="Toners" />
-          {openSettingsToners ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        </ListItem>
-        <Collapse in={openSettingsToners} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemLink to="/admin/toners/create" className={classes.nested}>
-              <ListItemIcon>
-                <CreateIcon />
-              </ListItemIcon>
-              <ListItemText primary="Create toner" />
-            </ListItemLink>
-          </List>
-        </Collapse>
+        </ListItemLink>
 
         <ListItem
           button
