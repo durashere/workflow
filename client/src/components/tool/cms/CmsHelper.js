@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CmsHelperForm() {
+const CmsHelper = () => {
   const classes = useStyles();
   const [cmsName, setCmsName] = useState("");
   const [cmsLogin, setCmsLogin] = useState("");
@@ -161,4 +161,6 @@ Krzysztof
       </Grid>
     </div>
   );
-}
+};
+
+export default CmsHelper;

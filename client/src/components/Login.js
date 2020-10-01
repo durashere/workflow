@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Copyright from "./Copyright";
+import Footer from "./Footer";
 
 import { AuthContext } from "../context/AuthContext";
 import { publicFetch } from "../util/fetch";
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+const Login = () => {
   const classes = useStyles();
   const authContext = useContext(AuthContext);
   const snackbarContext = useContext(SnackbarContext);
@@ -138,10 +138,12 @@ export default function Login() {
             </Form>
           </div>
           <Box mt={8}>
-            <Copyright />
+            <Footer />
           </Box>
         </Container>
       </Formik>
     </>
   );
-}
+};
+
+export default Login;

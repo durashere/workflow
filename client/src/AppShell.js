@@ -18,7 +18,7 @@ import {
 } from "@material-ui/icons";
 
 import SideBar from "./components/SideBar";
-import Copyright from "./components/Copyright";
+import Footer from "./components/Footer";
 
 import { AuthContext } from "./context/AuthContext";
 
@@ -186,7 +186,7 @@ const AppShell = ({ children }) => {
           <Container maxWidth="lg" className={classes.container}>
             <Paper>{children}</Paper>
             <Box pt={4}>
-              <Copyright />
+              <Footer />
             </Box>
           </Container>
         </main>

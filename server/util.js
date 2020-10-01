@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 const createToken = (user) => {
-  // Sign the JWT
   if (!user.role) {
     throw new Error("No user role specified");
   }
@@ -22,7 +21,6 @@ const createToken = (user) => {
 
 const hashPassword = (password) => {
   return new Promise((resolve, reject) => {
-    // Generate a salt at level 12 strength
     bcrypt.genSalt(12, (err, salt) => {
       if (err) {
         reject(err);

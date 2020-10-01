@@ -2,16 +2,16 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 
-const Copyright = () => {
+const Footer = () => {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
+      {"Made by © "}
       <Link color="inherit" href="/">
         Duras
       </Link>{" "}
-      {new Date().getFullYear()}.
+      {"2020-" + new Date().getFullYear()}.
     </Typography>
   );
 };
 
-export default Copyright;
+export default Footer;
