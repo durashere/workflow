@@ -30,6 +30,7 @@ tonersRouter.get("/", requireAuth, async (request, response) => {
 tonersRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
   try {
     const toner = request.body;
+
     const newToner = new Toner(toner);
     await newToner.save();
     response.status(201).json({
@@ -37,6 +38,7 @@ tonersRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
       toner,
     });
   } catch (error) {
+    console.log(error);
     return response.status(400).json({
       message: "There was a problem creating the toner",
     });
@@ -49,18 +51,19 @@ tonersRouter.put(
   requireAdmin,
   async (request, response) => {
     try {
-      const tonerID = request.body.id;
       const toner = request.body;
 
       const tonerObject = {
-        model: toner.model,
-        color: toner.color,
-        amount: toner.amount,
+        ...toner,
       };
 
-      const updatedToner = await Toner.findByIdAndUpdate(tonerID, tonerObject, {
-        new: true,
-      });
+      const updatedToner = await Toner.findByIdAndUpdate(
+        toner._id,
+        tonerObject,
+        {
+          new: true,
+        },
+      );
 
       response.json({ message: "Toner updated!", toner: updatedToner });
     } catch (error) {
@@ -78,10 +81,10 @@ tonersRouter.delete(
   async (request, response) => {
     try {
       const deletedToner = await Toner.findOneAndDelete({
-        _id: request.params.id,
+        id: request.params._id,
       });
       response.status(201).json({
-        message: `${deletedToner.model} deleted!`,
+        message: `${deletedToner.code} deleted!`,
         deletedToner,
       });
     } catch (error) {

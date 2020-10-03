@@ -5,7 +5,7 @@ import { TableRow, TableCell, Button } from "@material-ui/core";
 const Toner = ({ toner, onDelete, onAdd, onSub }) => {
   return (
     <TableRow>
-      <TableCell>{toner.model}</TableCell>
+      <TableCell>{toner.code}</TableCell>
       <TableCell align="center">{toner.amount}</TableCell>
       <TableCell align="right">
         <Button variant="contained" type="button" onClick={() => onSub(toner)}>

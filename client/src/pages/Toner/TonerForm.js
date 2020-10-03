@@ -3,8 +3,8 @@ import { Form, Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import { Grid, Button, LinearProgress } from "@material-ui/core";
 
-import { FetchContext } from "../context/FetchContext";
-import useSnackbars from "../hooks/useSnackbars";
+import { FetchContext } from "../../context/FetchContext";
+import useSnackbars from "../../hooks/useSnackbars";
 
 const TonerForm = () => {
   const fetchContext = useContext(FetchContext);
@@ -32,7 +32,7 @@ const TonerForm = () => {
       {isLoading && <LinearProgress />}
       <Formik
         initialValues={{
-          model: "",
+          code: "",
         }}
         onSubmit={(values) => submitNewToner(values)}
       >
@@ -44,8 +44,8 @@ const TonerForm = () => {
                 variant="outlined"
                 required
                 fullWidth
-                label="Model"
-                name="model"
+                label="Supply Code"
+                name="code"
                 autoFocus
               />
             </Grid>

@@ -32,9 +32,9 @@ export const initToners = () => {
   };
 };
 
-export const createToner = (model) => {
+export const createToner = (code) => {
   return async (dispatch) => {
-    const tonerToCreate = { model, amount: 0 };
+    const tonerToCreate = { code, amount: 0 };
     const newToner = await tonerService.create(tonerToCreate);
     dispatch({
       type: "CREATE_TONER",

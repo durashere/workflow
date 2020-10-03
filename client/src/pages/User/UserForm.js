@@ -4,8 +4,8 @@ import { TextField } from "formik-material-ui";
 import { Grid, Button } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import { FetchContext } from "../context/FetchContext";
-import useSnackbars from "../hooks/useSnackbars";
+import { FetchContext } from "../../context/FetchContext";
+import useSnackbars from "../../hooks/useSnackbars";
 
 const UserForm = () => {
   const fetchContext = useContext(FetchContext);

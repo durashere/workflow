@@ -183,8 +183,8 @@ const AppShell = ({ children }) => {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <Container maxWidth="lg" className={classes.container}>
-            <Paper>{children}</Paper>
+          <Container maxWidth="xl" className={classes.container}>
+            <Paper className={classes.paper}>{children}</Paper>
             <Box pt={4}>
               <Footer />
             </Box>

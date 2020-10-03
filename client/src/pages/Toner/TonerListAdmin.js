@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import MaterialTable from "material-table";
+
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import { FetchContext } from "../context/FetchContext";
-import useSnackbars from "../hooks/useSnackbars";
+import { FetchContext } from "../../context/FetchContext";
+import useSnackbars from "../../hooks/useSnackbars";
 
 const TonerListAdmin = () => {
   const fetchContext = useContext(FetchContext);
@@ -21,61 +22,14 @@ const TonerListAdmin = () => {
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
-        console.log("the error", error);
+        const { data } = error.response;
+
+        console.log("error: ", data.message);
       }
     };
 
     getToners();
   }, [fetchContext]);
-
-  const onAdd = async (toner) => {
-    try {
-      const addedToner = {
-        ...toner,
-        amount: toner.amount + 1,
-      };
-      const { data } = await fetchContext.authAxios.put(
-        `toners/${toner.id}`,
-        addedToner,
-      );
-
-      setToners(
-        toners.map((toner) =>
-          toner.id === addedToner.id ? addedToner : toner,
-        ),
-      );
-
-      addAlert(data.message, "success");
-    } catch (error) {
-      const { data } = error.response;
-
-      addAlert(data.message, "error");
-    }
-  };
-
-  const onSub = async (toner) => {
-    try {
-      const addedToner = {
-        ...toner,
-        amount: toner.amount - 1,
-      };
-      const { data } = await fetchContext.authAxios.put(
-        `toners/${toner.id}`,
-        addedToner,
-      );
-      setToners(
-        toners.map((toner) =>
-          toner.id === addedToner.id ? addedToner : toner,
-        ),
-      );
-
-      addAlert(data.message, "success");
-    } catch (error) {
-      const { data } = error.response;
-
-      addAlert(data.message, "error");
-    }
-  };
 
   const onCreate = async (newToner) => {
     try {
@@ -95,25 +49,18 @@ const TonerListAdmin = () => {
 
   const onUpdate = async (newToner) => {
     try {
-      const { brand, model, color, amount } = newToner;
-
       const updatedToner = {
         ...newToner,
-        brand,
-        model,
-        color,
-        amount,
       };
 
-      console.log(updatedToner);
       const { data } = await fetchContext.authAxios.put(
-        `toners/${newToner.id}`,
+        `toners/${newToner._id}`,
         updatedToner,
       );
 
       setToners(
         toners.map((toner) =>
-          toner.id === updatedToner.id ? updatedToner : toner,
+          toner._id === updatedToner._id ? updatedToner : toner,
         ),
       );
 
@@ -128,10 +75,10 @@ const TonerListAdmin = () => {
   const onDelete = async (toner) => {
     try {
       const { data } = await fetchContext.authAxios.delete(
-        `toners/${toner.id}`,
+        `toners/${toner._id}`,
         toner,
       );
-      setToners(toners.filter((toner) => toner.id !== data.deletedToner.id));
+      setToners(toners.filter((toner) => toner._id !== data.deletedToner._id));
 
       addAlert(data.message, "success");
     } catch (error) {
@@ -146,7 +93,6 @@ const TonerListAdmin = () => {
       {isLoading && <LinearProgress />}
 
       <MaterialTable
-        style={{ padding: 10 }}
         columns={[
           {
             title: "Brand",
@@ -156,7 +102,15 @@ const TonerListAdmin = () => {
               HP: "HP",
             },
           },
-          { title: "Model", field: "model" },
+          {
+            title: "Brand",
+            field: "brand",
+            lookup: {
+              Xerox: "Xerox",
+              HP: "HP",
+            },
+          },
+          { title: "Supply Code", field: "code" },
           {
             title: "Color",
             field: "color",
@@ -175,6 +129,7 @@ const TonerListAdmin = () => {
         ]}
         data={toners}
         title="Toners List"
+        options={{ paging: false }}
         editable={{
           onRowAdd: (newToner) => onCreate(newToner),
           onRowUpdate: (newData) => onUpdate(newData),
@@ -188,26 +143,6 @@ const TonerListAdmin = () => {
           },
         }}
       />
-      {/* <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Model</TableCell>
-            <TableCell align="center">Amount</TableCell>
-            <TableCell align="right">Add / Sub</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {toners.map((toner) => (
-            <Toner
-              key={toner.id}
-              toner={toner}
-              onDelete={onDelete}
-              onAdd={onAdd}
-              onSub={onSub}
-            />
-          ))}
-        </TableBody>
-      </Table> */}
     </>
   );
 };

@@ -32,7 +32,7 @@ usersRouter.get("/", requireAuth, async (request, response) => {
 
 usersRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
   try {
-    const { username, firstName, lastName } = request.body;
+    const { username, firstName, lastName, role } = request.body;
 
     const hashedPassword = await hashPassword(request.body.password);
 
@@ -41,7 +41,7 @@ usersRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
       firstName,
       lastName,
       password: hashedPassword,
-      role: "user",
+      role,
     };
 
     const existingUsername = await User.findOne({
@@ -78,15 +78,40 @@ usersRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
       });
     } else {
       return response.status(400).json({
-        message: "There was a problem creating your account",
+        message: "There was a problem creating user",
       });
     }
   } catch (error) {
     return response.status(400).json({
-      message: "There was a problem creating your account",
+      message: "There was a problem creating user",
     });
   }
 });
+
+usersRouter.put(
+  "/:id",
+  requireAuth,
+  requireAdmin,
+  async (request, response) => {
+    try {
+      const user = request.body;
+
+      const userObject = {
+        ...user,
+      };
+
+      const updatedUser = await User.findByIdAndUpdate(user._id, userObject, {
+        new: true,
+      });
+
+      response.json({ message: "User updated!", user: updatedUser });
+    } catch (error) {
+      return response.status(400).json({
+        message: "There was a problem updating user",
+      });
+    }
+  },
+);
 
 usersRouter.delete(
   "/:id",
@@ -95,10 +120,13 @@ usersRouter.delete(
   async (request, response) => {
     try {
       const deletedUser = await User.findOneAndDelete({
-        _id: request.params.id,
+        id: request.params._id,
       });
+      console.log(deletedUser);
       response.status(201).json({
-        message: "User deleted!",
+        message: `${
+          deletedUser.firstName + " " + deletedUser.lastName
+        } deleted!`,
         deletedUser,
       });
     } catch (error) {

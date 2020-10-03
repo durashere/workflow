@@ -55,7 +55,7 @@ const SideBar = () => {
       <Divider />
       <div>
         <ListSubheader>Toners</ListSubheader>
-        <ListItemLink to="/toners/list">
+        <ListItemLink to="/toners">
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
@@ -84,33 +84,12 @@ const SideBar = () => {
           <ListItemText primary="Toners" />
         </ListItemLink>
 
-        <ListItem
-          button
-          onClick={() => setOpenSettingsUsers(!openSettingsUsers)}
-        >
+        <ListItemLink to="/admin/users">
           <ListItemIcon>
-            <SettingsIcon />
+            <AssignmentIcon />
           </ListItemIcon>
-          <ListItemText primary="Users" />
-          {openSettingsUsers ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        </ListItem>
-        <Collapse in={openSettingsUsers} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemLink to="/admin/users/list" className={classes.nested}>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary="List users" />
-            </ListItemLink>
-
-            <ListItemLink to="/admin/users/create" className={classes.nested}>
-              <ListItemIcon>
-                <CreateIcon />
-              </ListItemIcon>
-              <ListItemText primary="Create user" />
-            </ListItemLink>
-          </List>
-        </Collapse>
+          <ListItemText primary="List users" />
+        </ListItemLink>
       </div>
       {/* ) : (<></>
       )} */}

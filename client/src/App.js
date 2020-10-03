@@ -17,14 +17,15 @@ import { SnackbarProvider } from "./context/SnackbarContext";
 
 import AppShell from "./AppShell";
 
-import Login from "./Login";
-import FourOFour from "./FourOFour";
+import Login from "./pages/Login";
+import FourOFour from "./pages/FourOFour";
 
-const Dashboard = lazy(() => import("./Dashboard"));
-const UserList = lazy(() => import("./User/UserList"));
-const UserForm = lazy(() => import("./User/UserForm"));
-const TonerListAdmin = lazy(() => import("./Toner/TonerListAdmin"));
-const CmsHelper = lazy(() => import("./Cms/CmsHelper"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const UserListAdmin = lazy(() => import("./pages/User/UserListAdmin"));
+const UserForm = lazy(() => import("./pages/User/UserForm"));
+const TonerList = lazy(() => import("./pages/Toner/TonerList"));
+const TonerListAdmin = lazy(() => import("./pages/Toner/TonerListAdmin"));
+const CmsHelper = lazy(() => import("./pages/Cms/CmsHelper"));
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -110,16 +111,16 @@ function App() {
               <Dashboard />
             </AuthenticatedRoute>
 
-            {/* <AuthenticatedRoute path="/toners/list">
+            <AuthenticatedRoute path="/toners">
               <TonerList />
-            </AuthenticatedRoute> */}
+            </AuthenticatedRoute>
 
             <AuthenticatedRoute path="/tools/cmshelper">
               <CmsHelper />
             </AuthenticatedRoute>
 
-            <AdminRoute path="/admin/users/list">
-              <UserList />
+            <AdminRoute path="/admin/users">
+              <UserListAdmin />
             </AdminRoute>
 
             <AdminRoute path="/admin/users/create">
