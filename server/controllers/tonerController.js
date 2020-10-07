@@ -13,13 +13,13 @@ const requireAdmin = (request, response, next) => {
   if (role !== "admin") {
     return response.status(401).json({ message: "Insufficient role" });
   }
-  next();
+  return next();
 };
 
 tonersRouter.get("/", requireAuth, async (request, response) => {
   try {
     const toners = await Toner.find({});
-    response.json(toners.map((toner) => toner.toJSON()));
+    return response.json(toners.map((toner) => toner.toJSON()));
   } catch (error) {
     return response.status(400).json({
       message: "There was a problem fetching toners",
@@ -33,12 +33,12 @@ tonersRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
 
     const newToner = new Toner(toner);
     await newToner.save();
-    response.status(201).json({
+
+    return response.status(201).json({
       message: "Toner created!",
       toner,
     });
   } catch (error) {
-    console.log(error);
     return response.status(400).json({
       message: "There was a problem creating the toner",
     });
@@ -65,7 +65,7 @@ tonersRouter.put(
         },
       );
 
-      response.json({ message: "Toner updated!", toner: updatedToner });
+      return response.json({ message: "Toner updated!", toner: updatedToner });
     } catch (error) {
       return response.status(400).json({
         message: "There was a problem updating toner",
@@ -83,7 +83,7 @@ tonersRouter.delete(
       const deletedToner = await Toner.findOneAndDelete({
         id: request.params._id,
       });
-      response.status(201).json({
+      return response.status(201).json({
         message: `${deletedToner.code} deleted!`,
         deletedToner,
       });

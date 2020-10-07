@@ -9,7 +9,7 @@ const Footer = () => {
       <Link color="inherit" href="/">
         Duras
       </Link>{" "}
-      {"2020-" + new Date().getFullYear()}.
+      {`2020-${new Date().getFullYear()}`}.
     </Typography>
   );
 };

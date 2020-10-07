@@ -9,7 +9,10 @@ const FetchProvider = ({ children }) => {
   const authContext = useContext(AuthContext);
 
   const authAxios = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL:
+      process.env.NODE_ENV === "production"
+        ? "api"
+        : process.env.REACT_APP_DEV_API_URL,
   });
 
   authAxios.interceptors.request.use(

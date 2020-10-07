@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect, useContext } from "react";
 import MaterialTable from "material-table";
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -22,37 +23,13 @@ const TonerListAdmin = () => {
       } catch (error) {
         setIsLoading(false);
         const { data } = error.response;
-        addAlert(data.message, "error");
+        console.log(data.message);
+        // addAlert(data.message, "error");
       }
     };
 
     getToners();
   }, [fetchContext]);
-
-  const onAdd = async (toner) => {
-    try {
-      const addedToner = {
-        ...toner,
-        amount: toner.amount + 1,
-      };
-      const { data } = await fetchContext.authAxios.put(
-        `toners/${toner._id}`,
-        addedToner,
-      );
-
-      setToners(
-        toners.map((toner) =>
-          toner._id === addedToner._id ? addedToner : toner,
-        ),
-      );
-
-      addAlert(data.message, "success");
-    } catch (error) {
-      const { data } = error.response;
-
-      addAlert(data.message, "error");
-    }
-  };
 
   const onSub = async (toner) => {
     try {

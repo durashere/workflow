@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function App() {
+const App = () => {
   const classes = useStyles();
 
   const LoadingFallback = () => (
@@ -149,6 +149,6 @@ function App() {
       </SnackbarProvider>
     </Router>
   );
-}
+};
 
 export default App;

@@ -19,27 +19,26 @@ loginRouter.post("/", async (request, response) => {
     const passwordValid = await verifyPassword(password, user.password);
 
     if (passwordValid) {
-      const { password, ...rest } = user;
-      const userInfo = Object.assign({}, { ...rest });
+      const { ...rest } = user;
+      const userInfo = { ...rest };
 
       const token = createToken(userInfo);
 
       const decodedToken = jwtDecode(token);
       const expiresAt = decodedToken.exp;
 
-      response.json({
+      return response.json({
         message: "Authentication successful!",
         token,
         userInfo,
         expiresAt,
       });
-    } else {
-      response.status(403).json({
-        message: "Wrong username or password.",
-      });
     }
+
+    return response.status(403).json({
+      message: "Wrong username or password.",
+    });
   } catch (error) {
-    console.log(error);
     return response.status(400).json({ message: "Something went wrong." });
   }
 });

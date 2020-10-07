@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const jwt = require("express-jwt");
 const jwtDecode = require("jwt-decode");
 const usersRouter = require("express").Router();
@@ -15,14 +16,14 @@ const requireAdmin = (request, response, next) => {
   if (role !== "admin") {
     return response.status(401).json({ message: "Insufficient role" });
   }
-  next();
+  return next();
 };
 
 usersRouter.get("/", requireAuth, async (request, response) => {
   try {
     const users = await User.find({});
 
-    response.json(users);
+    return response.json(users);
   } catch (error) {
     return response.status(400).json({
       message: "There was a problem fetching users",
@@ -76,11 +77,10 @@ usersRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
         userInfo,
         expiresAt,
       });
-    } else {
-      return response.status(400).json({
-        message: "There was a problem creating user",
-      });
     }
+    return response.status(400).json({
+      message: "There was a problem creating user",
+    });
   } catch (error) {
     return response.status(400).json({
       message: "There was a problem creating user",
@@ -104,7 +104,7 @@ usersRouter.put(
         new: true,
       });
 
-      response.json({ message: "User updated!", user: updatedUser });
+      return response.json({ message: "User updated!", user: updatedUser });
     } catch (error) {
       return response.status(400).json({
         message: "There was a problem updating user",
@@ -122,11 +122,9 @@ usersRouter.delete(
       const deletedUser = await User.findOneAndDelete({
         id: request.params._id,
       });
-      console.log(deletedUser);
-      response.status(201).json({
-        message: `${
-          deletedUser.firstName + " " + deletedUser.lastName
-        } deleted!`,
+
+      return response.status(201).json({
+        message: `${`${deletedUser.firstName} ${deletedUser.lastName}`} deleted!`,
         deletedUser,
       });
     } catch (error) {

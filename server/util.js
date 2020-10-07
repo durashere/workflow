@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -21,13 +22,13 @@ const createToken = (user) => {
 
 const hashPassword = (password) => {
   return new Promise((resolve, reject) => {
-    bcrypt.genSalt(12, (error, salt) => {
-      if (error) {
-        reject(error);
+    bcrypt.genSalt(12, (saltError, salt) => {
+      if (saltError) {
+        reject(saltError);
       }
-      bcrypt.hash(password, salt, (error, hash) => {
-        if (error) {
-          reject(error);
+      bcrypt.hash(password, salt, (hashError, hash) => {
+        if (hashError) {
+          reject(hashError);
         }
         resolve(hash);
       });
@@ -48,7 +49,7 @@ const requireAdmin = (request, response, next) => {
   if (request.user.role !== "admin") {
     return response.status(401).json({ message: "Insufficient role" });
   }
-  next();
+  return next();
 };
 
 module.exports = {

@@ -4,11 +4,20 @@ const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = new mongoose.Schema({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
-  username: { type: String, unique: true, required: true, minlength: 3 },
-  role: { type: String, required: true, default: "user" },
-  password: { type: String, required: true },
+  firstName: { type: String, required: [true, "First Name can't be empty"] },
+  lastName: { type: String, required: [true, "Last Name can't be empty"] },
+  username: {
+    type: String,
+    unique: true,
+    minlength: 3,
+    required: [true, "Username can't be empty"],
+  },
+  role: {
+    type: String,
+    default: "user",
+    required: [true, "Role can't be empty"],
+  },
+  password: { type: String, required: [true, "Password can't be empty"] },
   // toners: [{ type: mongoose.Schema.Types.ObjectId, ref: "Toner" }],
 });
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect, useContext } from "react";
 import MaterialTable from "material-table";
 
@@ -23,7 +24,8 @@ const UserList = () => {
       } catch (error) {
         setIsLoading(false);
         const { data } = error.response;
-        addAlert(data.message, "error");
+        console.log(data.message);
+        // addAlert(data.message, "error");
       }
     };
     getUsers();

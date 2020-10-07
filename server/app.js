@@ -4,7 +4,8 @@ const jwt = require("express-jwt");
 const jwtDecode = require("jwt-decode");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const config = require("./utils/config");
+
+require("dotenv").config();
 
 const tonersRouter = require("./controllers/tonerController");
 const usersRouter = require("./controllers/userController");
@@ -46,12 +47,11 @@ const attachUser = (request, response, next) => {
     return response.status(401).json({
       message: "There was a problem authorizing the request",
     });
-  } else {
-    // should be request.user
-
-    request.user = decodedToken;
-    next();
   }
+  // should be request.user
+
+  request.user = decodedToken;
+  return next();
 };
 
 app.use("/api/login", loginRouter);
@@ -79,7 +79,7 @@ app.use(attachUser);
 app.use("/api/toners", tonersRouter);
 app.use("/api/users", usersRouter);
 
-app.get("/*", function (request, response) {
+app.get("/*", (request, response) => {
   response.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
