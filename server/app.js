@@ -74,15 +74,15 @@ app.use("/api/login", loginRouter);
 //   }
 // });
 
-app.use(attachUser);
-
 app.use("/api/toners", tonersRouter);
+
 app.use("/api/users", usersRouter);
 
 app.get("/*", (request, response) => {
-  console.log("badget", request, response);
   response.sendFile(path.join(__dirname, "build", "index.html"));
 });
+
+app.use(attachUser);
 
 app.use(middleware.requestLogger);
 app.use(middleware.unknownEndpoint);
