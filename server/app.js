@@ -33,9 +33,9 @@ async function connect() {
 
 connect();
 
-app.use(express.static(path.join(__dirname, "build")));
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, "build")));
 
 const attachUser = (request, response, next) => {
   const token = request.headers.authorization;
@@ -80,6 +80,7 @@ app.use("/api/toners", tonersRouter);
 app.use("/api/users", usersRouter);
 
 app.get("/*", (request, response) => {
+  console.log("badget", request, response);
   response.sendFile(path.join(__dirname, "build", "index.html"));
 });
 

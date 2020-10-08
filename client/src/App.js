@@ -100,13 +100,14 @@ const App = () => {
               exact
               path="/"
               render={() => {
-                return auth.isAuthenticated ? (
+                return auth.isAuthenticated() ? (
                   <Redirect to="/dashboard" />
                 ) : (
                   <Redirect to="/login" />
                 );
               }}
             ></Route>
+
             <AuthenticatedRoute path="/dashboard">
               <Dashboard />
             </AuthenticatedRoute>
