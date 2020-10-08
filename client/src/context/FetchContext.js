@@ -11,7 +11,7 @@ const FetchProvider = ({ children }) => {
   const authAxios = axios.create({
     baseURL:
       process.env.NODE_ENV === "production"
-        ? "api"
+        ? "/api"
         : process.env.REACT_APP_DEV_API_URL,
   });
 
