@@ -133,6 +133,11 @@ const TonerListAdmin = () => {
                     {
                       title: "Use history",
                       field: "log_time",
+                      render: (rowData) => {
+                        return moment(rowData.log_time).format(
+                          "HH:mm | DD.MM.YYYY",
+                        );
+                      },
                       defaultSort: "desc",
                     },
                   ]}

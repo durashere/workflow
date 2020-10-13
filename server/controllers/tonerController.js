@@ -36,7 +36,6 @@ tonersRouter.get("/", requireAuth, async (request, response) => {
     // });
 
     return response.json(tonersToJson);
-    // return response.json(tonersToDisplay);
   } catch (error) {
     return response.status(400).json({
       message: "There was a problem fetching toners",
