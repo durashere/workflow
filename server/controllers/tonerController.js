@@ -19,7 +19,24 @@ const requireAdmin = (request, response, next) => {
 tonersRouter.get("/", requireAuth, async (request, response) => {
   try {
     const toners = await Toner.find({});
-    return response.json(toners.map((toner) => toner.toJSON()));
+
+    const tonersToJson = toners.map((toner) => toner.toJSON());
+
+    // const tonersToDisplay = tonersToJson.map((toner) => {
+    //   const newLogs = toner.logs.map((log) => {
+    //     const { log_time, ...rest_logs } = log;
+    //     const newTime = log_time.toLocaleString("pl-PL");
+
+    //     return { log_time: newTime, ...rest_logs };
+    //   });
+
+    //   toner.logs = newLogs;
+
+    //   return toner;
+    // });
+
+    return response.json(tonersToJson);
+    // return response.json(tonersToDisplay);
   } catch (error) {
     return response.status(400).json({
       message: "There was a problem fetching toners",
@@ -53,19 +70,15 @@ tonersRouter.put(
     try {
       const toner = request.body;
 
-      const tonerObject = {
-        ...toner,
-      };
+      const updatedToner = await Toner.findByIdAndUpdate(toner._id, toner, {
+        new: true,
+      });
 
-      const updatedToner = await Toner.findByIdAndUpdate(
-        toner._id,
-        tonerObject,
-        {
-          new: true,
-        },
-      );
-
-      return response.json({ message: "Toner updated!", toner: updatedToner });
+      console.log(updatedToner);
+      return response.json({
+        message: "Toner updated!",
+        toner: updatedToner,
+      });
     } catch (error) {
       return response.status(400).json({
         message: "There was a problem updating toner",

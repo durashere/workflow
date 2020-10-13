@@ -1,13 +1,16 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect, useContext } from "react";
+import moment from "moment";
 import MaterialTable from "material-table";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { FetchContext } from "../../context/FetchContext";
+import { AuthContext } from "../../context/AuthContext";
 import useSnackbars from "../../hooks/useSnackbars";
 
 const TonerListAdmin = () => {
   const fetchContext = useContext(FetchContext);
+  const auth = useContext(AuthContext);
   const { addAlert } = useSnackbars();
 
   const [toners, setToners] = useState([]);
@@ -18,6 +21,7 @@ const TonerListAdmin = () => {
       try {
         setIsLoading(true);
         const { data } = await fetchContext.authAxios.get("toners");
+
         setToners(data);
         setIsLoading(false);
       } catch (error) {
@@ -33,17 +37,33 @@ const TonerListAdmin = () => {
 
   const onSub = async (toner) => {
     try {
-      const addedToner = {
-        ...toner,
-        amount: toner.amount - 1,
+      const { amount, logs, ...restToner } = toner;
+
+      const newTonerLog = {
+        log_user: `${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`,
+        log_time: new Date(),
       };
+
+      logs.push(newTonerLog);
+
+      console.log("newLogs", logs);
+
+      const addedToner = {
+        amount: amount - 1,
+        logs,
+        ...restToner,
+      };
+
+      console.log("addded", addedToner);
+
       const { data } = await fetchContext.authAxios.put(
         `toners/${toner._id}`,
         addedToner,
       );
+
       setToners(
         toners.map((toner) =>
-          toner._id === addedToner._id ? addedToner : toner,
+          toner._id === data.toner._id ? data.toner : toner,
         ),
       );
 
@@ -95,9 +115,35 @@ const TonerListAdmin = () => {
         options={{ paging: false, grouping: true }}
         actions={[
           {
-            icon: "remove",
+            icon: "remove_outlined",
             tooltip: "Use Toner",
             onClick: (event, rowData) => onSub(rowData),
+          },
+        ]}
+        detailPanel={[
+          {
+            icon: "history_outlined",
+            openIcon: "update_outlined",
+            tooltip: "Show history",
+            render: (rowData) => {
+              return (
+                <MaterialTable
+                  columns={[
+                    { title: "User", field: "log_user" },
+                    {
+                      title: "Use history",
+                      field: "log_time",
+                      defaultSort: "desc",
+                    },
+                  ]}
+                  data={rowData.logs}
+                  title="Use history"
+                  options={{
+                    toolbar: false,
+                  }}
+                />
+              );
+            },
           },
         ]}
       />

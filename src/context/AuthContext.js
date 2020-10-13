@@ -18,8 +18,10 @@ const AuthProvider = ({ children }) => {
   });
 
   const setAuthInfo = ({ token, userInfo, expiresAt }) => {
+    const { username, __v, _id, ...rest } = userInfo;
+
     localStorage.setItem("token", token);
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    localStorage.setItem("userInfo", JSON.stringify(rest));
     localStorage.setItem("expiresAt", expiresAt);
 
     setAuthState({

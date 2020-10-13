@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect, useContext } from "react";
 import MaterialTable from "material-table";
 
@@ -94,14 +95,6 @@ const TonerListAdmin = () => {
 
       <MaterialTable
         columns={[
-          {
-            title: "Brand",
-            field: "brand",
-            lookup: {
-              Xerox: "Xerox",
-              HP: "HP",
-            },
-          },
           {
             title: "Brand",
             field: "brand",

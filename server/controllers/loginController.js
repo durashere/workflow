@@ -19,7 +19,7 @@ loginRouter.post("/", async (request, response) => {
     const passwordValid = await verifyPassword(password, user.password);
 
     if (passwordValid) {
-      const { ...rest } = user;
+      const { password, ...rest } = user;
       const userInfo = { ...rest };
 
       const token = createToken(userInfo);
