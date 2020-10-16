@@ -31,7 +31,7 @@ usersRouter.get("/", requireAuth, async (request, response) => {
   }
 });
 
-usersRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
+usersRouter.post("/", async (request, response) => {
   try {
     const { username, firstName, lastName, role } = request.body;
 

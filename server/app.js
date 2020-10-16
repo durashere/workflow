@@ -1,9 +1,11 @@
 const express = require("express");
+const morgan = require("morgan");
+const cors = require("cors");
+const mongoose = require("mongoose");
+
 const path = require("path");
 const jwt = require("express-jwt");
 const jwtDecode = require("jwt-decode");
-const mongoose = require("mongoose");
-const cors = require("cors");
 
 require("dotenv").config();
 
@@ -16,16 +18,25 @@ const logger = require("./utils/logger");
 
 const app = express();
 
+let DATABASE = process.env.MONGO_URL;
+
+if (process.env.NODE_ENV === "development") {
+  DATABASE = process.env.MONGO_URL_DEV;
+}
+if (process.env.NODE_ENV === "test") {
+  DATABASE = process.env.MONGO_URL_TEST;
+}
+
 async function connect() {
   try {
     mongoose.Promise = global.Promise;
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(DATABASE, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
       useFindAndModify: false,
     });
-    logger.info("Connected to MongoDB");
+    logger.info(`Connected to MongoDB ${process.env.NODE_ENV}`);
   } catch (error) {
     logger.info("Mongoose error", error);
   }
@@ -33,10 +44,11 @@ async function connect() {
 
 connect();
 
-app.use(express.json());
+app.use(morgan("dev"));
 app.use(cors());
-app.use(express.static(path.join(__dirname, "../build")));
+app.use(express.json());
 
+app.use(express.static(path.join(__dirname, "../build")));
 
 const attachUser = (request, response, next) => {
   const token = request.headers.authorization;
