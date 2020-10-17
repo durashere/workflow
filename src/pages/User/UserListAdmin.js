@@ -95,6 +95,10 @@ const UserList = () => {
       <MaterialTable
         columns={[
           {
+            title: "Username",
+            field: "username",
+          },
+          {
             title: "First Name",
             field: "firstName",
           },
@@ -103,13 +107,14 @@ const UserList = () => {
             field: "lastName",
           },
           {
-            title: "Username",
-            field: "username",
-          },
-          {
             title: "Password",
             field: "password",
+            render: () => "*****",
           },
+          // {
+          //   title: "Full Name",
+          //   render: (rowData) => `${rowData.firstName} ${rowData.lastName}`,
+          // },
           {
             title: "Role",
             field: "role",

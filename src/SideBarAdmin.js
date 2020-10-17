@@ -1,10 +1,8 @@
 import React, { useContext } from "react";
-import clsx from "clsx";
 
 import { Link } from "react-router-dom";
 
 import {
-  makeStyles,
   ListItem,
   ListItemIcon,
   ListItemText,
@@ -14,22 +12,14 @@ import {
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import CreateIcon from "@material-ui/icons/Create";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import GradientIcon from "@material-ui/icons/Gradient";
-import InvertColorsIcon from "@material-ui/icons/InvertColors";
-import PrintIcon from "@material-ui/icons/Print";
-import PeopleIcon from "@material-ui/icons/People";
 
 import Divider from "@material-ui/core/Divider";
 
 import { AuthContext } from "./context/AuthContext";
 
-const useStyles = makeStyles(() => ({
-  hideText: { display: "none" },
-}));
-
-const SideBar = ({ open }) => {
+const SideBar = () => {
   const auth = useContext(AuthContext);
-  const classes = useStyles();
+
   function ListItemLink(props) {
     return <ListItem button component={Link} {...props} />;
   }
@@ -46,22 +36,18 @@ const SideBar = ({ open }) => {
       </div>
       <Divider />
       <div>
-        <ListSubheader className={clsx(!open && classes.hideText)}>
-          Toners
-        </ListSubheader>
+        <ListSubheader>Toners</ListSubheader>
 
         <ListItemLink to="/toners">
           <ListItemIcon>
-            <InvertColorsIcon />
+            <AssignmentIcon />
           </ListItemIcon>
           <ListItemText primary="Toners" />
         </ListItemLink>
       </div>
       <Divider />
       <div>
-        <ListSubheader className={clsx(!open && classes.hideText)}>
-          Tools
-        </ListSubheader>
+        <ListSubheader>Tools</ListSubheader>
 
         <ListItemLink to="/tools/cmshelper">
           <ListItemIcon>
@@ -70,30 +56,28 @@ const SideBar = ({ open }) => {
           <ListItemText primary="CMS Helper" />
         </ListItemLink>
 
-        <ListItemLink to="/tools/patterns">
+        <ListItemLink to="/tools/templates">
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
-          <ListItemText primary="Patterns" />
+          <ListItemText primary="Templates" />
         </ListItemLink>
       </div>
       {auth.authState.userInfo.role === "admin" ? (
         <div>
           <Divider />
-          <ListSubheader className={clsx(!open && classes.hideText)}>
-            Admin
-          </ListSubheader>
+          <ListSubheader>Admin</ListSubheader>
 
           <ListItemLink to="/admin/users">
             <ListItemIcon>
-              <PeopleIcon />
+              <AssignmentIcon />
             </ListItemIcon>
             <ListItemText primary="Users" />
           </ListItemLink>
 
           <ListItemLink to="/admin/toners">
             <ListItemIcon>
-              <InvertColorsIcon />
+              <CreateIcon />
             </ListItemIcon>
             <ListItemText primary="Toners" />
           </ListItemLink>

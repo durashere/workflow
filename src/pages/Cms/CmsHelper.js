@@ -131,7 +131,7 @@ Krzysztof
           </Grid>
         </Grid>
         <Grid item xs>
-          <Grid container direction={"column"} spacing={1}>
+          <Grid container direction="column" spacing={1}>
             <Grid item xs>
               <TextField
                 className={classes.cmsMail}

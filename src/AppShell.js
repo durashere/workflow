@@ -32,9 +32,23 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
+
+  // TOOLBAR
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
   },
+
+  menuButton: {
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: "none",
+  },
+  title: {
+    flexGrow: 1,
+  },
+
+  // DRAWER
   toolbarIcon: {
     display: "flex",
     alignItems: "center",
@@ -57,15 +71,6 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: "none",
-  },
-  title: {
-    flexGrow: 1,
-  },
   drawerPaper: {
     position: "relative",
     whiteSpace: "nowrap",
@@ -83,10 +88,13 @@ const useStyles = makeStyles((theme) => ({
     }),
     width: theme.spacing(7),
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9),
+      width: theme.spacing(7),
     },
   },
+
+  // CONTENT
   appBarSpacer: theme.mixins.toolbar,
+
   content: {
     flexGrow: 1,
     height: "100vh",
@@ -183,11 +191,12 @@ const AppShell = ({ children }) => {
               <ChevronLeftIcon />
             </IconButton>
           </div>
-          <SideBar />
+          <SideBar open={open} />
+          {/* <SideBarAdmin /> */}
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <Container maxWidth="xl" className={classes.container}>
+          <Container maxWidth="lg" className={classes.container}>
             <Paper className={classes.paper}>{children}</Paper>
             <Box pt={4}>
               <Footer />
