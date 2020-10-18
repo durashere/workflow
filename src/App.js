@@ -25,7 +25,6 @@ const UserListAdmin = lazy(() => import("./pages/User/UserListAdmin"));
 const UserForm = lazy(() => import("./pages/User/UserForm"));
 const TonerList = lazy(() => import("./pages/Toner/TonerList"));
 const TonerListAdmin = lazy(() => import("./pages/Toner/TonerListAdmin"));
-const CmsHelper = lazy(() => import("./pages/Cms/CmsHelper"));
 const Patterns = lazy(() => import("./pages/Patterns/Patterns"));
 
 const useStyles = makeStyles((theme) => ({
@@ -115,10 +114,6 @@ const App = () => {
 
             <AuthenticatedRoute path="/toners">
               <TonerList />
-            </AuthenticatedRoute>
-
-            <AuthenticatedRoute path="/tools/cmshelper">
-              <CmsHelper />
             </AuthenticatedRoute>
 
             <AuthenticatedRoute path="/tools/patterns">

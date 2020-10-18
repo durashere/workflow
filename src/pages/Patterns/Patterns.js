@@ -6,19 +6,21 @@ import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 
 import LaptopService from "./LaptopService";
+import CmsHelper from "./CmsHelper";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
     <div
+      style={{ width: "85%" }}
       role="tabpanel"
       hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box p={4}>{children}</Box>}
     </div>
   );
 }
@@ -39,11 +41,11 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
     display: "flex",
-    height: 448,
+    height: "100%",
   },
   tabs: {
+    width: "15%",
     borderRight: `1px solid ${theme.palette.divider}`,
   },
 }));
@@ -66,8 +68,8 @@ const Patterns = () => {
         aria-label="Vertical tabs"
         className={classes.tabs}
       >
-        <Tab label="Laptop Service" {...a11yProps(0)} />
-        <Tab label="xd" {...a11yProps(1)} />
+        <Tab label="CMS Helper" {...a11yProps(0)} />
+        <Tab label="Laptop Service" {...a11yProps(1)} />
         {/* <Tab label="Item Three" {...a11yProps(2)} />
         <Tab label="Item Four" {...a11yProps(3)} />
         <Tab label="Item Five" {...a11yProps(4)} />
@@ -75,10 +77,10 @@ const Patterns = () => {
         <Tab label="Item Seven" {...a11yProps(6)} /> */}
       </Tabs>
       <TabPanel value={value} index={0}>
-        <LaptopService />
+        <CmsHelper />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <LaptopService />
       </TabPanel>
       {/* <TabPanel value={value} index={2}>
         Item Three

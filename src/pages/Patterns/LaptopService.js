@@ -1,23 +1,32 @@
 import React, { useState } from "react";
-import { makeStyles, Grid, Button, TextField } from "@material-ui/core";
+import { makeStyles, Button, TextField } from "@material-ui/core";
 
-const fields = {};
+import copyToClipboard from "../../util/copyToClipboard";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
+  rootContainer: {
     display: "flex",
     flexWrap: "wrap",
+    flexDirection: "column",
   },
-  formContainer: {
+  inputsContainer: {
     display: "flex",
     flexWrap: "wrap",
+    flexDirection: "row",
+    "& > *": {
+      flex: "auto",
+      padding: theme.spacing(1),
+    },
   },
-  formInput: {
-    width: "100px",
+  buttonsContainer: {
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    "& > *": {
+      flex: "auto",
+      margin: theme.spacing(1),
+    },
   },
-  // cmsMail: {
-  //   width: "100%",
-  // },
 }));
 
 const LaptopService = () => {
@@ -29,43 +38,58 @@ const LaptopService = () => {
   const preview = `S/N: ${serialNumber}`;
 
   return (
-    <div className={classes.formContainer}>
-      <form className={classes.root} noValidate autoComplete="off">
-        <div className={classes.formContainer}>
-          <TextField
-            className={classes.formInput}
-            label="Model"
-            variant="outlined"
-            value={model}
-            onChange={({ target }) => setModel(target.value)}
-          />
-
-          <TextField
-            className={classes.formInput}
-            label="Serial Number"
-            variant="outlined"
-            value={serialNumber}
-            onChange={({ target }) => setSerialNumber(target.value)}
-          />
-
-          <TextField
-            className={classes.formInput}
-            label="Cause"
-            variant="outlined"
-            value={cause}
-            onChange={({ target }) => setCause(target.value)}
-          />
-        </div>
-      </form>
-      <div>
+    <div className={classes.rootContainer}>
+      <div className={classes.inputsContainer}>
         <TextField
-          className={classes.cmsMail}
+          label="Model"
+          variant="outlined"
+          value={model}
+          onChange={({ target }) => setModel(target.value)}
+        />
+
+        <TextField
+          label="Serial Number"
+          variant="outlined"
+          value={serialNumber}
+          onChange={({ target }) => setSerialNumber(target.value)}
+        />
+
+        <TextField
+          label="Cause"
+          variant="outlined"
+          value={cause}
+          onChange={({ target }) => setCause(target.value)}
+        />
+      </div>
+      <div className={classes.inputsContainer}>
+        <TextField
           label="Preview"
           multiline
+          fullWidth
           rows={10}
           value={preview}
           variant="outlined"
         />
+      </div>
+      <div className={classes.buttonsContainer}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => copyToClipboard(preview)}
+        >
+          copy to clipboard
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() =>
+            (window.location.href = `mailto:${`${process.env.REACT_APP_MAIL_LAPTOP_SERVICE}`}?body=${
+              encodeURIComponent(preview) || ""
+            }`)
+          }
+        >
+          send email
+        </Button>
       </div>
     </div>
   );

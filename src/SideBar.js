@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import {
   makeStyles,
+  Divider,
   ListItem,
   ListItemIcon,
   ListItemText,
@@ -12,14 +13,13 @@ import {
 } from "@material-ui/core";
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import CreateIcon from "@material-ui/icons/Create";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import GradientIcon from "@material-ui/icons/Gradient";
 import InvertColorsIcon from "@material-ui/icons/InvertColors";
-import PrintIcon from "@material-ui/icons/Print";
 import PeopleIcon from "@material-ui/icons/People";
 
-import Divider from "@material-ui/core/Divider";
+// import GradientIcon from "@material-ui/icons/Gradient";
+// import CreateIcon from "@material-ui/icons/Create";
+// import PrintIcon from "@material-ui/icons/Print";
 
 import { AuthContext } from "./context/AuthContext";
 
@@ -62,13 +62,6 @@ const SideBar = ({ open }) => {
         <ListSubheader className={clsx(!open && classes.hideText)}>
           Tools
         </ListSubheader>
-
-        <ListItemLink to="/tools/cmshelper">
-          <ListItemIcon>
-            <AssignmentIcon />
-          </ListItemIcon>
-          <ListItemText primary="CMS Helper" />
-        </ListItemLink>
 
         <ListItemLink to="/tools/patterns">
           <ListItemIcon>
