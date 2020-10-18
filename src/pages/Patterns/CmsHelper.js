@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles, Button, TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import copyToClipboard from "../../util/copyToClipboard";
 import normalizePhone from "../../util/normalizePhone";
+import { AuthContext } from "../../context/AuthContext";
 
 const cmsList = [
   {
@@ -51,28 +52,34 @@ const useStyles = makeStyles((theme) => ({
 
 const CmsHelper = () => {
   const classes = useStyles();
-  const [cmsName, setCmsName] = useState("");
-  const [cmsLogin, setCmsLogin] = useState("");
-  const [cmsLink, setCmsLink] = useState("");
-  const [cmsPhone, setCmsPhone] = useState("");
-  const [cmsPassword] = useState(Math.random().toString(20).substr(2, 12));
+  const auth = useContext(AuthContext);
+  const [name, setName] = useState("[CMS NAME]");
+  const [login, setLogin] = useState("[LOGIN]");
+  const [link, setLink] = useState("[CMS LINK]");
+  const [phone, setPhone] = useState("[PHONE]");
+  const [password] = useState(
+    Math.random().toString(36).substr(2, 8) +
+      Math.random().toString(36).substr(2, 8),
+  );
 
-  const cmsMail = `(Dostęp do ${cmsName})
-Login: ${cmsLogin}
-Password: ${cmsPassword}
-Link: ${cmsLink}
-${cmsPhone}
+  const pattern = `(Dostęp do ${name})
+
+Login: ${login}
+Password: ${password}
+
+Link: ${link}
+
 Pozdrawiam / Best regards
-Krzysztof
+${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}
 `;
 
   const handleCmsChange = (event, value) => {
     if (value !== null) {
-      setCmsName(value.name);
-      setCmsLink(value.link);
+      setName(value.name);
+      setLink(value.link);
     } else {
-      setCmsName("");
-      setCmsLink("");
+      setName("[CMS NAME]");
+      setLink("[CMS LINK]");
     }
   };
 
@@ -91,13 +98,17 @@ Krzysztof
         <TextField
           label="Login"
           variant="outlined"
-          onChange={({ target }) => setCmsLogin(target.value)}
+          onChange={({ target }) =>
+            target.value !== ""
+              ? setLogin(target.value)
+              : setLogin("[CMS LOGIN]")
+          }
         />
 
         <TextField
           label="Phone"
           variant="outlined"
-          onChange={({ target }) => setCmsPhone(normalizePhone(target.value))}
+          onChange={({ target }) => setPhone(normalizePhone(target.value))}
         />
 
         <TextField
@@ -106,7 +117,7 @@ Krzysztof
           }}
           label="Password"
           variant="outlined"
-          value={cmsPassword}
+          value={password}
           onFocus={(event) => {
             event.target.select();
           }}
@@ -116,9 +127,9 @@ Krzysztof
           className={classes.button}
           variant="outlined"
           color="primary"
-          onClick={() => copyToClipboard(cmsPassword)}
+          onClick={() => copyToClipboard(password)}
         >
-          copy to clipboard
+          copy password
         </Button>
       </div>
 
@@ -127,10 +138,10 @@ Krzysztof
           InputProps={{
             readOnly: true,
           }}
-          label="Preview"
+          label="Pattern"
           multiline
           rows={10}
-          value={cmsMail}
+          value={pattern}
           variant="outlined"
         />
       </div>
@@ -139,9 +150,17 @@ Krzysztof
         <Button
           variant="outlined"
           color="primary"
+          onClick={() => copyToClipboard(pattern)}
+        >
+          copy pattern
+        </Button>
+
+        <Button
+          variant="outlined"
+          color="primary"
           onClick={() =>
-            (window.location.href = `mailto:${`${cmsPhone}@${process.env.REACT_APP_SMS_DOMAIN}`}?body=${
-              encodeURIComponent(cmsMail) || ""
+            (window.location.href = `mailto:${`${phone}@${process.env.REACT_APP_SMS_DOMAIN}`}?body=${
+              encodeURIComponent(pattern) || ""
             }`)
           }
         >

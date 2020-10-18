@@ -35,7 +35,7 @@ const LaptopService = () => {
   const [model, setModel] = useState("");
   const [cause, setCause] = useState("");
 
-  const preview = `S/N: ${serialNumber}`;
+  const pattern = `S/N: ${serialNumber}`;
 
   return (
     <div className={classes.rootContainer}>
@@ -63,11 +63,11 @@ const LaptopService = () => {
       </div>
       <div className={classes.inputsContainer}>
         <TextField
-          label="Preview"
+          label="Pattern"
           multiline
           fullWidth
           rows={10}
-          value={preview}
+          value={pattern}
           variant="outlined"
         />
       </div>
@@ -75,16 +75,16 @@ const LaptopService = () => {
         <Button
           variant="outlined"
           color="primary"
-          onClick={() => copyToClipboard(preview)}
+          onClick={() => copyToClipboard(pattern)}
         >
-          copy to clipboard
+          copy pattern
         </Button>
         <Button
           variant="outlined"
           color="primary"
           onClick={() =>
             (window.location.href = `mailto:${`${process.env.REACT_APP_MAIL_LAPTOP_SERVICE}`}?body=${
-              encodeURIComponent(preview) || ""
+              encodeURIComponent(pattern) || ""
             }`)
           }
         >

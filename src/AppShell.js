@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
     }),
     width: theme.spacing(7),
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(7),
+      width: drawerWidth,
     },
   },
 
@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
 const AppShell = ({ children }) => {
   const auth = useContext(AuthContext);
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   return (
