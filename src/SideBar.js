@@ -12,10 +12,12 @@ import {
   ListSubheader,
 } from "@material-ui/core";
 
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import InvertColorsIcon from "@material-ui/icons/InvertColors";
-import PeopleIcon from "@material-ui/icons/People";
+import {
+  Dashboard as DashboardIcon,
+  People as PeopleIcon,
+  InvertColors as InvertColorsIcon,
+  Assignment as AssignmentIcon,
+} from "@material-ui/icons";
 
 // import GradientIcon from "@material-ui/icons/Gradient";
 // import CreateIcon from "@material-ui/icons/Create";

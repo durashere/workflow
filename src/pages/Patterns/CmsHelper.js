@@ -1,10 +1,19 @@
 import React, { useState, useContext } from "react";
-import { makeStyles, Button, TextField } from "@material-ui/core";
+import {
+  makeStyles,
+  Button,
+  TextField,
+  IconButton,
+  InputAdornment,
+} from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+
+import { FileCopy as FileCopyIcon } from "@material-ui/icons";
 
 import copyToClipboard from "../../util/copyToClipboard";
 import normalizePhone from "../../util/normalizePhone";
 import { AuthContext } from "../../context/AuthContext";
+import sendEmail from "../../util/sendEmail";
 
 const cmsList = [
   {
@@ -36,6 +45,16 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(1),
     },
   },
+  patternContainer: {
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    flex: "auto",
+    "& > *": {
+      flex: "auto",
+      padding: theme.spacing(1),
+    },
+  },
   buttonsContainer: {
     display: "flex",
     flexWrap: "wrap",
@@ -54,9 +73,9 @@ const CmsHelper = () => {
   const classes = useStyles();
   const auth = useContext(AuthContext);
   const [name, setName] = useState("[CMS NAME]");
-  const [login, setLogin] = useState("[LOGIN]");
+  const [login, setLogin] = useState("[CMS LOGIN]");
   const [link, setLink] = useState("[CMS LINK]");
-  const [phone, setPhone] = useState("[PHONE]");
+  const [phone, setPhone] = useState("");
   const [password] = useState(
     Math.random().toString(36).substr(2, 8) +
       Math.random().toString(36).substr(2, 8),
@@ -70,8 +89,7 @@ Password: ${password}
 Link: ${link}
 
 Pozdrawiam / Best regards
-${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}
-`;
+${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`;
 
   const handleCmsChange = (event, value) => {
     if (value !== null) {
@@ -91,10 +109,17 @@ ${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}
           getOptionLabel={(option) => option.name}
           onChange={handleCmsChange}
           renderInput={(params) => (
-            <TextField {...params} label="CMS" variant="outlined" />
+            <TextField {...params} label="Choose CMS" variant="outlined" />
           )}
         />
 
+        <TextField
+          label="Phone"
+          variant="outlined"
+          onChange={({ target }) => setPhone(normalizePhone(target.value))}
+        />
+      </div>
+      <div className={classes.inputsContainer}>
         <TextField
           label="Login"
           variant="outlined"
@@ -104,15 +129,15 @@ ${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}
               : setLogin("[CMS LOGIN]")
           }
         />
-
-        <TextField
-          label="Phone"
-          variant="outlined"
-          onChange={({ target }) => setPhone(normalizePhone(target.value))}
-        />
-
         <TextField
           InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => copyToClipboard(password)}>
+                  <FileCopyIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
             readOnly: true,
           }}
           label="Password"
@@ -122,18 +147,9 @@ ${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}
             event.target.select();
           }}
         />
-
-        <Button
-          className={classes.button}
-          variant="outlined"
-          color="primary"
-          onClick={() => copyToClipboard(password)}
-        >
-          copy password
-        </Button>
       </div>
 
-      <div className={classes.inputsContainer}>
+      <div className={classes.patternContainer}>
         <TextField
           InputProps={{
             readOnly: true,
@@ -159,9 +175,11 @@ ${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}
           variant="outlined"
           color="primary"
           onClick={() =>
-            (window.location.href = `mailto:${`${phone}@${process.env.REACT_APP_SMS_DOMAIN}`}?body=${
-              encodeURIComponent(pattern) || ""
-            }`)
+            sendEmail(
+              `${phone}${process.env.REACT_APP_SMS_DOMAIN}`,
+              `Dane do logowania ${name}`,
+              pattern,
+            )
           }
         >
           send email

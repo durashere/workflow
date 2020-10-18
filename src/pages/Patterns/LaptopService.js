@@ -1,7 +1,23 @@
 import React, { useState } from "react";
-import { makeStyles, Button, TextField } from "@material-ui/core";
+import { makeStyles, Button, TextField, MenuItem } from "@material-ui/core";
 
 import copyToClipboard from "../../util/copyToClipboard";
+import sendEmail from "../../util/sendEmail";
+
+const models = [
+  {
+    model: "Lenovo T450",
+  },
+  {
+    model: "Lenovo T460",
+  },
+  {
+    model: "Lenovo T470",
+  },
+  {
+    model: "Lenovo T480s",
+  },
+];
 
 const useStyles = makeStyles((theme) => ({
   rootContainer: {
@@ -35,7 +51,13 @@ const LaptopService = () => {
   const [model, setModel] = useState("");
   const [cause, setCause] = useState("");
 
-  const pattern = `S/N: ${serialNumber}`;
+  const pattern = `Dzień dobry
+
+Proszę o serwis laptopa:
+- Lenovo ${model}
+- S/N: ${serialNumber}
+
+${cause}`;
 
   return (
     <div className={classes.rootContainer}>
@@ -43,9 +65,16 @@ const LaptopService = () => {
         <TextField
           label="Model"
           variant="outlined"
+          select
           value={model}
           onChange={({ target }) => setModel(target.value)}
-        />
+        >
+          {models.map((option) => (
+            <MenuItem key={option.model} value={option.model}>
+              {option.model}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <TextField
           label="Serial Number"
@@ -53,7 +82,8 @@ const LaptopService = () => {
           value={serialNumber}
           onChange={({ target }) => setSerialNumber(target.value)}
         />
-
+      </div>
+      <div className={classes.inputsContainer}>
         <TextField
           label="Cause"
           variant="outlined"
@@ -83,9 +113,11 @@ const LaptopService = () => {
           variant="outlined"
           color="primary"
           onClick={() =>
-            (window.location.href = `mailto:${`${process.env.REACT_APP_MAIL_LAPTOP_SERVICE}`}?body=${
-              encodeURIComponent(pattern) || ""
-            }`)
+            sendEmail(
+              process.env.REACT_APP_MAIL_LAPTOP_SERVICE,
+              "Zgłoszenie laptopa do serwisu",
+              pattern,
+            )
           }
         >
           send email

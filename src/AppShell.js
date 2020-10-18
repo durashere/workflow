@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import clsx from "clsx";
 import {
@@ -16,7 +17,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import {
-  AccountCircle,
+  AccountCircle as AccountCircleIcon,
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
 } from "@material-ui/icons";
@@ -87,9 +88,9 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     width: theme.spacing(7),
-    [theme.breakpoints.up("sm")]: {
-      width: drawerWidth,
-    },
+    // [theme.breakpoints.up("sm")]: {
+    //   width: drawerWidth,
+    // },
   },
 
   // CONTENT
@@ -116,9 +117,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AppShell = ({ children }) => {
+  const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("sm"));
   const auth = useContext(AuthContext);
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(isDesktop);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   return (
@@ -157,7 +159,7 @@ const AppShell = ({ children }) => {
                 onClick={(e) => setAnchorEl(e.currentTarget)}
                 color="inherit"
               >
-                <AccountCircle />
+                <AccountCircleIcon />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -181,6 +183,8 @@ const AppShell = ({ children }) => {
         </AppBar>
         <Drawer
           variant="permanent"
+          onMouseEnter={() => setOpen(true)}
+          onMouseLeave={() => setOpen(false)}
           classes={{
             paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
           }}

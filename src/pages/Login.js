@@ -3,17 +3,18 @@ import { Redirect } from "react-router-dom";
 import { Form, Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
 
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import {
+  makeStyles,
+  Container,
+  Box,
+  Typography,
+  LinearProgress,
+  Avatar,
+  Button,
+  CssBaseline,
+} from "@material-ui/core";
 
-import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-
-import LinearProgress from "@material-ui/core/LinearProgress";
+import { Lock as LockIcon } from "@material-ui/icons";
 
 import { AuthContext } from "../context/AuthContext";
 import publicFetch from "../util/fetch";
@@ -84,7 +85,7 @@ const Login = () => {
           <CssBaseline />
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
+              <LockIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
               Login

@@ -13,7 +13,7 @@ function TabPanel(props) {
 
   return (
     <div
-      style={{ width: "85%" }}
+      style={{ width: "100%", paddingRight: "20px" }}
       role="tabpanel"
       hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
   tabs: {
-    width: "15%",
+    width: "200px",
     borderRight: `1px solid ${theme.palette.divider}`,
   },
 }));
