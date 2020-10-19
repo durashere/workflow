@@ -7,6 +7,7 @@
     "jest": true,
     "node": true
   },
+  "parser": "babel-eslint",
   "rules": {
     "no-shadow": "off",
     "jsx-a11y/href-no-hash": ["off"],

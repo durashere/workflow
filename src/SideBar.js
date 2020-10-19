@@ -22,9 +22,10 @@ import {
 
 import { AuthContext } from "./context/AuthContext";
 
-const SideBar = ({ open }) => {
+const SideBar = () => {
   const auth = useContext(AuthContext);
   function ListItemLink(props) {
+    // eslint-disable-next-line react/jsx-props-no-spreading
     return <ListItem button component={Link} {...props} />;
   }
 

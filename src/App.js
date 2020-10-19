@@ -1,4 +1,5 @@
 import React, { lazy, Suspense, useContext } from "react";
+import PropTypes from "prop-types";
 
 import {
   BrowserRouter as Router,
@@ -39,7 +40,7 @@ const App = () => {
 
   const LoadingFallback = () => (
     <AppShell>
-      <Backdrop className={classes.backdrop} open={true}>
+      <Backdrop className={classes.backdrop} open>
         <CircularProgress color="inherit" />
       </Backdrop>
     </AppShell>
@@ -57,11 +58,11 @@ const App = () => {
     </Switch>
   );
 
-  const AuthenticatedRoute = ({ children, ...rest }) => {
+  const AuthenticatedRoute = ({ children, path }) => {
     const auth = useContext(AuthContext);
     return (
       <Route
-        {...rest}
+        path={path}
         render={() =>
           auth.isAuthenticated() ? (
             <AppShell>{children}</AppShell>
@@ -69,15 +70,20 @@ const App = () => {
             <Redirect to="/login" />
           )
         }
-      ></Route>
+      />
     );
   };
 
-  const AdminRoute = ({ children, ...rest }) => {
+  AuthenticatedRoute.propTypes = {
+    children: PropTypes.node.isRequired,
+    path: PropTypes.string.isRequired,
+  };
+
+  const AdminRoute = ({ children, path }) => {
     const auth = useContext(AuthContext);
     return (
       <Route
-        {...rest}
+        path={path}
         render={() =>
           auth.isAuthenticated() && auth.isAdmin() ? (
             <AppShell>{children}</AppShell>
@@ -85,8 +91,13 @@ const App = () => {
             <Redirect to="/login" />
           )
         }
-      ></Route>
+      />
     );
+  };
+
+  AdminRoute.propTypes = {
+    children: PropTypes.node.isRequired,
+    path: PropTypes.string.isRequired,
   };
 
   const AppRoutes = () => {
@@ -106,7 +117,7 @@ const App = () => {
                   <Redirect to="/login" />
                 );
               }}
-            ></Route>
+            />
 
             <AuthenticatedRoute path="/dashboard">
               <Dashboard />

@@ -1,6 +1,8 @@
 import React, { createContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import PropTypes from "prop-types";
+
 const AuthContext = createContext();
 const { Provider } = AuthContext;
 
@@ -63,6 +65,10 @@ const AuthProvider = ({ children }) => {
       {children}
     </Provider>
   );
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export { AuthContext, AuthProvider };

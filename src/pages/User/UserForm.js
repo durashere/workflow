@@ -42,7 +42,7 @@ const UserForm = () => {
         // validationSchema={SignupSchema}
       >
         <Form>
-          <Grid container direction={"column"} spacing={1}>
+          <Grid container direction="column" spacing={1}>
             <Grid item xs>
               <Field
                 component={TextField}

@@ -1,15 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Box from "@material-ui/core/Box";
+
+import { makeStyles, Box, Tabs, Tab } from "@material-ui/core";
 
 import LaptopService from "./LaptopService";
 import CmsHelper from "./CmsHelper";
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index } = props;
 
   return (
     <div
@@ -17,8 +15,6 @@ function TabPanel(props) {
       role="tabpanel"
       hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
     >
       {value === index && <Box p={4}>{children}</Box>}
     </div>
@@ -26,17 +22,10 @@ function TabPanel(props) {
 }
 
 TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
+  children: PropTypes.node.isRequired,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
 };
-
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    "aria-controls": `vertical-tabpanel-${index}`,
-  };
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,16 +54,10 @@ const Patterns = () => {
         variant="scrollable"
         value={value}
         onChange={handleChange}
-        aria-label="Vertical tabs"
         className={classes.tabs}
       >
-        <Tab label="CMS Helper" {...a11yProps(0)} />
-        <Tab label="Laptop Service" {...a11yProps(1)} />
-        {/* <Tab label="Item Three" {...a11yProps(2)} />
-        <Tab label="Item Four" {...a11yProps(3)} />
-        <Tab label="Item Five" {...a11yProps(4)} />
-        <Tab label="Item Six" {...a11yProps(5)} />
-        <Tab label="Item Seven" {...a11yProps(6)} /> */}
+        <Tab label="CMS Helper" />
+        <Tab label="Laptop Service" />
       </Tabs>
       <TabPanel value={value} index={0}>
         <CmsHelper />
@@ -82,21 +65,6 @@ const Patterns = () => {
       <TabPanel value={value} index={1}>
         <LaptopService />
       </TabPanel>
-      {/* <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        Item Four
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        Item Five
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        Item Six
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        Item Seven
-      </TabPanel> */}
     </div>
   );
 };

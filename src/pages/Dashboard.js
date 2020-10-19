@@ -30,6 +30,7 @@ const Dashboard = () => {
         getOptionLabel={(option) => option.code}
         style={{ width: 300 }}
         renderInput={(params) => (
+          // eslint-disable-next-line react/jsx-props-no-spreading
           <TextField {...params} label="Combo box" variant="outlined" />
         )}
       />

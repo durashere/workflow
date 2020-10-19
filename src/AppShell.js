@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import PropTypes from "prop-types";
 
 import clsx from "clsx";
 import {
@@ -117,10 +117,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AppShell = ({ children }) => {
-  const isDesktop = useMediaQuery((theme) => theme.breakpoints.up("sm"));
   const auth = useContext(AuthContext);
   const classes = useStyles();
-  const [open, setOpen] = React.useState(isDesktop);
+  const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   return (
@@ -196,7 +195,6 @@ const AppShell = ({ children }) => {
             </IconButton>
           </div>
           <SideBar open={open} />
-          {/* <SideBarAdmin /> */}
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
@@ -210,6 +208,10 @@ const AppShell = ({ children }) => {
       </div>
     </>
   );
+};
+
+AppShell.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default AppShell;

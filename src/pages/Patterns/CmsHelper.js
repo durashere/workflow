@@ -119,6 +119,7 @@ ${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`;
           getOptionLabel={(option) => option.name}
           onChange={handleCmsChange}
           renderInput={(params) => (
+            // eslint-disable-next-line react/jsx-props-no-spreading
             <TextField {...params} label="Choose CMS" variant="outlined" />
           )}
         />
