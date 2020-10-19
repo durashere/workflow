@@ -9,9 +9,10 @@ const jwtDecode = require("jwt-decode");
 
 require("dotenv").config();
 
+const loginRouter = require("./controllers/loginController");
 const tonersRouter = require("./controllers/tonerController");
 const usersRouter = require("./controllers/userController");
-const loginRouter = require("./controllers/loginController");
+const cmssRouter = require("./controllers/cmsController");
 
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
@@ -90,6 +91,8 @@ app.use("/api/login", loginRouter);
 app.use("/api/toners", tonersRouter);
 
 app.use("/api/users", usersRouter);
+
+app.use("/api/cmss", cmssRouter);
 
 app.get("/*", (request, response) => {
   response.sendFile(path.join(__dirname, "../build", "index.html"));

@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   makeStyles,
   Button,
   TextField,
   IconButton,
   InputAdornment,
+  LinearProgress,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -12,23 +13,9 @@ import { FileCopy as FileCopyIcon } from "@material-ui/icons";
 
 import copyToClipboard from "../../util/copyToClipboard";
 import normalizePhone from "../../util/normalizePhone";
+import { FetchContext } from "../../context/FetchContext";
 import { AuthContext } from "../../context/AuthContext";
 import sendEmail from "../../util/sendEmail";
-
-const cmsList = [
-  {
-    name: "Google",
-    link: "https://www.google.com/",
-  },
-  {
-    name: "Facebook",
-    link: "https://www.facebook.com/",
-  },
-  {
-    name: "Twitter",
-    link: "https://www.twitter.com/",
-  },
-];
 
 const useStyles = makeStyles((theme) => ({
   rootContainer: {
@@ -71,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CmsHelper = () => {
   const classes = useStyles();
+  const fetchContext = useContext(FetchContext);
   const auth = useContext(AuthContext);
   const [name, setName] = useState("[CMS NAME]");
   const [login, setLogin] = useState("[CMS LOGIN]");
@@ -81,6 +69,27 @@ const CmsHelper = () => {
       Math.random().toString(36).substr(2, 8),
   );
 
+  const [cmss, setCmss] = useState([]);
+  const [isLoading, setIsLoading] = useState();
+
+  useEffect(() => {
+    const getCmss = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await fetchContext.authAxios.get("cmss");
+
+        setCmss(data);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        const { data } = error.response;
+        console.log(data.message);
+        // addAlert(data.message, "error");
+      }
+    };
+
+    getCmss();
+  }, [fetchContext]);
   const pattern = `(Dostęp do ${name})
 
 Login: ${login}
@@ -103,9 +112,10 @@ ${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`;
 
   return (
     <div className={classes.rootContainer}>
+      {isLoading && <LinearProgress />}
       <div className={classes.inputsContainer}>
         <Autocomplete
-          options={cmsList}
+          options={cmss}
           getOptionLabel={(option) => option.name}
           onChange={handleCmsChange}
           renderInput={(params) => (

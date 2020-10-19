@@ -1,15 +1,12 @@
 import React, { useContext } from "react";
-import clsx from "clsx";
 
 import { Link } from "react-router-dom";
 
 import {
-  makeStyles,
   Divider,
   ListItem,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
 } from "@material-ui/core";
 
 import {
@@ -25,13 +22,8 @@ import {
 
 import { AuthContext } from "./context/AuthContext";
 
-const useStyles = makeStyles(() => ({
-  hideText: { display: "none" },
-}));
-
 const SideBar = ({ open }) => {
   const auth = useContext(AuthContext);
-  const classes = useStyles();
   function ListItemLink(props) {
     return <ListItem button component={Link} {...props} />;
   }
@@ -48,10 +40,6 @@ const SideBar = ({ open }) => {
       </div>
       <Divider />
       <div>
-        <ListSubheader className={clsx(!open && classes.hideText)}>
-          Toners
-        </ListSubheader>
-
         <ListItemLink to="/toners">
           <ListItemIcon>
             <InvertColorsIcon />
@@ -61,10 +49,6 @@ const SideBar = ({ open }) => {
       </div>
       <Divider />
       <div>
-        <ListSubheader className={clsx(!open && classes.hideText)}>
-          Tools
-        </ListSubheader>
-
         <ListItemLink to="/tools/patterns">
           <ListItemIcon>
             <AssignmentIcon />
@@ -75,9 +59,6 @@ const SideBar = ({ open }) => {
       {auth.authState.userInfo.role === "admin" ? (
         <div>
           <Divider />
-          <ListSubheader className={clsx(!open && classes.hideText)}>
-            Admin
-          </ListSubheader>
 
           <ListItemLink to="/admin/users">
             <ListItemIcon>
