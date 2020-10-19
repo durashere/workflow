@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
+import { useSnackbar } from "notistack";
+
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -7,6 +9,8 @@ import { FetchContext } from "../context/FetchContext";
 
 const Dashboard = () => {
   const fetchContext = useContext(FetchContext);
+  const { enqueueSnackbar } = useSnackbar();
+
   const [toners, setToners] = useState([]);
 
   useEffect(() => {
@@ -15,12 +19,15 @@ const Dashboard = () => {
         const { data } = await fetchContext.authAxios.get("toners");
         setToners(data);
       } catch (error) {
-        console.log("the error", error);
+        const { data } = error.response;
+        enqueueSnackbar(data.message, {
+          variant: "error",
+        });
       }
     };
 
     getToners();
-  }, [fetchContext]);
+  }, [fetchContext, enqueueSnackbar]);
 
   return (
     <div>

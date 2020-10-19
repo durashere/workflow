@@ -2,14 +2,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import MaterialTable from "material-table";
 
+import { useSnackbar } from "notistack";
+
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { FetchContext } from "../../context/FetchContext";
-import useSnackbars from "../../hooks/useSnackbars";
 
 const TonerListAdmin = () => {
   const fetchContext = useContext(FetchContext);
-  const { addAlert } = useSnackbars();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [toners, setToners] = useState([]);
   const [isLoading, setIsLoading] = useState();
@@ -24,13 +25,14 @@ const TonerListAdmin = () => {
       } catch (error) {
         setIsLoading(false);
         const { data } = error.response;
-
-        console.log("error: ", data.message);
+        enqueueSnackbar(data.message, {
+          variant: "error",
+        });
       }
     };
 
     getToners();
-  }, [fetchContext]);
+  }, [fetchContext, enqueueSnackbar]);
 
   const onCreate = async (newToner) => {
     try {
@@ -39,12 +41,16 @@ const TonerListAdmin = () => {
       setIsLoading(false);
 
       setToners([...toners, newToner]);
-      addAlert(data.message, "success");
+      enqueueSnackbar(data.message, {
+        variant: "success",
+      });
     } catch (error) {
       setIsLoading(false);
       const { data } = error.response;
 
-      addAlert(data.message, "error");
+      enqueueSnackbar(data.message, {
+        variant: "error",
+      });
     }
   };
 
@@ -65,11 +71,15 @@ const TonerListAdmin = () => {
         ),
       );
 
-      addAlert(data.message, "success");
+      enqueueSnackbar(data.message, {
+        variant: "success",
+      });
     } catch (error) {
       const { data } = error.response;
 
-      addAlert(data.message, "error");
+      enqueueSnackbar(data.message, {
+        variant: "error",
+      });
     }
   };
 
@@ -81,11 +91,15 @@ const TonerListAdmin = () => {
       );
       setToners(toners.filter((toner) => toner._id !== data.deletedToner._id));
 
-      addAlert(data.message, "success");
+      enqueueSnackbar(data.message, {
+        variant: "success",
+      });
     } catch (error) {
       const { data } = error.response;
 
-      addAlert(data.message, "error");
+      enqueueSnackbar(data.message, {
+        variant: "error",
+      });
     }
   };
 

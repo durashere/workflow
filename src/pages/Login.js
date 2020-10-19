@@ -1,5 +1,8 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
+
+import { useSnackbar } from "notistack";
+
 import { Form, Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
 
@@ -18,7 +21,6 @@ import { Lock as LockIcon } from "@material-ui/icons";
 
 import { AuthContext } from "../context/AuthContext";
 import publicFetch from "../util/fetch";
-import useSnackbars from "../hooks/useSnackbars";
 
 import Footer from "../Footer";
 
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const classes = useStyles();
   const authContext = useContext(AuthContext);
-  const { addAlert } = useSnackbars();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [redirectOnLogin, setRedirectOnLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -57,7 +59,9 @@ const Login = () => {
       authContext.setAuthState(data);
       setIsLoading(false);
 
-      addAlert(data.message, "success");
+      enqueueSnackbar(data.message, {
+        variant: "success",
+      });
 
       setTimeout(() => {
         setRedirectOnLogin(true);
@@ -66,7 +70,9 @@ const Login = () => {
       setIsLoading(false);
       const { data } = error.response;
 
-      addAlert(data.message, "error");
+      enqueueSnackbar(data.message, {
+        variant: "error",
+      });
     }
   };
 

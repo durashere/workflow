@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
+
+import { useSnackbar } from "notistack";
+
 import {
   makeStyles,
   Button,
@@ -60,6 +63,8 @@ const CmsHelper = () => {
   const classes = useStyles();
   const fetchContext = useContext(FetchContext);
   const auth = useContext(AuthContext);
+  const { enqueueSnackbar } = useSnackbar();
+
   const [name, setName] = useState("[CMS NAME]");
   const [login, setLogin] = useState("[CMS LOGIN]");
   const [link, setLink] = useState("[CMS LINK]");
@@ -83,13 +88,14 @@ const CmsHelper = () => {
       } catch (error) {
         setIsLoading(false);
         const { data } = error.response;
-        console.log(data.message);
-        // addAlert(data.message, "error");
+        enqueueSnackbar(data.message, {
+          variant: "error",
+        });
       }
     };
 
     getCmss();
-  }, [fetchContext]);
+  }, [fetchContext, enqueueSnackbar]);
   const pattern = `(Dostęp do ${name})
 
 Login: ${login}

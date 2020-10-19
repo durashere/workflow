@@ -2,14 +2,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import MaterialTable from "material-table";
 
+import { useSnackbar } from "notistack";
+
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { FetchContext } from "../../context/FetchContext";
-import useSnackbars from "../../hooks/useSnackbars";
 
 const UserList = () => {
   const fetchContext = useContext(FetchContext);
-  const { addAlert } = useSnackbars();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState();
@@ -24,12 +25,13 @@ const UserList = () => {
       } catch (error) {
         setIsLoading(false);
         const { data } = error.response;
-        console.log(data.message);
-        // addAlert(data.message, "error");
+        enqueueSnackbar(data.message, {
+          variant: "error",
+        });
       }
     };
     getUsers();
-  }, [fetchContext.authAxios]);
+  }, [fetchContext, enqueueSnackbar]);
 
   const onCreate = async (newUser) => {
     try {
@@ -38,12 +40,15 @@ const UserList = () => {
       setIsLoading(false);
 
       setUsers([...users, newUser]);
-      addAlert(data.message, "success");
+      enqueueSnackbar(data.message, {
+        variant: "success",
+      });
     } catch (error) {
       setIsLoading(false);
       const { data } = error.response;
-
-      console.log("error: ", data.message);
+      enqueueSnackbar(data.message, {
+        variant: "error",
+      });
     }
   };
 
@@ -64,11 +69,15 @@ const UserList = () => {
         ),
       );
 
-      addAlert(data.message, "success");
+      enqueueSnackbar(data.message, {
+        variant: "success",
+      });
     } catch (error) {
       const { data } = error.response;
 
-      addAlert(data.message, "error");
+      enqueueSnackbar(data.message, {
+        variant: "error",
+      });
     }
   };
 
@@ -80,11 +89,15 @@ const UserList = () => {
       );
       setUsers(users.filter((user) => user._id !== data.deletedUser._id));
 
-      addAlert(data.message, "success");
+      enqueueSnackbar(data.message, {
+        variant: "success",
+      });
     } catch (error) {
       const { data } = error.response;
 
-      addAlert(data.message, "error");
+      enqueueSnackbar(data.message, {
+        variant: "error",
+      });
     }
   };
 

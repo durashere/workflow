@@ -1,17 +1,18 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect, useContext } from "react";
+import { useSnackbar } from "notistack";
 import moment from "moment";
 import MaterialTable from "material-table";
+
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { FetchContext } from "../../context/FetchContext";
 import { AuthContext } from "../../context/AuthContext";
-import useSnackbars from "../../hooks/useSnackbars";
 
 const TonerListAdmin = () => {
   const fetchContext = useContext(FetchContext);
   const auth = useContext(AuthContext);
-  const { addAlert } = useSnackbars();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [toners, setToners] = useState([]);
   const [isLoading, setIsLoading] = useState();
@@ -27,13 +28,14 @@ const TonerListAdmin = () => {
       } catch (error) {
         setIsLoading(false);
         const { data } = error.response;
-        console.log(data.message);
-        // addAlert(data.message, "error");
+        enqueueSnackbar(data.message, {
+          variant: "error",
+        });
       }
     };
 
     getToners();
-  }, [fetchContext]);
+  }, [fetchContext, enqueueSnackbar]);
 
   const onSub = async (toner) => {
     try {
@@ -46,15 +48,11 @@ const TonerListAdmin = () => {
 
       logs.push(newTonerLog);
 
-      console.log("newLogs", logs);
-
       const addedToner = {
         amount: amount - 1,
         logs,
         ...restToner,
       };
-
-      console.log("addded", addedToner);
 
       const { data } = await fetchContext.authAxios.put(
         `toners/${toner._id}`,
@@ -67,11 +65,15 @@ const TonerListAdmin = () => {
         ),
       );
 
-      addAlert(data.message, "success");
+      enqueueSnackbar(data.message, {
+        variant: "success",
+      });
     } catch (error) {
       const { data } = error.response;
 
-      addAlert(data.message, "error");
+      enqueueSnackbar(data.message, {
+        variant: "error",
+      });
     }
   };
 

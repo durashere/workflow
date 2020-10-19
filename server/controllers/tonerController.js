@@ -73,7 +73,6 @@ tonersRouter.put(
         new: true,
       });
 
-      console.log(updatedToner);
       return response.json({
         message: "Toner updated!",
         toner: updatedToner,

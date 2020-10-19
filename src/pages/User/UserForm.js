@@ -1,15 +1,17 @@
 import React, { useState, useContext } from "react";
+
+import { useSnackbar } from "notistack";
+
+import { Grid, Button, LinearProgress } from "@material-ui/core";
+
 import { Form, Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
-import { Grid, Button } from "@material-ui/core";
-import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { FetchContext } from "../../context/FetchContext";
-import useSnackbars from "../../hooks/useSnackbars";
 
 const UserForm = () => {
   const fetchContext = useContext(FetchContext);
-  const { addAlert } = useSnackbars();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -19,12 +21,16 @@ const UserForm = () => {
       const { data } = await fetchContext.authAxios.post("users", credentials);
       setIsLoading(false);
 
-      addAlert(data.message, "success");
+      enqueueSnackbar(data.message, {
+        variant: "success",
+      });
     } catch (error) {
       setIsLoading(false);
       const { data } = error.response;
 
-      addAlert(data.message, "success");
+      enqueueSnackbar(data.message, {
+        variant: "success",
+      });
     }
   };
 

@@ -1,6 +1,4 @@
 import React, { lazy, Suspense, useContext } from "react";
-import PropTypes from "prop-types";
-
 import {
   BrowserRouter as Router,
   Route,
@@ -8,13 +6,14 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import { makeStyles } from "@material-ui/core/styles";
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { SnackbarProvider } from "notistack";
+
+import PropTypes from "prop-types";
+
+import { makeStyles, Backdrop, CircularProgress } from "@material-ui/core";
 
 import { AuthProvider, AuthContext } from "./context/AuthContext";
 import { FetchProvider } from "./context/FetchContext";
-import { SnackbarProvider } from "./context/SnackbarContext";
 
 import AppShell from "./AppShell";
 
@@ -152,7 +151,7 @@ const App = () => {
 
   return (
     <Router>
-      <SnackbarProvider>
+      <SnackbarProvider maxSnack={3}>
         <AuthProvider>
           <FetchProvider>
             <AppRoutes />

@@ -16,7 +16,7 @@ const requireAdmin = (request, response, next) => {
   return next();
 };
 
-cmssRouter.get("/", async (request, response) => {
+cmssRouter.get("/", requireAuth, async (request, response) => {
   try {
     const cmss = await Cms.find({});
 
@@ -30,7 +30,7 @@ cmssRouter.get("/", async (request, response) => {
   }
 });
 
-cmssRouter.post("/", async (request, response) => {
+cmssRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
   try {
     const cms = request.body;
 
