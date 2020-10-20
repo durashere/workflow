@@ -131,7 +131,7 @@ const TonerListAdmin = () => {
                   columns={[
                     { title: "User", field: "log_user" },
                     {
-                      title: "Use history",
+                      title: "Usage history",
                       field: "log_time",
                       render: (rowData) => {
                         return moment(rowData.log_time).format(
@@ -142,7 +142,6 @@ const TonerListAdmin = () => {
                     },
                   ]}
                   data={rowData.logs}
-                  title="Usage time"
                   options={{
                     toolbar: false,
                   }}

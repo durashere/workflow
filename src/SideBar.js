@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import {
+  Tooltip,
   Divider,
   ListItem,
   ListItemIcon,
@@ -30,55 +31,69 @@ const SideBar = () => {
   }
 
   return (
-    <div>
-      <div>
-        <ListItemLink to="/dashboard">
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItemLink>
-      </div>
-      <Divider />
-      <div>
-        <ListItemLink to="/toners">
-          <ListItemIcon>
-            <InvertColorsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Toners" />
-        </ListItemLink>
-      </div>
-      <Divider />
-      <div>
-        <ListItemLink to="/tools/patterns">
-          <ListItemIcon>
-            <AssignmentIcon />
-          </ListItemIcon>
-          <ListItemText primary="Patterns" />
-        </ListItemLink>
-      </div>
-      {auth.authState.userInfo.role === "admin" ? (
+    <>
+      <Tooltip title="Dashboard" placement="right">
         <div>
-          <Divider />
-
-          <ListItemLink to="/admin/users">
+          <ListItemLink to="/dashboard">
             <ListItemIcon>
-              <PeopleIcon />
+              <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary="Users" />
+            <ListItemText primary="Dashboard" />
           </ListItemLink>
-
-          <ListItemLink to="/admin/toners">
+        </div>
+      </Tooltip>
+      <Divider />
+      <Tooltip title="Toners" placement="right">
+        <div>
+          <ListItemLink to="/toners">
             <ListItemIcon>
               <InvertColorsIcon />
             </ListItemIcon>
             <ListItemText primary="Toners" />
           </ListItemLink>
         </div>
+      </Tooltip>
+      <Divider />
+      <Tooltip title="Patterns" placement="right">
+        <div>
+          <ListItemLink to="/tools/patterns">
+            <ListItemIcon>
+              <AssignmentIcon />
+            </ListItemIcon>
+            <ListItemText primary="Patterns" />
+          </ListItemLink>
+        </div>
+      </Tooltip>
+
+      {auth.authState.userInfo.role === "admin" ? (
+        <>
+          <Divider />
+          <Tooltip title="Manage Users" placement="right">
+            <div>
+              <ListItemLink to="/admin/users">
+                <ListItemIcon>
+                  <PeopleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Users" />
+              </ListItemLink>
+            </div>
+          </Tooltip>
+
+          <Tooltip title="Manage Toners" placement="right">
+            <div>
+              <ListItemLink to="/admin/toners">
+                <ListItemIcon>
+                  <InvertColorsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Toners" />
+              </ListItemLink>
+            </div>
+          </Tooltip>
+        </>
       ) : (
         <></>
       )}
-    </div>
+    </>
   );
 };
 

@@ -151,7 +151,10 @@ const App = () => {
 
   return (
     <Router>
-      <SnackbarProvider maxSnack={3}>
+      <SnackbarProvider
+        maxSnack={3}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
         <AuthProvider>
           <FetchProvider>
             <AppRoutes />
