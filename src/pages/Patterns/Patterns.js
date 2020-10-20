@@ -1,10 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { makeStyles, Box, Tabs, Tab } from "@material-ui/core";
+import { makeStyles, Box, Tabs, Tab, LinearProgress } from "@material-ui/core";
 
 import LaptopService from "./LaptopService";
 import CmsHelper from "./CmsHelper";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    display: "flex",
+    height: "100%",
+  },
+  tabs: {
+    width: "200px",
+    borderRight: `1px solid ${theme.palette.divider}`,
+  },
+}));
 
 function TabPanel(props) {
   const { children, value, index } = props;
@@ -27,20 +39,9 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    display: "flex",
-    height: "100%",
-  },
-  tabs: {
-    width: "200px",
-    borderRight: `1px solid ${theme.palette.divider}`,
-  },
-}));
-
 const Patterns = () => {
   const classes = useStyles();
+  const [isLoading, setIsLoading] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -48,24 +49,27 @@ const Patterns = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={value}
-        onChange={handleChange}
-        className={classes.tabs}
-      >
-        <Tab label="CMS Helper" />
-        <Tab label="Laptop Service" />
-      </Tabs>
-      <TabPanel value={value} index={0}>
-        <CmsHelper />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <LaptopService />
-      </TabPanel>
-    </div>
+    <>
+      <div className={classes.root}>
+        <Tabs
+          orientation="vertical"
+          variant="scrollable"
+          value={value}
+          onChange={handleChange}
+          className={classes.tabs}
+        >
+          <Tab label="CMS Helper" />
+          <Tab label="Laptop Service" />
+        </Tabs>
+        <TabPanel value={value} index={0}>
+          <CmsHelper setIsLoading={setIsLoading} />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <LaptopService />
+        </TabPanel>
+      </div>
+      {isLoading && <LinearProgress />}
+    </>
   );
 };
 

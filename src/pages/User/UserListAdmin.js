@@ -103,8 +103,6 @@ const UserList = () => {
 
   return (
     <>
-      {isLoading && <LinearProgress />}
-
       <MaterialTable
         columns={[
           {
@@ -153,6 +151,7 @@ const UserList = () => {
           },
         }}
       />
+      {isLoading && <LinearProgress />}
     </>
   );
 };

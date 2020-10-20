@@ -79,8 +79,6 @@ const TonerListAdmin = () => {
 
   return (
     <>
-      {isLoading && <LinearProgress />}
-
       <MaterialTable
         style={{ padding: 10 }}
         columns={[
@@ -137,14 +135,14 @@ const TonerListAdmin = () => {
                       field: "log_time",
                       render: (rowData) => {
                         return moment(rowData.log_time).format(
-                          "HH:mm | DD.MM.YYYY",
+                          "HH:mm, DD.MM.YYYY",
                         );
                       },
                       defaultSort: "desc",
                     },
                   ]}
                   data={rowData.logs}
-                  title="Use history"
+                  title="Usage time"
                   options={{
                     toolbar: false,
                   }}
@@ -154,6 +152,7 @@ const TonerListAdmin = () => {
           },
         ]}
       />
+      {isLoading && <LinearProgress />}
     </>
   );
 };

@@ -105,8 +105,6 @@ const TonerListAdmin = () => {
 
   return (
     <>
-      {isLoading && <LinearProgress />}
-
       <MaterialTable
         columns={[
           {
@@ -150,6 +148,7 @@ const TonerListAdmin = () => {
           },
         }}
       />
+      {isLoading && <LinearProgress />}
     </>
   );
 };

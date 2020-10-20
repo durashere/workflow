@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+
 import PropTypes from "prop-types";
 
 import clsx from "clsx";
@@ -182,8 +183,6 @@ const AppShell = ({ children }) => {
         </AppBar>
         <Drawer
           variant="permanent"
-          onMouseEnter={() => setOpen(true)}
-          onMouseLeave={() => setOpen(false)}
           classes={{
             paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
           }}

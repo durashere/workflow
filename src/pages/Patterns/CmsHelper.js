@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 
+import PropTypes from "prop-types";
+
 import { useSnackbar } from "notistack";
 
 import {
@@ -8,7 +10,6 @@ import {
   TextField,
   IconButton,
   InputAdornment,
-  LinearProgress,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -59,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CmsHelper = () => {
+const CmsHelper = ({ setIsLoading }) => {
   const classes = useStyles();
   const fetchContext = useContext(FetchContext);
   const auth = useContext(AuthContext);
@@ -75,7 +76,6 @@ const CmsHelper = () => {
   );
 
   const [cmss, setCmss] = useState([]);
-  const [isLoading, setIsLoading] = useState();
 
   useEffect(() => {
     const getCmss = async () => {
@@ -95,7 +95,7 @@ const CmsHelper = () => {
     };
 
     getCmss();
-  }, [fetchContext, enqueueSnackbar]);
+  }, [fetchContext, enqueueSnackbar, setIsLoading]);
   const pattern = `(Dostęp do ${name})
 
 Login: ${login}
@@ -118,7 +118,6 @@ ${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`;
 
   return (
     <div className={classes.rootContainer}>
-      {isLoading && <LinearProgress />}
       <div className={classes.inputsContainer}>
         <Autocomplete
           options={cmss}
@@ -204,6 +203,10 @@ ${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`;
       </div>
     </div>
   );
+};
+
+CmsHelper.propTypes = {
+  setIsLoading: PropTypes.func.isRequired,
 };
 
 export default CmsHelper;

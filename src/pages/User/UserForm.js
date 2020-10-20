@@ -36,7 +36,6 @@ const UserForm = () => {
 
   return (
     <div>
-      {isLoading && <LinearProgress />}
       <Formik
         initialValues={{
           firstName: "",
@@ -112,6 +111,7 @@ const UserForm = () => {
           </Grid>
         </Form>
       </Formik>
+      {isLoading && <LinearProgress />}
     </div>
   );
 };

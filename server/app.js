@@ -4,7 +4,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const path = require("path");
-const jwt = require("express-jwt");
 const jwtDecode = require("jwt-decode");
 
 require("dotenv").config();
