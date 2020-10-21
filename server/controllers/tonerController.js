@@ -2,6 +2,7 @@
 const tonersRouter = require("express").Router();
 const jwt = require("express-jwt");
 const Toner = require("../models/tonerModel");
+const TonerLog = require("../models/tonerLogModel");
 
 const requireAuth = jwt({
   secret: process.env.SECRET,
@@ -18,7 +19,7 @@ const requireAdmin = (request, response, next) => {
 
 tonersRouter.get("/", requireAuth, async (request, response) => {
   try {
-    const toners = await Toner.find({});
+    const toners = await Toner.find({}).populate("logs").exec();
 
     const tonersToJson = toners.map((toner) => toner.toJSON());
 
@@ -48,7 +49,13 @@ tonersRouter.post("/", requireAuth, requireAdmin, async (request, response) => {
     const toner = request.body;
 
     const newToner = new Toner(toner);
+
+    const newTonerLogs = new TonerLog({ toner: toner._id, logs: [] });
+    newToner.logs = newTonerLogs._id;
+    newTonerLogs.toner = newToner._id;
+
     await newToner.save();
+    await newTonerLogs.save();
 
     return response.status(201).json({
       message: "Toner created!",

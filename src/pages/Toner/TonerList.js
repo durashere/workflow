@@ -42,15 +42,15 @@ const TonerListAdmin = () => {
       const { amount, logs, ...restToner } = toner;
 
       const newTonerLog = {
+        toner_id: toner._id,
         log_user: `${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`,
         log_time: new Date(),
       };
 
-      logs.push(newTonerLog);
+      await fetchContext.authAxios.put(`tonerlogs`, newTonerLog);
 
       const addedToner = {
         amount: amount - 1,
-        logs,
         ...restToner,
       };
 
@@ -141,7 +141,7 @@ const TonerListAdmin = () => {
                       defaultSort: "desc",
                     },
                   ]}
-                  data={rowData.logs}
+                  data={rowData.logs.logs}
                   options={{
                     toolbar: false,
                   }}
