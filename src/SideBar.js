@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import {
-  Tooltip,
   Divider,
   ListItem,
   ListItemIcon,
@@ -32,63 +31,53 @@ const SideBar = () => {
 
   return (
     <>
-      <Tooltip title="Dashboard" placement="right">
-        <div>
-          <ListItemLink to="/dashboard">
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItemLink>
-        </div>
-      </Tooltip>
+      <div>
+        <ListItemLink to="/dashboard">
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItemLink>
+      </div>
       <Divider />
-      <Tooltip title="Toners" placement="right">
-        <div>
-          <ListItemLink to="/toners">
-            <ListItemIcon>
-              <InvertColorsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Toners" />
-          </ListItemLink>
-        </div>
-      </Tooltip>
+      <div>
+        <ListItemLink to="/toners">
+          <ListItemIcon>
+            <InvertColorsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Toners" />
+        </ListItemLink>
+      </div>
       <Divider />
-      <Tooltip title="Patterns" placement="right">
-        <div>
-          <ListItemLink to="/tools/patterns">
-            <ListItemIcon>
-              <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Patterns" />
-          </ListItemLink>
-        </div>
-      </Tooltip>
+      <div>
+        <ListItemLink to="/tools/patterns">
+          <ListItemIcon>
+            <AssignmentIcon />
+          </ListItemIcon>
+          <ListItemText primary="Patterns" />
+        </ListItemLink>
+      </div>
 
       {auth.authState.userInfo.role === "admin" ? (
         <>
           <Divider />
-          <Tooltip title="Manage Users" placement="right">
-            <div>
-              <ListItemLink to="/admin/users">
-                <ListItemIcon>
-                  <PeopleIcon />
-                </ListItemIcon>
-                <ListItemText primary="Users" />
-              </ListItemLink>
-            </div>
-          </Tooltip>
+          <div>
+            <ListItemLink to="/admin/users">
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Users" />
+            </ListItemLink>
+          </div>
 
-          <Tooltip title="Manage Toners" placement="right">
-            <div>
-              <ListItemLink to="/admin/toners">
-                <ListItemIcon>
-                  <InvertColorsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Toners" />
-              </ListItemLink>
-            </div>
-          </Tooltip>
+          <div>
+            <ListItemLink to="/admin/toners">
+              <ListItemIcon>
+                <InvertColorsIcon />
+              </ListItemIcon>
+              <ListItemText primary="Toners" />
+            </ListItemLink>
+          </div>
         </>
       ) : (
         <></>

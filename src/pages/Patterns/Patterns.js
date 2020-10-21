@@ -16,14 +16,19 @@ const useStyles = makeStyles((theme) => ({
     width: "200px",
     borderRight: `1px solid ${theme.palette.divider}`,
   },
+  tabPanel: {
+    width: "100%",
+  },
 }));
 
 function TabPanel(props) {
+  const classes = useStyles();
+
   const { children, value, index } = props;
 
   return (
     <div
-      style={{ width: "100%", paddingRight: "20px" }}
+      className={classes.tabPanel}
       role="tabpanel"
       hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
@@ -41,6 +46,7 @@ TabPanel.propTypes = {
 
 const Patterns = () => {
   const classes = useStyles();
+
   const [isLoading, setIsLoading] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
