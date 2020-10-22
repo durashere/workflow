@@ -9,13 +9,25 @@ const models = [
     model: "Lenovo T450",
   },
   {
+    model: "Lenovo T450s",
+  },
+  {
     model: "Lenovo T460",
+  },
+  {
+    model: "Lenovo T460s",
   },
   {
     model: "Lenovo T470",
   },
   {
+    model: "Lenovo T470s",
+  },
+  {
     model: "Lenovo T480s",
+  },
+  {
+    model: "Lenovo T490s",
   },
 ];
 
@@ -54,7 +66,7 @@ const LaptopService = () => {
   const pattern = `Dzień dobry
 
 Proszę o serwis laptopa:
-- Lenovo ${model}
+- ${model}
 - S/N: ${serialNumber}
 
 ${cause}`;

@@ -122,8 +122,8 @@ const TonerListAdmin = () => {
             lookup: {
               Black: "Black",
               Cyan: "Cyan",
-              Yellow: "Yellow",
               Magenta: "Magenta",
+              Yellow: "Yellow",
             },
           },
           {
