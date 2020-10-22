@@ -10,7 +10,6 @@ require("dotenv").config();
 
 const loginRouter = require("./controllers/loginController");
 const tonersRouter = require("./controllers/tonerController");
-const tonerLogsRouter = require("./controllers/tonerLogController");
 const usersRouter = require("./controllers/userController");
 const cmssRouter = require("./controllers/cmsController");
 
@@ -89,7 +88,6 @@ app.use("/api/login", loginRouter);
 // });
 
 app.use("/api/toners", tonersRouter);
-app.use("/api/tonerlogs", tonerLogsRouter);
 
 app.use("/api/users", usersRouter);
 
