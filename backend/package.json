@@ -1,24 +1,13 @@
 {
   "name": "workflow",
   "version": "1.0.0",
-  "description": "App for toners inventory management",
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./index.js",
-    "dev": "cross-env NODE_ENV=development nodemon --ignore './tests' ./index.js",
+    "dev": "cross-env NODE_ENV=development nodemon",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/durashere/workflow.git"
-  },
-  "author": "Duras",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/durashere/workflow/issues"
-  },
-  "homepage": "https://github.com/durashere/workflow#readme",
   "dependencies": {
     "morgan": "^1.10.0",
     "bcryptjs": "^2.4.3",
