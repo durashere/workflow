@@ -1,20 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 const cmssRouter = require("express").Router();
-const jwt = require("express-jwt");
 const Cms = require("../models/cmsModel");
 
-const requireAuth = jwt({
-  secret: process.env.SECRET,
-  algorithms: ["HS256"],
-});
-
-const requireAdmin = (request, response, next) => {
-  const { role } = request.user;
-  if (role !== "admin") {
-    return response.status(401).json({ message: "Insufficient role" });
-  }
-  return next();
-};
+const { requireAuth, requireAdmin } = require("../util");
 
 cmssRouter.get("/", requireAuth, async (request, response) => {
   try {

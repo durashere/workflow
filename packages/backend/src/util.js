@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+const expressJwt = require("express-jwt");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -40,6 +41,11 @@ const verifyPassword = (passwordAttempt, hashedPassword) => {
   return bcrypt.compare(passwordAttempt, hashedPassword);
 };
 
+const requireAuth = expressJwt({
+  secret: process.env.SECRET,
+  algorithms: ["HS256"],
+});
+
 const requireAdmin = (request, response, next) => {
   if (!request.user) {
     return response.status(401).json({
@@ -56,5 +62,6 @@ module.exports = {
   createToken,
   hashPassword,
   verifyPassword,
+  requireAuth,
   requireAdmin,
 };

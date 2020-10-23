@@ -1,25 +1,16 @@
 /* eslint-disable no-underscore-dangle */
-const jwt = require("express-jwt");
 const jwtDecode = require("jwt-decode");
 const usersRouter = require("express").Router();
 const User = require("../models/userModel");
 
-const { createToken, hashPassword } = require("../util");
+const {
+  createToken,
+  hashPassword,
+  requireAuth,
+  requireAdmin,
+} = require("../util");
 
-const requireAuth = jwt({
-  secret: process.env.SECRET,
-  algorithms: ["HS256"],
-});
-
-const requireAdmin = (request, response, next) => {
-  const { role } = request.user;
-  if (role !== "admin") {
-    return response.status(401).json({ message: "Insufficient role" });
-  }
-  return next();
-};
-
-usersRouter.get("/", requireAuth, async (request, response) => {
+usersRouter.get("/", requireAuth, requireAdmin, async (request, response) => {
   try {
     const users = await User.find({});
 
