@@ -44,7 +44,7 @@ beforeAll(async () => {
 });
 
 describe("Users Service", () => {
-  describe("GET", () => {
+  describe("GET Authorization", () => {
     it("It should require authorization", async () => {
       const response = await request.get("/api/users");
 

@@ -1,6 +1,6 @@
 const http = require("http");
 const app = require("./app");
-const logger = require("./utils/logger");
+const logger = require("./config/winston");
 
 const server = http.createServer(app);
 

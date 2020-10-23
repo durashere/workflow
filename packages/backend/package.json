@@ -23,7 +23,8 @@
     "jwt-decode": "^3.0.0",
     "mongoose": "^5.10.9",
     "morgan": "^1.10.0",
-    "production": "0.0.2"
+    "production": "0.0.2",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

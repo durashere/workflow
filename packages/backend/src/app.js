@@ -13,8 +13,7 @@ const tonersRouter = require("./controllers/tonerController");
 const usersRouter = require("./controllers/userController");
 const cmssRouter = require("./controllers/cmsController");
 
-const middleware = require("./utils/middleware");
-const logger = require("./utils/logger");
+const logger = require("./config/winston");
 
 const app = express();
 
@@ -44,7 +43,7 @@ async function connect() {
 
 connect();
 
-app.use(morgan("dev"));
+app.use(morgan("dev", { stream: logger.stream.write }));
 app.use(cors());
 app.use(express.json());
 
@@ -61,7 +60,6 @@ const attachUser = (request, response, next) => {
       message: "There was a problem authorizing the request",
     });
   }
-  // should be request.user
 
   request.user = decodedToken;
   return next();
@@ -98,9 +96,5 @@ app.get("/*", (request, response) => {
 });
 
 app.use(attachUser);
-
-app.use(middleware.requestLogger);
-app.use(middleware.unknownEndpoint);
-app.use(middleware.errorHandler);
 
 module.exports = app;
