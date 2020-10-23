@@ -1,21 +1,27 @@
 {
   "name": "workflow",
   "version": "1.0.0",
-  "description": "App that aims to help with the work",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/durashere/workflow.git"
-  },
-  "author": "Duras",
+  "main": "index.js",
   "license": "MIT",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "description": "App that aims to help with the work",
+  "repository": "git+https://github.com/durashere/workflow.git",
+  "author": "Duras",
   "bugs": {
     "url": "https://github.com/durashere/workflow/issues"
   },
   "homepage": "https://github.com/durashere/workflow#readme",
   "scripts": {
-    "frontend:install": "cd frontend && npm install",
-    "backend:install": "cd backend && npm install",
-    "frontend:auditfix": "cd frontend && npm audit fix",
-    "backend:auditfix": "cd backend && npm audit fix"
+    "backend-dev": "yarn workspace workflow-backend dev",
+    "frontend-dev": "yarn workspace workflow-frontend start",
+    "start": "run-p backend-dev frontend-dev"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
   }
 }
