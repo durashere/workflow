@@ -6,8 +6,12 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./index.js",
     "dev": "cross-env NODE_ENV=development nodemon",
-    "test": "cross-env NODE_ENV=test jest",
-    "test:watch": "cross-env NODE_ENV=test jest --watch"
+    "test": "cross-env NODE_ENV=test jest --verbose --detectOpenHandles",
+    "test:watch": "cross-env NODE_ENV=test jest --watch --verbose --detectOpenHandles",
+    "test:watch:all": "cross-env NODE_ENV=test jest --watchAll --verbose --detectOpenHandles"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
