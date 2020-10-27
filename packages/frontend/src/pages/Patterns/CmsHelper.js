@@ -195,6 +195,7 @@ ${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`;
               `${phone}${process.env.REACT_APP_SMS_DOMAIN}`,
               `Dane do logowania ${name}`,
               pattern,
+              "",
             )
           }
         >
