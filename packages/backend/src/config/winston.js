@@ -22,10 +22,14 @@ const logger = new createLogger({
     new transports.File({
       level: "error",
       filename: "./logs/error.log",
+      maxsize: "10000000",
+      maxFiles: "1",
     }),
     new transports.File({
       level: "info",
       filename: "./logs/info.log",
+      maxsize: "10000000",
+      maxFiles: "1",
     }),
   ],
   exitOnError: false,
@@ -41,10 +45,6 @@ if (process.env.NODE_ENV !== "production") {
         }),
         myFormat,
       ),
-    }),
-    new transports.Http({
-      level: "warn",
-      format: json(),
     }),
   );
 }

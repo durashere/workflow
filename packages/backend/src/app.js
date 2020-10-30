@@ -10,6 +10,7 @@ require("dotenv").config();
 
 const loginRouter = require("./controllers/loginController");
 const tonersRouter = require("./controllers/tonerController");
+const tonersLogsRouter = require("./controllers/tonerLogController");
 const usersRouter = require("./controllers/userController");
 const cmssRouter = require("./controllers/cmsController");
 
@@ -42,8 +43,10 @@ async function connect() {
 }
 
 connect();
+if (process.env.NODE_ENV !== "test") {
+  app.use(morgan("dev", { stream: logger.stream.write }));
+}
 
-app.use(morgan("dev", { stream: logger.stream.write }));
 app.use(cors());
 app.use(express.json());
 
@@ -86,6 +89,7 @@ app.use("/api/login", loginRouter);
 // });
 
 app.use("/api/toners", tonersRouter);
+app.use("/api/tonerslogs", tonersLogsRouter);
 
 app.use("/api/users", usersRouter);
 

@@ -96,14 +96,15 @@ const CmsHelper = ({ setIsLoading }) => {
 
     getCmss();
   }, [fetchContext, enqueueSnackbar, setIsLoading]);
-  const pattern = `(Dostęp do ${name})
+
+  const pattern = `(Credentials to ${name})
 
 Login: ${login}
 Password: ${password}
 
 Link: ${link}
 
-Pozdrawiam / Best regards
+Best regards
 ${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`;
 
   const handleCmsChange = (event, value) => {
@@ -193,7 +194,7 @@ ${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`;
           onClick={() =>
             sendEmail(
               `${phone}${process.env.REACT_APP_SMS_DOMAIN}`,
-              `Dane do logowania ${name}`,
+              `Credentials to ${name}`,
               pattern,
               "",
             )

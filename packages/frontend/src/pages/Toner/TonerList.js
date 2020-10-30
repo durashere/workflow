@@ -39,31 +39,27 @@ const TonerListAdmin = () => {
 
   const onSub = async (toner) => {
     try {
-      const { amount, logs, ...restToner } = toner;
-
       const newTonerLog = {
         log_user: `${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`,
         log_time: new Date(),
       };
 
-      logs.push(newTonerLog);
+      const { data } = await fetchContext.authAxios.post(`tonerslogs`, {
+        toner_amount: toner.amount - 1,
+        toner_log: newTonerLog,
+        toner_id: toner._id,
+      });
 
-      const addedToner = {
-        amount: amount - 1,
-        logs,
-        ...restToner,
-      };
+      // const { data } = await fetchContext.authAxios.put(
+      //   `toners/${toner._id}`,
+      //   toner,
+      // );
 
-      const { data } = await fetchContext.authAxios.put(
-        `toners/${toner._id}`,
-        addedToner,
-      );
-
-      setToners(
-        toners.map((toner) =>
-          toner._id === data.toner._id ? data.toner : toner,
-        ),
-      );
+      // setToners(
+      //   toners.map((toner) =>
+      //     toner._id === data.toner._id ? data.toner : toner,
+      //   ),
+      // );
 
       enqueueSnackbar(data.message, {
         variant: "success",

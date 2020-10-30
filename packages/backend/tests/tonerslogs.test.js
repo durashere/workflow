@@ -2,6 +2,7 @@ const supertest = require("supertest");
 const mongoose = require("mongoose");
 const app = require("../src/app.js");
 const Toner = require("../src/models/tonerModel");
+const TonerLog = require("../src/models/tonerLogModel");
 const User = require("../src/models/userModel");
 
 const { hashPassword } = require("../src/util");
@@ -40,27 +41,18 @@ beforeAll(async () => {
   adminToken = loggedAdmin.body.token;
 });
 
-describe("Users Service", () => {
+describe("TonersLogs Service", () => {
   describe("GET Route", () => {
     it("Should require authorization", async () => {
-      const response = await request.get("/api/users");
+      const response = await request.get("/api/tonerslogs");
 
       expect(response.statusCode).toBe(401);
     });
 
-    it("Should fail authorization if role is user", async () => {
+    it("Should allow authorized to fetch", async () => {
       const response = await request
-        .get("/api/users")
+        .get("/api/tonerslogs")
         .set("Authorization", `Bearer ${userToken}`);
-
-      expect(response.statusCode).toBe(401);
-      expect(response.type).toBe("application/json");
-    });
-
-    it("Should pass authorization if role is admin", async () => {
-      const response = await request
-        .get("/api/users")
-        .set("Authorization", `Bearer ${adminToken}`);
 
       expect(response.statusCode).toBe(200);
       expect(response.type).toBe("application/json");
@@ -68,15 +60,39 @@ describe("Users Service", () => {
   });
   describe("POST Route", () => {
     it("Should require authorization", async () => {
-      const response = await request.post("/api/users");
+      const response = await request.post("/api/tonerslogs");
 
       expect(response.statusCode).toBe(401);
+    });
+
+    it.only("Should be able to create log decrease amount and attach it to toner", async () => {
+      const testToner = new Toner({
+        brand: "HP",
+        code: "testCode",
+        color: "Black",
+        amount: 10,
+      });
+      await testToner.save();
+
+      const testLog = new TonerLog({
+        time: new Date(),
+      });
+      await testLog.save();
+
+      await Toner.updateOne(
+        { _id: testToner._id },
+        { $push: { logs: testLog._id } },
+      );
+
+      const toner = await Toner.find({ _id: testToner._id }).populate("logs");
+      console.log(toner[0]);
     });
   });
 });
 
 afterEach(async () => {
-  // await Toner.deleteMany({});
+  await Toner.deleteMany({});
+  await TonerLog.deleteMany({});
 });
 
 afterAll(async () => {

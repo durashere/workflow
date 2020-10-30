@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-underscore-dangle */
 const mongoose = require("mongoose");
 
 const tonerSchema = new mongoose.Schema({
@@ -19,14 +17,7 @@ const tonerSchema = new mongoose.Schema({
     required: [true, "You must select toner color"],
   },
   amount: { type: Number, default: 0 },
-  logs: [
-    {
-      log_user: { type: String },
-      log_time: {
-        type: Date,
-      },
-    },
-  ],
+  logs: [{ type: mongoose.Schema.Types.ObjectId, ref: "TonerLog" }],
 });
 
 const Toner = mongoose.model("Toner", tonerSchema, "toners");

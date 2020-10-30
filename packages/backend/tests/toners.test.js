@@ -40,35 +40,32 @@ beforeAll(async () => {
   adminToken = loggedAdmin.body.token;
 });
 
-describe("Users Service", () => {
+describe("Toners Service", () => {
   describe("GET Route", () => {
-    it("Should require authorization", async () => {
-      const response = await request.get("/api/users");
+    it("Should not be public", async () => {
+      const response = await request.get("/api/toners");
 
       expect(response.statusCode).toBe(401);
     });
 
-    it("Should fail authorization if role is user", async () => {
+    it("Should require authorization to fetch", async () => {
       const response = await request
-        .get("/api/users")
+        .get("/api/toners")
         .set("Authorization", `Bearer ${userToken}`);
-
-      expect(response.statusCode).toBe(401);
-      expect(response.type).toBe("application/json");
-    });
-
-    it("Should pass authorization if role is admin", async () => {
-      const response = await request
-        .get("/api/users")
-        .set("Authorization", `Bearer ${adminToken}`);
 
       expect(response.statusCode).toBe(200);
       expect(response.type).toBe("application/json");
     });
   });
+
   describe("POST Route", () => {
-    it("Should require authorization", async () => {
-      const response = await request.post("/api/users");
+    it("Should require admin to post new toner", async () => {
+      const testToner = { brand: "HP", code: "testCode", color: "Black" };
+
+      const response = await request
+        .post("/api/toners")
+        .send(testToner)
+        .set("Authorization", `Bearer ${userToken}`);
 
       expect(response.statusCode).toBe(401);
     });
