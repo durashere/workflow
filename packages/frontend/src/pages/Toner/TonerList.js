@@ -40,26 +40,20 @@ const TonerListAdmin = () => {
   const onSub = async (toner) => {
     try {
       const newTonerLog = {
-        log_user: `${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`,
-        log_time: new Date(),
+        user: `${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`,
+        date: new Date(),
       };
 
       const { data } = await fetchContext.authAxios.post(`tonerslogs`, {
-        toner_amount: toner.amount - 1,
-        toner_log: newTonerLog,
-        toner_id: toner._id,
+        toner,
+        newTonerLog,
       });
 
-      // const { data } = await fetchContext.authAxios.put(
-      //   `toners/${toner._id}`,
-      //   toner,
-      // );
-
-      // setToners(
-      //   toners.map((toner) =>
-      //     toner._id === data.toner._id ? data.toner : toner,
-      //   ),
-      // );
+      setToners(
+        toners.map((toner) =>
+          toner._id === data.toner._id ? data.toner : toner,
+        ),
+      );
 
       enqueueSnackbar(data.message, {
         variant: "success",
@@ -125,14 +119,12 @@ const TonerListAdmin = () => {
               return (
                 <MaterialTable
                   columns={[
-                    { title: "User", field: "log_user" },
+                    { title: "User", field: "user" },
                     {
                       title: "Usage history",
-                      field: "log_time",
+                      field: "date",
                       render: (rowData) => {
-                        return moment(rowData.log_time).format(
-                          "HH:mm, DD.MM.YYYY",
-                        );
+                        return moment(rowData.date).format("HH:mm, DD.MM.YYYY");
                       },
                       defaultSort: "desc",
                     },

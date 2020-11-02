@@ -6,7 +6,7 @@ const { requireAuth, requireAdmin } = require("../util");
 
 tonersRouter.get("/", requireAuth, async (request, response) => {
   try {
-    const toners = await Toner.find({}).populate("logs");
+    const toners = await Toner.find({});
 
     const tonersToJson = toners.map((toner) => toner.toJSON());
 

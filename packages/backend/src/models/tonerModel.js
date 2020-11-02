@@ -1,6 +1,11 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const tonerSchema = new mongoose.Schema({
+const logSchema = new Schema({
+  user: { type: String },
+  date: { type: Date },
+});
+
+const tonerSchema = new Schema({
   brand: {
     type: String,
     enum: ["Xerox", "HP"],
@@ -17,8 +22,8 @@ const tonerSchema = new mongoose.Schema({
     required: [true, "You must select toner color"],
   },
   amount: { type: Number, default: 0 },
-  logs: [{ type: mongoose.Schema.Types.ObjectId, ref: "TonerLog" }],
+  logs: [logSchema],
 });
 
-const Toner = mongoose.model("Toner", tonerSchema, "toners");
+const Toner = model("Toner", tonerSchema, "toners");
 module.exports = Toner;
