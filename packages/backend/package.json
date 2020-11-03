@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=production node ./index.js",
+    "start": "cross-env NODE_ENV=production && node ./src/index.js",
     "dev": "cross-env NODE_ENV=development nodemon",
     "test": "cross-env NODE_ENV=test jest --verbose --detectOpenHandles",
     "test:watch": "cross-env NODE_ENV=test jest --watch --verbose --detectOpenHandles",
