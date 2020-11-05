@@ -19,7 +19,9 @@
   "scripts": {
     "backend-dev": "yarn workspace workflow-backend dev",
     "frontend-dev": "yarn workspace workflow-frontend start",
-    "start": "concurrently --kill-others-on-fail \"yarn backend-dev\" \"yarn frontend-dev\""
+    "dev": "concurrently --kill-others-on-fail \"yarn backend-dev\" \"yarn frontend-dev\"",
+    "build": "yarn workspace workflow-frontend build",
+    "deploy": "git pull && yarn build"
   },
   "devDependencies": {
     "concurrently": "^5.3.0"
