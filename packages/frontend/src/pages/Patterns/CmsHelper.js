@@ -20,6 +20,7 @@ import normalizePhone from "../../util/normalizePhone";
 import { FetchContext } from "../../context/FetchContext";
 import { AuthContext } from "../../context/AuthContext";
 import sendEmail from "../../util/sendEmail";
+import generatePassword from "../../util/generatePassword";
 
 const useStyles = makeStyles((theme) => ({
   rootContainer: {
@@ -70,9 +71,8 @@ const CmsHelper = ({ setIsLoading }) => {
   const [login, setLogin] = useState("[CMS LOGIN]");
   const [link, setLink] = useState("[CMS LINK]");
   const [phone, setPhone] = useState("");
-  const [password] = useState(
-    Math.random().toString(36).substr(2, 8) +
-      Math.random().toString(36).substr(2, 8),
+  const [password] = useState(() =>
+    generatePassword(true, true, true, true, 15),
   );
 
   const [cmss, setCmss] = useState([]);
