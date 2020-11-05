@@ -39,14 +39,8 @@ const TonerListAdmin = () => {
 
   const onSub = async (toner) => {
     try {
-      const newTonerLog = {
-        user: `${auth.authState.userInfo.firstName} ${auth.authState.userInfo.lastName}`,
-        date: new Date(),
-      };
-
       const { data } = await fetchContext.authAxios.post(`tonerslogs`, {
         toner,
-        newTonerLog,
       });
 
       setToners(
@@ -119,9 +113,10 @@ const TonerListAdmin = () => {
               return (
                 <MaterialTable
                   columns={[
+                    { title: "Amount Before", field: "amountBefore" },
+                    { title: "Amount After", field: "amountAfter" },
                     { title: "User", field: "user" },
                     {
-                      title: "Usage history",
                       field: "date",
                       render: (rowData) => {
                         return moment(rowData.date).format("HH:mm, DD.MM.YYYY");

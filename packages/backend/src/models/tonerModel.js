@@ -3,6 +3,8 @@ const { Schema, model } = require("mongoose");
 const logSchema = new Schema({
   user: { type: String },
   date: { type: Date },
+  amountBefore: { type: Number },
+  amountAfter: { type: Number },
 });
 
 const tonerSchema = new Schema({
