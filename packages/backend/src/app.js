@@ -36,6 +36,7 @@ async function connect() {
       useCreateIndex: true,
       useFindAndModify: false,
     });
+    mongoose.set("toJSON", { virtuals: true });
     logger.info(`Connected to MongoDB ${process.env.NODE_ENV}`);
   } catch (error) {
     logger.info("Mongoose error", error);

@@ -7,6 +7,10 @@ const logSchema = new Schema({
   amountAfter: { type: Number },
 });
 
+logSchema.virtual("changeType").get(function () {
+  return this.amountAfter - this.amountBefore;
+});
+
 const tonerSchema = new Schema({
   brand: {
     type: String,

@@ -113,10 +113,29 @@ const TonerListAdmin = () => {
               return (
                 <MaterialTable
                   columns={[
-                    { title: "Amount Before", field: "amountBefore" },
-                    { title: "Amount After", field: "amountAfter" },
-                    { title: "User", field: "user" },
                     {
+                      title: "Changed",
+                      field: "changeType",
+                      render: (rowData) => {
+                        if (rowData.changeType >= 0) {
+                          return `+${rowData.changeType}`;
+                        }
+                        if (rowData.changeType <= 0) {
+                          return `${rowData.changeType}`;
+                        }
+                      },
+                      sorting: false,
+                    },
+                    {
+                      title: "Amount Change",
+                      render: (rowData) => {
+                        return `${rowData.amountBefore} → ${rowData.amountAfter}`;
+                      },
+                      sorting: false,
+                    },
+                    { title: "User", field: "user", sorting: false },
+                    {
+                      title: "Date",
                       field: "date",
                       render: (rowData) => {
                         return moment(rowData.date).format("HH:mm, DD.MM.YYYY");
