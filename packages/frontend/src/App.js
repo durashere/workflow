@@ -20,7 +20,7 @@ import AppShell from "./AppShell";
 import Login from "./pages/Login";
 import FourOFour from "./pages/FourOFour";
 
-const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard"));
 const UserListAdmin = lazy(() => import("./pages/User/UserListAdmin"));
 const UserForm = lazy(() => import("./pages/User/UserForm"));
 const TonerList = lazy(() => import("./pages/Toner/TonerList"));

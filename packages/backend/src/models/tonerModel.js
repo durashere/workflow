@@ -22,6 +22,9 @@ const tonerSchema = new Schema({
     unique: true,
     required: [true, "You must enter toner code"],
   },
+  image: {
+    type: String,
+  },
   color: {
     type: String,
     enum: ["Black", "Cyan", "Magenta", "Yellow"],

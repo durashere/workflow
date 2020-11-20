@@ -35,7 +35,7 @@ tonersLogsRouter.post("/", requireAuth, async (request, response) => {
     );
 
     return response.status(201).json({
-      message: "Toner log created!",
+      message: `Successfully used toner: ${toner.code}`,
       toner: updatedToner,
     });
   } catch (error) {
