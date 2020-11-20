@@ -1,7 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { makeStyles, Box, Tabs, Tab, LinearProgress } from "@material-ui/core";
+import {
+  makeStyles,
+  Paper,
+  Box,
+  Tabs,
+  Tab,
+  LinearProgress,
+} from "@material-ui/core";
 
 import LaptopService from "./LaptopService";
 import CmsHelper from "./CmsHelper";
@@ -55,7 +62,7 @@ const Patterns = () => {
   };
 
   return (
-    <>
+    <Paper>
       <div className={classes.root}>
         <Tabs
           orientation="vertical"
@@ -75,7 +82,7 @@ const Patterns = () => {
         </TabPanel>
       </div>
       {isLoading && <LinearProgress />}
-    </>
+    </Paper>
   );
 };
 

@@ -10,7 +10,6 @@ import {
   Hidden,
   Box,
   Container,
-  Paper,
   Drawer,
   Toolbar,
   AppBar,
@@ -182,7 +181,7 @@ const AppShell = ({ children }) => {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Container maxWidth="lg" className={classes.container}>
-            <Paper className={classes.paper}>{children}</Paper>
+            <Box className={classes.paper}>{children}</Box>
             <Box pt={4}>
               <Footer />
             </Box>

@@ -5,13 +5,12 @@ import moment from "moment";
 import MaterialTable from "material-table";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { Paper } from "@material-ui/core";
 
 import { FetchContext } from "../../context/FetchContext";
-import { AuthContext } from "../../context/AuthContext";
 
 const TonerListAdmin = () => {
   const fetchContext = useContext(FetchContext);
-  const auth = useContext(AuthContext);
   const { enqueueSnackbar } = useSnackbar();
 
   const [toners, setToners] = useState([]);
@@ -37,32 +36,8 @@ const TonerListAdmin = () => {
     getToners();
   }, [fetchContext, enqueueSnackbar]);
 
-  const onSub = async (toner) => {
-    try {
-      const { data } = await fetchContext.authAxios.post(`tonerslogs`, {
-        toner,
-      });
-
-      setToners(
-        toners.map((toner) =>
-          toner._id === data.toner._id ? data.toner : toner,
-        ),
-      );
-
-      enqueueSnackbar(data.message, {
-        variant: "success",
-      });
-    } catch (error) {
-      const { data } = error.response;
-
-      enqueueSnackbar(data.message, {
-        variant: "error",
-      });
-    }
-  };
-
   return (
-    <>
+    <Paper>
       <MaterialTable
         style={{ padding: 10 }}
         columns={[
@@ -97,13 +72,6 @@ const TonerListAdmin = () => {
         data={toners}
         title="Toners List"
         options={{ paging: false, grouping: true }}
-        actions={[
-          {
-            icon: "remove_outlined",
-            tooltip: "Use Toner",
-            onClick: (event, rowData) => onSub(rowData),
-          },
-        ]}
         detailPanel={[
           {
             icon: "history_outlined",
@@ -154,7 +122,7 @@ const TonerListAdmin = () => {
         ]}
       />
       {isLoading && <LinearProgress />}
-    </>
+    </Paper>
   );
 };
 

@@ -5,6 +5,7 @@ import MaterialTable from "material-table";
 import { useSnackbar } from "notistack";
 
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { Paper } from "@material-ui/core";
 
 import { FetchContext } from "../../context/FetchContext";
 
@@ -104,8 +105,9 @@ const TonerListAdmin = () => {
   };
 
   return (
-    <>
+    <Paper>
       <MaterialTable
+        style={{ padding: 10 }}
         columns={[
           {
             title: "Brand",
@@ -149,7 +151,7 @@ const TonerListAdmin = () => {
         }}
       />
       {isLoading && <LinearProgress />}
-    </>
+    </Paper>
   );
 };
 

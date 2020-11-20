@@ -1,3 +1,5 @@
+/* eslint-disable no-loop-func */
+
 function getRandomUpperCase() {
   return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
 }
@@ -26,8 +28,6 @@ function generatePassword(upper, lower, number, symbol, length) {
   let generatedPassword = "";
 
   const typesCount = upper + lower + number + symbol;
-
-  //console.log(typesCount);
 
   const typesArr = [{ upper }, { lower }, { number }, { symbol }].filter(
     (item) => Object.values(item)[0],
