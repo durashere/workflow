@@ -24,6 +24,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard/Dashboard"));
 const UserListAdmin = lazy(() => import("./pages/User/UserListAdmin"));
 const UserForm = lazy(() => import("./pages/User/UserForm"));
 const TonerList = lazy(() => import("./pages/Toner/TonerList"));
+const TonerListTable = lazy(() => import("./pages/Toner/TonerListTable"));
 const TonerListAdmin = lazy(() => import("./pages/Toner/TonerListAdmin"));
 const Patterns = lazy(() => import("./pages/Patterns/Patterns"));
 
@@ -124,6 +125,10 @@ const App = () => {
 
             <AuthenticatedRoute path="/toners">
               <TonerList />
+            </AuthenticatedRoute>
+
+            <AuthenticatedRoute path="/toners2">
+              <TonerListTable />
             </AuthenticatedRoute>
 
             <AuthenticatedRoute path="/tools/patterns">
