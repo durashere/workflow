@@ -106,7 +106,8 @@ const QuickUse = ({ toners, setToners }) => {
   const onSub = async (toner) => {
     try {
       const { data } = await fetchContext.authAxios.post(`tonerslogs`, {
-        toner,
+        toner: toner,
+        amountToChange: -1,
       });
 
       setToners(
